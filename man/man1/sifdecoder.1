@@ -1,0 +1,136 @@
+.\" @(#)sifdecode v1.0 01/2013;
+.TH sifdecoder 1 "23 Jan 2013"
+.SH NAME
+sifdecoder \- SIF-decoding script.
+.SH SYNOPSIS
+\fBsifdecoder\fP [\-A \fIarch\fP] [\-sp] [\-h] [\-o \fI0|1\fP] [-m]
+[\-f] [\-b] [\-a \fI1|2\fP]
+[\-p \fI1|2|3\fP]
+[\-s \fI0|1|2|3\fP]
+[\-st \fI1|2|3\fP]
+[\-show] [\-param
+\fIname=value\fP[\fI,name=value...\fP]] [\-force]
+\fIproblem[.SIF]\fP
+.SH DESCRIPTION
+\fIsifdecoder\fP applies the SIF decoder to the problem \fIproblem.SIF\fP
+to produce the OUTSDIF.d file and the problem-dependant Fortan
+subroutines, ELFUN.f, GROUP.f, RANGE.f and possibly EXTER.f.
+It can be conveniently called from the command line with
+the \-A, \-h, \-o, \-m, \-show and \-param options. Other options are
+useful when \fIsifdecoder\fP is called by other interfaces which
+require the decoding of a SIF file, as for instance a CUTEst
+interface.
+.LP
+.SH sifdecoder Options
+You can start sifdecoder with the following options:
+.TP 5
+.BI \-A " arch"
+Run the decoder using the architecture \fIarch\fP; the architeture
+is a string of the form machine.system.compiler as specified in the
+directory $SIFDECODE/versions. If no \-A option is given, a valid
+architecture given by the environment variable $MYARCH will be
+used, but if $MYARCH is invalid or empty the decoder will terminate.
+.TP
+.B \-sp
+Run sifdecoder in single-precision mode, if available.
+Double precision is the default.
+.TP
+.B \-h
+Print a short help message.
+.TP
+.BI \-o " 0|1"
+Regulate the output level of \fIsifdecoder.\fP Verbose mode is \fB-o\fP 1,
+silent mode is \fB-o\fP 0. Silent mode is the default.
+.TP
+.B \-m
+check for memory leaks when possible using valgrind(1).
+.TP
+.BI \-c
+check the derivatves that are provided in ELFUN.f and GROUP.f by comparing
+the values against finite-diffrence approximations; any significant differences
+will be reported.
+.TP
+.BI \-f
+Use automatic differentiation in Forward mode.
+.TP
+.BI \-b
+Use automatic differentiation in Backward mode.
+.TP
+.BI \-a " 1|2"
+\-a 1 uses the older HSL automatic differentiation package AD01
+and \-a 2 uses the newer HSL automatic differentiation package
+AD02. Using AD02 is the default.
+.TP
+.BI \-p " 1|2|3"
+Specifies the package that the decoded problem is intended for.
+\-p 1 is for LANCELOT, \-p 2 is for BARIA and \-p 3 is for CUTEst.
+The default is to decode for CUTEst.
+.TP
+.BI \-s " 0|1|2|3"
+Specify the rough size of problem that will be decoded. This is used for
+array initialization and although not crucial, it may lead to efficiencies
+if set correctly. Set \-s 0 is for debugging, \-s 1 is for small problems
+of up to approximately 100 variables and constraints,
+\-s 2 is for medium-sized problems
+of up to approximately 10000 variables and constraints, and
+\-s 3 is for larger problems. Setting \-s too large may cause memory
+allocation errors on modest computers.
+The default is for meedium-sized problems.
+.TP
+.BI \-st " 1|2|3"
+Specifies the starting point vector to be used if there is more than one.
+Any value outside the actual number of starting vectors will be interpreted
+as 1, and this is the default.
+.TP
+.BI \-show
+displays possible parameter settings for problem[.SIF]. Other options
+are ignored.
+.TP
+.BI \-param
+Cast problem[.SIF] against explicit parameter settings. Several
+parameter settings may be given as a comma-separated list following
+\-param or using several \-param flags. Use \fIsifdecoder -show problem\fP
+to view possible settings. If a setting is not allowed in the SIF
+file, no action is taken unless \fI \-force \fP is present.
+.TP
+.BI \-force
+Forces the setting of the parameters named using \fI \-param \fP to
+the given values, even if those values are not predefined in the SIF
+file.
+.TP
+.I problem
+\fIproblem.SIF\fP is the name of the file containing the SIF
+information on the problem to be solved.
+.LP
+.SH ENVIRONMENT
+.TP
+.SB SIFDECODE
+Directory containing SIFDecode.
+.TP
+.SB MYARCH
+ The default architecture.
+.TP
+.SB MASTSIF
+A pointer to the directory containing the CUTEst/SIFDecode problems
+collection. If this variable is not set, the current directory is
+searched for \fIproblem.SIF\fP. If it is set, the current directory is
+searched first, and if \fIproblem.SIF\fP is not found there, $MASTSIF
+is searched.
+.SH AUTHORS
+I. Bongartz, A.R. Conn, N.I.M. Gould, D. Orban and Ph.L. Toint
+.SH "SEE ALSO"
+\fICUTEst: a Constrained and Unconstrained Testing
+Environment with safe threads for mathematical optimization\fP,
+   N.I.M. Gould, D. Orban and Ph.L. Toint,
+   Computational Optimization and Applications \fB60\fP:3, pp.545-557, 2014.
+
+\fICUTEr (and SifDec): A Constrained and Unconstrained Testing
+Environment, revisited\fP,
+   N.I.M. Gould, D. Orban and Ph.L. Toint,
+   ACM TOMS, \fB29\fP:4, pp.373-394, 2003.
+
+\fICUTE: Constrained and Unconstrained Testing Environment\fP,
+   I. Bongartz, A.R. Conn, N.I.M. Gould and Ph.L. Toint,
+   ACM TOMS, \fB21\fP:1, pp.123-160, 1995.
+
+valgrind(1).

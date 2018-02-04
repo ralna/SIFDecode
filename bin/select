@@ -1,0 +1,142 @@
+#!/bin/bash
+
+#  Probes the classification file using slct.  By default,
+#  the classification file is assumed to be $MASTSIF/CLASSF.DB,
+#  but the slct program allows the user to give a full path name
+#  for the classification file, thereby allowing both the filename
+#  and the directory to be changed.
+
+#  A.R. Conn, October 1992, for CGT Productions.
+#  modified by I. Bongartz, May 1994.
+#  SIFDecoder version: N. I.M. Gould and D. Orban, April 12th 2013
+
+
+display_short_help() {
+    echo ' Use: select [-A architecture] [-D problem-directory] [-h]'
+}
+
+display_long_help() {
+    display_short_help
+    echo "where options:"
+    echo "   -A  specify the architecture. (Default: use $MYARCH)"
+    echo "   -D  specify the test-problem directory. (Default: uses $MASTSIF)"
+    echo "   -h  print this help and stop execution"
+}
+
+# Environment check
+
+if [[ -z "$ARCHDEFS" ]]; then
+  if [[ ! -d "$PWD/../archdefs" ]]; then
+    echo ' The environment variable ARCHDEFS is not set and the directory
+ ../../archdefs does not exist. Install the archdefs package,
+ set $ARCHDEFS to the archdefs directory and re-run.'
+    exit 1
+  else
+    export ARCHDEFS=$PWD/../archdefs
+  fi
+fi
+
+. $ARCHDEFS/bin/helper_functions
+
+if [[ ${SIFDECODE+set} != 'set' ]]; then
+    error 'The SIFDECODE environment variable is not set.'
+    exit 1
+fi
+
+#  Directory for temporary files
+
+TMP="/tmp"
+
+# Obtain number of arguments
+
+let last=$#
+#if (( last < 1 )); then
+#    display_short_help
+#    exit 1
+#fi
+
+#  =========================
+#  Variables for each option
+#  =========================
+
+# the architecture to be used
+
+ARCH=""
+PROBDIR=""
+
+#  allow file clobbering
+
+set +C
+
+#  -------------------
+#  Interpret arguments
+#  -------------------
+
+let i=1
+
+while (( i <= last )); do
+  opt=${!i}
+  if [[ "$opt" == '-h' || "$opt" == '--help' ]]; then
+      display_long_help
+      exit 0
+  elif [[ "$opt" == '-A' ]]; then
+    (( i++ ))
+    ARCH=${!i}
+  elif [[ "$opt" == '-D' ]]; then
+    (( i++ ))
+    PROBDIR=${!i}
+  fi
+  (( i++ ))
+done
+
+#  check that problem directory exists
+
+if [[ -z "$PROBDIR" ]]; then
+  if [[ -z "$MASTSIF" ]]; then
+    error ' no problem directory specified and environment variable MASTSIF
+ is unset.
+  Either specificy problem directory with -D option or set variable MASTSIF.
+ and re-run.'
+    exit 3
+  else
+    if [[ ! -d "$MASTSIF" ]]; then
+      echo ' environment variable MASTSIF is not a directory. Re-set and re-run'
+      exit 3
+    fi
+  fi
+else
+  if [[ ! -d "$PROBDIR" ]]; then
+    echo " $PROBDIR set with -D is not a directory. Re-set and re-run"
+    exit 3
+  else
+    MASTSIF=${PROBDIR}  
+  fi
+fi
+
+#  -------------------------------------
+#  Set architecture-dependent parameters
+#  -------------------------------------
+
+if [[ -z "$ARCH" ]]; then
+#  echo "ARCH not set"
+  if [[ -z "$MYARCH" ]]; then
+    error ' no architecture specified and environment variable MYARCH is unset.
+ Either specificy architecture with -A option or set variable MYARCH.
+ and re-run.'
+    exit 2
+  else
+    ARCH=${MYARCH}
+  fi
+fi
+
+eval "`cat $SIFDECODE/bin/sys/$ARCH`"
+
+
+# Define the path to the decoder
+
+SLCT=$SIFDECODE/objects/$ARCH/double/slct
+
+echo $MASTSIF > SLCT.DAT
+$SLCT
+$RM SLCT.DAT
+

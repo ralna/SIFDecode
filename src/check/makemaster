@@ -1,0 +1,116 @@
+#  Main body of the installation makefile for the SIFDECODE check package
+
+#  N. Gould, D. Orban and Ph. L. Toint.
+#  This version: 01 I 2017
+
+SHELL = /bin/$(BINSHELL)
+
+#  compiler flags
+
+FFLAGS    = $(BASIC) $(OPTIMIZATION) $(DEBUG) $(MODULES) $(F90) $(USUAL)
+FFLAGSS   = $(BASIC) $(OPTIMIZATION) $(DEBUG) $(MODULES) $(F90) $(SPECIAL)
+FFLAGSN   = $(BASIC) $(NOOPTIMIZATION) $(DEBUG) $(MODULES) $(F90)
+FFLAGS77  = $(BASIC) $(OPTIMIZATION) $(DEBUG) $(MODULES) $(F77) $(USUAL)
+FFLAGS77S = $(BASIC) $(OPTIMIZATION) $(DEBUG) $(MODULES) $(F77) $(SPECIAL)
+RUNFFLAGS =          $(OPTIMIZATION) $(DEBUG) $(MODULES)
+
+#  names of random libraries
+
+LS  = $(OBJ)/libsifdecode.a
+LSS = $(OBJS)/libsifdecode.a
+LSD = $(OBJD)/libsifdecode.a
+
+#  Libraries used
+
+LIBS = -lsifdecode
+PLIBS = $(LIBS)
+
+#  Archive manipulation strings
+
+ARR = $(AR) $(ARREPFLAGS) $(LS)
+RMARFILE = $(SIFDECODE)/bin/rmarfile $(AR) $(GREP) $(LS)
+RMOBFILE = $(SIFDECODE)/bin/rmobfile $(RM) $(OBJ)
+
+#  sed scripts
+
+#  compilation agenda
+
+CHECKS = $(LSS)(random.o) $(LSS)(check_derivs.o) \
+         $(OBJS)/check_derivs_main.o
+CHECKD = $(LSD)(random.o) $(LSD)(check_derivs.o) \
+         $(OBJD)/check_derivs_main.o
+
+SUCC = precision version) compiled successfully
+
+#  main compilations and runs
+
+all: check_derivs
+
+#  basic packages
+
+check_derivs_silent: check_derivs_silent_$(PRECIS)
+check_derivs_silent_single: $(CHECKS)
+check_derivs_silent_double: $(CHECKD)
+
+check_derivs: check_derivs_$(PRECIS)
+	@printf ' %-21s\n' "sifdecode: check packages ($(PRECIS) $(SUCC)"
+check_derivs_single: $(CHECKS)
+	$(RANLIB) $(LSS)
+check_derivs_double: $(CHECKD)
+	$(RANLIB) $(LSD)
+
+#  individual compilations
+
+random.o: $(LS)(random.o)
+
+$(LS)(random.o): ../check/random.f90
+	@printf ' %-9s %-15s\t\t' "Compiling" "random"
+	$(SED) -f $(SEDS) ../check/random.f90 > $(OBJ)/random.f90
+	cd $(OBJ); $(FORTRAN) -o random.o $(FFLAGS) random.f90 \
+                || ( printf ' %-26s' "=> Disabling optimization " ; \
+                   $(FORTRAN) -o random.o $(FFLAGSN) random.f90 )
+	cd $(OBJ); $(ARR) random.o; $(RM) random.f90 random.o
+	$(RMOBFILE) random_main.o
+	@printf '[ OK ]\n'
+
+check_derivs.o: $(LS)(check_derivs.o)
+
+$(LS)(check_derivs.o): ../check/check_derivs.f90
+	@printf ' %-9s %-15s\t\t' "Compiling" "check_derivs"
+	$(SED) -f $(SEDS) ../check/check_derivs.f90 > $(OBJ)/check_derivs.f90
+	cd $(OBJ); $(FORTRAN) -o check_derivs.o $(FFLAGS) check_derivs.f90 \
+                || ( printf ' %-26s' "=> Disabling optimization " ; \
+                   $(FORTRAN) -o check_derivs.o $(FFLAGSN) check_derivs.f90 )
+	cd $(OBJ); $(ARR) check_derivs.o; $(RM) check_derivs.f90 check_derivs.o
+	$(RMOBFILE) check_derivs_main.o
+	@printf '[ OK ]\n'
+
+#  main programs
+
+check_derivs_main.o: $(OBJ)/check_derivs_main.o
+
+$(OBJ)/check_derivs_main.o: ../check/check_derivs_main.f90
+	@printf ' %-9s %-15s\t\t' "Compiling" "check_derivs_main"
+	$(SED) -f $(SEDS) ../check/check_derivs_main.f90 > \
+                $(OBJ)/check_derivs_main.f90
+	cd $(OBJ); $(FORTRAN) -o check_derivs_main.o \
+          $(FFLAGS) check_derivs_main.f90 \
+          || ( printf ' %-26s' "=> Disabling optimization " ; \
+            $(FORTRAN) -o check_derivs_main.o $(FFLAGSN) check_derivs_main.f90 )
+#	cd $(OBJ); $(FORTRAN) -o run_check_derivs_main $(RUNFFLAGS) \
+#          check_derivs_main.o -L$(OBJ) $(PLIBS) ; $(RM) check_derivs_main.f90
+	@printf '[ OK ]\n'
+
+#  book keeping
+
+clean:
+	@printf ' %-9s\t\t' "Cleaning"
+	$(RM) $(OBJ)/*
+	@printf '[ OK ]\n'
+
+cleanall:
+	@printf ' %-14s\t\t' \
+          "Removing all $(PRECIS) precision object and module files"
+	$(RM) $(OBJ)/* $(MOD)/*
+	@printf '[ OK ]\n'
+

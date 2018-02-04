@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#  locate the archdefs directory
+
+if [[ -z "$ARCHDEFS" ]]; then
+  if [[ ! -d "$PWD/../archdefs" ]]; then
+    echo ' The environment variable ARCHDEFS is not set and the directory
+ ../../archdefs does not exist. Install the archdefs package,
+ set $ARCHDEFS to the archdefs directory and re-run.'
+    exit 1
+  else
+    export ARCH=$PWD/../archdefs
+  fi
+else
+  export ARCH=${ARCHDEFS}
+fi
+
+. $ARCH/bin/helper_functions

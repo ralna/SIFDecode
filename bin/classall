@@ -1,0 +1,148 @@
+#!/bin/bash
+
+#  Classifies all of the SIF problems in a directory.
+
+#  A.R. Conn, October 1992, for CGT Productions.
+#  modified by I. Bongartz, May 1994.
+#  SIFDecoder version: N. I.M. Gould and D. Orban, April 12th 2013
+
+
+display_short_help() {
+    echo ' Use: classall [-A architecture] [-D problem-directory] [-h]'
+}
+
+display_long_help() {
+    display_short_help
+    echo "where options:"
+    echo "   -A  specify the architecture. (Default: use $MYARCH)"
+    echo "   -D  specify the test-problem directory. (Default: uses $MASTSIF)"
+    echo "   -h  print this help and stop execution"
+}
+
+# Environment check
+
+if [[ -z "$ARCHDEFS" ]]; then
+  if [[ ! -d "$PWD/../archdefs" ]]; then
+    echo ' The environment variable ARCHDEFS is not set and the directory
+ ../../archdefs does not exist. Install the archdefs package,
+ set $ARCHDEFS to the archdefs directory and re-run.'
+    exit 1
+  else
+    export ARCHDEFS=$PWD/../archdefs
+  fi
+fi
+
+. $ARCHDEFS/bin/helper_functions
+
+if [[ ${SIFDECODE+set} != 'set' ]]; then
+    error 'The SIFDECODE environment variable is not set.'
+    exit 1
+fi
+
+#  Directory for temporary files
+
+TMP="/tmp"
+
+# Obtain number of arguments
+
+let last=$#
+#if (( last < 1 )); then
+#    display_short_help
+#    exit 1
+#fi
+
+#  =========================
+#  Variables for each option
+#  =========================
+
+# the architecture to be used
+
+ARCH=""
+PROBDIR=""
+
+#  allow file clobbering
+
+set +C
+
+#  -------------------
+#  Interpret arguments
+#  -------------------
+
+let i=1
+
+while (( i <= last )); do
+  opt=${!i}
+  if [[ "$opt" == '-h' || "$opt" == '--help' ]]; then
+      display_long_help
+      exit 0
+  elif [[ "$opt" == '-A' ]]; then
+    (( i++ ))
+    ARCH=${!i}
+  elif [[ "$opt" == '-D' ]]; then
+    (( i++ ))
+    PROBDIR=${!i}
+  fi
+  (( i++ ))
+done
+
+#  check that problem directory exists
+
+if [[ -z "$PROBDIR" ]]; then
+  if [[ -z "$MASTSIF" ]]; then
+    error ' no problem directory specified and environment variable MASTSIF
+ is unset.
+  Either specificy problem directory with -M option or set variable MASTSIF.
+ and re-run.'
+    exit 3
+  else
+    if [[ ! -d "$MASTSIF" ]]; then
+      echo ' environment variable MASTSIF is not a directory. Re-set and re-run'
+      exit 3
+    fi
+  fi
+else
+  if [[ ! -d "$PROBDIR" ]]; then
+    echo " $PROBDIR set with -D is not a directory. Re-set and re-run"
+    exit 3
+  else
+    MASTSIF=${PROBDIR}  
+  fi
+fi
+
+#  -------------------------------------
+#  Set architecture-dependent parameters
+#  -------------------------------------
+
+if [[ -z "$ARCH" ]]; then
+#  echo "ARCH not set"
+  if [[ -z "$MYARCH" ]]; then
+    error ' no architecture specified and environment variable MYARCH is unset.
+ Either specificy architecture with -A option or set variable MYARCH.
+ and re-run.'
+    exit 2
+  else
+    ARCH=${MYARCH}
+  fi
+fi
+
+eval "`cat $SIFDECODE/bin/sys/$ARCH`"
+
+
+# Define the path to the decoder
+
+cd $MASTSIF
+CLSF=$SIFDECODE/objects/$ARCH/double/clsf
+
+[[  -e CLASSF.DB  ]] && $RM CLASSF.DB
+for i  in  *.SIF; do
+  input=`echo $i|sed "s/.SIF//"`
+echo $input
+  echo "y"       > CLSF.DAT
+  echo "$input" >> CLSF.DAT
+  $CLSF
+  [[  -e CLASSF.UDB ]] && $MV CLASSF.UDB CLASSF.DB
+done
+[[  -e CLASSF.DB ]] && $CAT CLASSF.DB
+$RM CLSF.DAT
+
+

@@ -1,0 +1,16 @@
+enable IEEE gentle failures in ELFUN and GROUP:
+
+      USE, intrinsic :: ieee_exceptions
+      LOGICAL :: ieee_crash
+      CALL ieee_get_flag( ieee_overflow, ieee_crash )
+      IF ( ieee_crash ) IFSTAT = 3
+      CALL ieee_get_flag( ieee_divide_by_zero, ieee_crash )
+      IF ( ieee_crash ) IFSTAT = 3
+      CALL ieee_get_flag( ieee_invalid, ieee_crash )
+      IF ( ieee_crash ) IFSTAT = 3
+
+may need additional appropiate ieee flags at compilation;
+only available with gfortran 5, ifort 16, nagfor 6.1 (etc).
+
+Nick Gould
+30/March/2017
