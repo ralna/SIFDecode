@@ -167,6 +167,8 @@ if [[ $? != 0 ]]; then
     if (( $DRYRUN )) ; then
       echo "$MAKE $OPTIONS all $MACROS"
     else
+      echo " compiling in $SIFDECODE/src with the comand"
+      echo " $MAKE $OPTIONS all"
       $MAKE $OPTIONS all $MACROS
       [[ $? != 0 ]] && exit 2
     fi
