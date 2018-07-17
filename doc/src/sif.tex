@@ -1,5 +1,5 @@
-%\documentstyle[a4,11pt,ral]{article} 
-%\documentstyle[a4,ral]{article} 
+%\documentstyle[a4,11pt,ral]{article}
+%\documentstyle[a4,ral]{article}
 \documentclass[a4paper]{article}
 %\usepackage{ral}
 
@@ -9,17 +9,17 @@
 
 % Formatting instructions
 
-\textwidth  13.2cm 
+\textwidth  13.2cm
 \textheight 21.5cm
 \oddsidemargin -0.2mm                      % -4.2 mm
 \evensidemargin 2.8cm
 \topmargin -8.4mm                          % 2.64 cm
 
-\def\baselinestretch{1.2} 
+\def\baselinestretch{1.2}
 
 \renewcommand{\textfraction}{0.05}
 
-% Unit length for figures        
+% Unit length for figures
 
 \setlength{\unitlength}{1mm}
 
@@ -147,11 +147,11 @@
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}[section]
 \renewcommand{\theexample}{\arabic{section}.\arabic{example}}
-\newcommand{\lex}[2]{\vspace{\baselineskip} 
+\newcommand{\lex}[2]{\vspace{\baselineskip}
 \noindent\framebox[\textwidth]{\parbox{0.95\textwidth}{
 \begin{example} \label{#1} \rm #2 \end{example} } } \vspace{\baselineskip} }
 
-% Enumeration indices 
+% Enumeration indices
 
 \renewcommand{\theenumi}{\arabic{enumi}}
 \renewcommand{\labelenumi}{\theenumi.}
@@ -297,7 +297,7 @@
 
 \newcommand{\ass}[2]{\label{ass-#1}
                      \begin{list}{}{\setlength{\leftmargin}{2 cm}}
-                     \item \hspace{-1.9cm} \framebox[1.5cm]{\bf #1} #2 
+                     \item \hspace{-1.9cm} \framebox[1.5cm]{\bf #1} #2
                      \end{list} }
 \newcommand{\assd}[1]{\noindent
                       \framebox[1.5cm]{\bf #1} [p.~\pageref{ass-#1}]:}
@@ -419,6 +419,9 @@ and Philippe L. Toint}
 \newcommand{\bdmath}{\begin{displaymath}}
 \newcommand{\edmath}{\end{displaymath}}
 
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=red,citecolor=green,pdfborder={0 0 0}}
+
 \begin{document}
 
 \bibliographystyle{plain}
@@ -434,6 +437,10 @@ It is intended to be used primarily as a reference document.
 %\begin{center}
 %{\bf UPDATES IN BOLD TYPEFACE}
 %\end{center}
+
+{\small
+\tableofcontents
+}
 
 \section{\label{S1.1}Introduction}
 \setcounter{figure}{0}
@@ -680,7 +687,7 @@ F( x )
 = \sum_{i \in I_O}g_i \left (
 \sum_{j \in J_i} w_{i,j} f_j (\bar{x}_j) +  a_i^T x  - b_i  \right)
 + \half \sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k ,
-\; 
+\;
 \eeqn
 where $x = (x_1, x_2,\cdots, x_n)$, within the ``box'' region
 \beqn{box}
@@ -1022,7 +1029,7 @@ for these at some stage.  There  are 1999 nonlinear elements,
 two from
 each group
 except the last,  but all of the  same  type and again we shall have to
-provide function and derivative 
+provide function and derivative
 values for these.  As there is so  much  structure
 to this problem, it
 would  be    inefficient   to  pass   the  data   group-by-group   and
@@ -1034,7 +1041,7 @@ repetitious structures using a convenient shorthand.
 As a third example, consider the constrained problem in the variables
 $x_1 ,\cdots$, $x_{100}$ and y
 \beqn{1.6.1}
-{\rm minimize} \ms \half ((x_1 - x_{100}) x_2 + y)^2 + 
+{\rm minimize} \ms \half ((x_1 - x_{100}) x_2 + y)^2 +
 2 x_1^2 + 2 x_1^{ } x_{100}^{ }
 \eeqn
 subject to the constraints
@@ -1068,10 +1075,10 @@ $v_2  = x_{100}$ and $v_3 =  x_2$);  there  is a useful transformation
 from elemental to internal variables of the form $u_1 = v_1 - v_2$ and
 $u_2 = v_3$ and the  element function may then  be represented as $u_1
 u_2$. {\bf New} The second group may be considered as a quadratic
-objective group, and written as 
-$\half( h_{1,1} x_1 x_1 + h_{1,100} x_1 x_{100} 
+objective group, and written as
+$\half( h_{1,1} x_1 x_1 + h_{1,100} x_1 x_{100}
  + h_{100,1} x_{100} x_1 )$,
-where $h_{1,1} = 4$ and $h_{1,100} =$ 
+where $h_{1,1} = 4$ and $h_{1,100} =$
 $h_{100,1} = 2$.
 
 \item
@@ -1236,7 +1243,7 @@ must appear in the  order shown,  except that the {\tt
 GROUPS} and  {\tt VARIABLES}  sections  may be   interchanged to  allow
 specification of the linear  terms by rows or  columns.
 The cards {\tt CONSTANTS}, {\tt  RHS'}, {\tt RHS},  {\tt RANGES}, {\tt
-BOUNDS}, {\tt START  POINT}, 
+BOUNDS}, {\tt START  POINT},
 {\tt QUADRATIC}, {\tt HESSIAN}, {\tt QUADS}, {\tt QUADOBJ}, {\tt QSECTION},
 {\tt ELEMENT  TYPE}, {\tt  ELEMENT USES},
 {\tt  GROUP  TYPE},   {\tt GROUP  USES}   and {\tt  OBJECT  BOUND} are
@@ -1581,20 +1588,20 @@ named  {\tt START1} ---  and then specify the individual  value for the
 variable {\tt Y} on line 39.
 
 We now specify the nonlinear information. {\bf New} Firstly, we recall that
-there is a quadratic objective group, 
-$x_1^2 + 2 x_1^{ } x_{100}^{ } \equiv \half( 4 x_1 x_1 + 
+there is a quadratic objective group,
+$x_1^2 + 2 x_1^{ } x_{100}^{ } \equiv \half( 4 x_1 x_1 +
  2 x_1 x_{100} + 2 x_{100} x_1 )$. We need to specify the nonzero coefficients
-of the terms $x_j x_k$, and in our cases these are 
-$h_{1,1} = 4$ and $h_{1,100} = h_{100,1} = 2$. 
+of the terms $x_j x_k$, and in our cases these are
+$h_{1,1} = 4$ and $h_{1,100} = h_{100,1} = 2$.
 The rule that we adopt is
-that there is no need to supply both nonzeros 
+that there is no need to supply both nonzeros
 $h_{j,k}$ and $h_{k,j}$ since they are the same, and
-that one (whichever is unimportant) suffices. Thus $h_{1,1} = 4$ 
-and we (arbitrarily) choose to give $h_{1,100} = 2$. 
+that one (whichever is unimportant) suffices. Thus $h_{1,1} = 4$
+and we (arbitrarily) choose to give $h_{1,100} = 2$.
 In the {\tt QUADRATIC} section on lines 39a to 39b, we indicate that
 the quadratic objective has two terms involving
-${x_1}$; the coefficient 4 is given for the 
-${x_1^2 \equiv x_1^{ } x_1^{ }}$ term, while that for 
+${x_1}$; the coefficient 4 is given for the
+${x_1^2 \equiv x_1^{ } x_1^{ }}$ term, while that for
 the ${x_1 x_{100}}$ term is assigned the value 2.
 
 Next, we saw in Section~\ref{S1.6}
@@ -1890,10 +1897,10 @@ Section~\protect\ref{S1.6}}
 {\sz 73}&&V  &CEQ1      &V1       &              &X1       &   \\
 {\sz 74}&&ZV &CEQ1      &V2       &              &X(N)     &   \\
 {\sz 75}&\multicolumn{3}{@{}l@{}|@{}}{GROUP TYPE}&&&&\\
-{\sz 76}&&GV &PSQUARE   &         &              &         &   \\
+{\sz 76}&&GV &PSQUARE   &ALPHA    &              &         &   \\
 {\sz 77}&&GP &PSQUARE   &P1       &              &         &   \\
 {\sz 78}&\multicolumn{3}{@{}l@{}|@{}}{GROUP USES}&&&&\\
-{\sz 79}&&T  &OBJ       &SQUARE   &              &         &   \\
+{\sz 79}&&T  &OBJ       &PSQUARE  &              &         &   \\
 {\sz 80}&&E  &OBJ       &OBJ1     &              &         &   \\
 {\sz 81}&&P  &OBJ       &P1       &0.5           &         &   \\
 {\sz 82}&&DO &I         &1        &              &NM1      &   \\
@@ -2286,7 +2293,7 @@ way.
 
 A do-loop may occur at any point in the {\tt GROUPS}, {\tt VARIABLES},
 {\tt CONSTANTS}, {\tt RANGES},  {\tt BOUNDS},
-{\tt START POINT}, {\bf New}{\tt QUADRATIC}, {\tt ELEMENT USES} or 
+{\tt START POINT}, {\bf New}{\tt QUADRATIC}, {\tt ELEMENT USES} or
 {\tt GROUP USES} sections.
 Do-loops are  used to make   array
 definitions,  that is,   to  make compact definitions of
@@ -3574,12 +3581,12 @@ characters  in the string(s)  {\tt numerical-vl} in data field~4 (and
 if required field~6).
 
 {\bf New}
-\subsubsection{\label{S2.2.13a}The 
+\subsubsection{\label{S2.2.13a}The
 {\tt QUADRATIC}, {\tt HESSIAN}, {\tt QUADS}, {\tt QUADOBJ} or {\tt QSECTION}
  Data Cards}
 
-The {\tt QUADRACTIC}, {\tt HESSIAN}, 
-{\tt QUADS}\footnote{This indicator card is included for compatibility with the 
+The {\tt QUADRACTIC}, {\tt HESSIAN},
+{\tt QUADS}\footnote{This indicator card is included for compatibility with the
 proposed MPS format extension of Poncele\'{o}n \cite{Ponc:1990}.},
 {\tt QUADOBJ}\footnote{This indicator card was given by Maros and Meszaros \cite{MaroMesa:1999},
 for their compatible proposed MPS extension.}
@@ -3587,10 +3594,10 @@ and
 {\tt QSECTION}\footnote{This indicator card is included for compatibility
 with the OSL \cite{OSLQP:1998} extensions to the MPS format.}
 indicator  cards are used interchangeably
-to announce any nonzero coefficients ${h_{j,k}}$ in the quadratic 
+to announce any nonzero coefficients ${h_{j,k}}$ in the quadratic
 objective group ${\half \sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k }$.
 Only one of each pair ${(h_{j,k}, h_{k,j})}$, ${(j \neq k)}$,
-of ``off-diagonal'' terms should be given, 
+of ``off-diagonal'' terms should be given,
 but which is unimportant. Any repeated coefficients will be summed.
 The  syntax  for  data  following   these indicator cards
 is  given in Figure~\ref{F2.2.13a}.
@@ -3637,21 +3644,21 @@ is  given in Figure~\ref{F2.2.13a}.
 \multicolumn{1}{@{}l@{}}{{\sz 25}~~~~~~~~~{\sz 36}}&
 \multicolumn{1}{@{}c@{}}{{\sz 40}~~~~~~~{\sz 49}}&
 \multicolumn{1}{@{}c@{}}{{\sz 50}~~~~~~~~~$\,${\sz 61}}\\
-\ecftable{\label{F2.2.13a}Possible data cards for 
+\ecftable{\label{F2.2.13a}Possible data cards for
 {\tt HESSIAN}, {\tt QUADS}, {\tt QUADOBJ} or {\tt QSECTION}}
 }}}
 
 The strings {\tt varbl-name} in data fields 2 and 3 (and optionally 2 and 5
 for those cards whose field 1 does not contain {\tt Z})
-give the names of pairs of problem variables ${x_j}$ and 
-${x_k}$ for which ${h_{j,k}}$ is nonzero. 
-All problem variables must have been previously set in the 
+give the names of pairs of problem variables ${x_j}$ and
+${x_k}$ for which ${h_{j,k}}$ is nonzero.
+All problem variables must have been previously set in the
 {\tt VARIABLES/COLUMNS} section. Additionally, on a {\tt Z} card,
 the name of the variable  must be  an element  of an   array
 of variables, with a valid name and index, while on a {\tt X} card,
 the name may be either a scalar or an array name.
 
-On cards whose field 1 is either empty or contains the character 
+On cards whose field 1 is either empty or contains the character
 {\tt X}, the strings {\tt numerical-vl} in data fields~4 and (optionally) 6
 contain the associated numerical values of the coefficients
 ${h_{j,k}}$. On cards for which field 1 contains the character
@@ -6331,4 +6338,3 @@ Oxford~University Press.
 \end{thebibliography}
 
 \end{document}
-
