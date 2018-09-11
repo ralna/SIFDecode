@@ -87,6 +87,7 @@ $(LS)(sifdecode.o): ../decode/sifdecode.f90
                    $(FORTRAN) -o sifdecode.o $(FFLAGSN) sifdecode.f90 )
 	cd $(OBJ); $(ARR) sifdecode.o; $(RM) sifdecode.f90 sifdecode.o
 	$(RMOBFILE) sifdecode_main.o
+	$(MVMODS)
 	@printf '[ OK ]\n'
 
 #  main programs
@@ -102,6 +103,7 @@ $(OBJ)/sifdecode_main.o: ../decode/sifdecode_main.f90
             $(FORTRAN) -o sifdecode_main.o $(FFLAGSN) sifdecode_main.f90 )
 	cd $(OBJ); $(FORTRAN) -o run_sifdecode $(RUNFFLAGS) \
           sifdecode_main.o -L$(OBJ) $(PLIBS) ; $(RM) sifdecode_main.f90
+	cd $(OBJ); $(RM) sifdecode_main.f90 sifdecode_main.o
 	@printf '[ OK ]\n'
 
 #  book keeping
@@ -116,4 +118,3 @@ cleanall:
           "Removing all $(PRECIS) precision object and module files"
 	$(RM) $(OBJ)/* $(MOD)/*
 	@printf '[ OK ]\n'
-

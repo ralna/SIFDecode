@@ -67,7 +67,7 @@ $(OBJ)/slct.o: ../select/slct.f
                 || ( printf ' %-26s' "=> Disabling optimization " ; \
                    $(FORTRAN) -o slct.o $(FFLAGS77N) slct.f )
 	cd $(OBJ); $(FORTRAN) -o slct $(RUNFFLAGS) slct.o
-	cd $(OBJ); $(RM) slct.f
+	cd $(OBJ); $(RM) slct.f slct.o
 	@printf '[ OK ]\n'
 
 clsf: $(OBJ)/clsf.o
@@ -79,7 +79,7 @@ $(OBJ)/clsf.o: ../select/clsf.f
                 || ( printf ' %-26s' "=> Disabling optimization " ; \
                    $(FORTRAN) -o clsf.o $(FFLAGS77N) clsf.f )
 	cd $(OBJ); $(FORTRAN) -o clsf $(RUNFFLAGS) clsf.o
-	cd $(OBJ); $(RM) clsf.f
+	cd $(OBJ); $(RM) clsf.f clsf.o
 	@printf '[ OK ]\n'
 
 #  book keeping

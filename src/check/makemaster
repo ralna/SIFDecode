@@ -71,6 +71,7 @@ $(LS)(random.o): ../check/random.f90
                    $(FORTRAN) -o random.o $(FFLAGSN) random.f90 )
 	cd $(OBJ); $(ARR) random.o; $(RM) random.f90 random.o
 	$(RMOBFILE) random_main.o
+	$(MVMODS)
 	@printf '[ OK ]\n'
 
 check_derivs.o: $(LS)(check_derivs.o)
@@ -83,6 +84,7 @@ $(LS)(check_derivs.o): ../check/check_derivs.f90
                    $(FORTRAN) -o check_derivs.o $(FFLAGSN) check_derivs.f90 )
 	cd $(OBJ); $(ARR) check_derivs.o; $(RM) check_derivs.f90 check_derivs.o
 	$(RMOBFILE) check_derivs_main.o
+	$(MVMODS)
 	@printf '[ OK ]\n'
 
 #  main programs
@@ -99,6 +101,7 @@ $(OBJ)/check_derivs_main.o: ../check/check_derivs_main.f90
             $(FORTRAN) -o check_derivs_main.o $(FFLAGSN) check_derivs_main.f90 )
 #	cd $(OBJ); $(FORTRAN) -o run_check_derivs_main $(RUNFFLAGS) \
 #          check_derivs_main.o -L$(OBJ) $(PLIBS) ; $(RM) check_derivs_main.f90
+	cd $(OBJ); $(RM) check_derivs_main.f90
 	@printf '[ OK ]\n'
 
 #  book keeping
@@ -113,4 +116,3 @@ cleanall:
           "Removing all $(PRECIS) precision object and module files"
 	$(RM) $(OBJ)/* $(MOD)/*
 	@printf '[ OK ]\n'
-
