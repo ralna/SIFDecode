@@ -1756,10 +1756,10 @@
         nuline = blnkln
         IF ( fixed ) THEN
           READ ( input, 1000, END = 810, ERR = 810 ) nuline
-          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, TRIM( nuline )
         ELSE
           READ ( input, 1010, END = 810, ERR = 810 ) nuline
-          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, TRIM( nuline )
 
 !  if the card is in free format, translate it into fixed format
 
@@ -1774,7 +1774,8 @@
             ilines = 1
             nuline = blnkln
             nuline = NULINA( ilines )
-            IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+            IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                      &
+              lineno, ilines, TRIM( nuline )
 
 !  there are only blank lines on the free format card
 
@@ -1789,7 +1790,8 @@
         ilines = ilines + 1
         nuline = blnkln
         nuline = NULINA( ilines )
-        IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+        IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                          &
+          lineno, ilines, TRIM( nuline )
       END IF
 
 !  consider the header part of the card
@@ -3649,9 +3651,9 @@
  2960 FORMAT( /, ' From within do loop ending on line ', i5,                   &
               ', current line is ', /,                                         &
               2X, A2, 1X, A10, A10, 1P, D12.4, 3X, A10, D12.4 )
- 2970 FORMAT( ' Line ', i5, 4X, A160 )
- 2980 FORMAT( ' Line ', i5, '.', i2, 1X, A65 )
- 2990 FORMAT( ' Line ', i5, 4X, A65 )
+ 2970 FORMAT( ' Line ', I7, 3X, A )
+ 2980 FORMAT( ' Line ', I7, '.', I1, 1X, A )
+ 2990 FORMAT( ' Line ', I7, 3X, A )
  3000 FORMAT( /, ' Row names ', /, ' --------- ', /, 8( 1X, A8 ) )
  3010 FORMAT( /, ' Column names ', /, ' ------------', /, 8( 1X, A8 ) )
  3020 FORMAT( /, 3('  Col   Row    Value  '),                                  &
@@ -10361,10 +10363,10 @@
         nuline = blnkln
         IF ( fixed ) THEN
           READ( input, 1000, END = 590, ERR = 590 ) nuline
-          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, TRIM( nuline )
         ELSE
           READ( input, 1010, END = 590, ERR = 590 ) nuline
-          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, TRIM( nuline )
 
 !  if the card is in free format, translate it into fixed format
 
@@ -10379,7 +10381,8 @@
             ilines = 1
             nuline = blnkln
             nuline = NULINA( ilines )
-            IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+            IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                      &
+              lineno, ilines, TRIM( nuline )
 
 !  there are only blank lines on the free format card
 
@@ -10394,7 +10397,8 @@
         ilines = ilines + 1
         nuline = blnkln
         nuline = NULINA( ilines )
-        IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+        IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                          &
+          lineno, ilines, TRIM( nuline )
       END IF
 
 !  consider the header part of the card
@@ -11772,9 +11776,9 @@
  2720 FORMAT( ' ** Exit from MAKE_elfun - field 3 not blank on',               &
               ' A, F or G card ' )
  2900 FORMAT( ' ' )
- 2970 FORMAT( ' Line ', i5, 4X, A160 )
- 2980 FORMAT( ' Line ', i5, '.', i2, 1X, A65 )
- 2990 FORMAT( ' Line ', i5, 4X, A65 )
+ 2970 FORMAT( ' Line ', I7, 3X, A )
+ 2980 FORMAT( ' Line ', I7, '.', I1, 1X, A )
+ 2990 FORMAT( ' Line ', I7, 3X, A )
  3000 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -12289,10 +12293,10 @@
         nuline = blnkln
         IF ( fixed ) THEN
           READ ( input, 1000, END = 590, ERR = 590 ) nuline
-          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, TRIM( nuline )
         ELSE
           READ ( input, 1010, END = 590, ERR = 590 ) nuline
-          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, TRIM( nuline )
 
 !  if the card is in free format, translate it into fixed format
 
@@ -12307,7 +12311,8 @@
             ilines = 1
             nuline = blnkln
             nuline = NULINA( ilines )
-            IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+            IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                      &
+              lineno, ilines, TRIM( nuline )
 
 !  there are only blank lines on the free format card
 
@@ -12322,7 +12327,8 @@
         ilines = ilines + 1
         nuline = blnkln
         nuline = NULINA( ilines )
-        IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+        IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                          &
+          lineno, ilines, TRIM( nuline )
       END IF
 
 !  consider the header part of the card
@@ -13953,9 +13959,9 @@
  2720 FORMAT( ' ** Exit from MAKE_elfun_ad - field 3 not blank on',            &
               ' A, F or G card ' )
  2900 FORMAT( ' ' )
- 2970 FORMAT( ' Line ', i5, 4X, A160 )
- 2980 FORMAT( ' Line ', i5, '.', i2, 1X, A65 )
- 2990 FORMAT( ' Line ', i5, 4X, A65 )
+ 2970 FORMAT( ' Line ', I7, 3X, A )
+ 2980 FORMAT( ' Line ', I7, '.', I1, 1X, A )
+ 2990 FORMAT( ' Line ', I7, 3X, A )
  3000 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
         '     *                   ', 5( A6, ', ' ), /,                         &
         '     *                   ', 5( A6, ', ' ), /,                         &
@@ -14541,7 +14547,7 @@
             nuline = blnkln
             READ ( input, 1000, END = 590, ERR = 590 ) nuline
           END IF
-          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, TRIM( nuline )
         ELSE
           IF ( gotlin ) THEN
             gotlin = .FALSE.
@@ -14549,7 +14555,7 @@
             nuline = blnkln
             READ ( input, 1010, END = 590, ERR = 590 ) nuline
           END IF
-          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, TRIM( nuline )
 
 !  if the card is in free format, translate it into fixed format
 
@@ -14564,7 +14570,8 @@
             ilines = 1
             nuline = blnkln
             nuline = NULINA( ilines )
-            IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+            IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                      &
+              lineno, ilines, TRIM( nuline )
 
 !  there are only blank lines on the free format card
 
@@ -14579,7 +14586,8 @@
         ilines = ilines + 1
         nuline = blnkln
         nuline = NULINA( ilines )
-        IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+        IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                          &
+          lineno, ilines, TRIM( nuline )
       END IF
 
 !  consider the header part of the card
@@ -15438,9 +15446,9 @@
  2730 FORMAT( ' ** Exit from MAKE_group - field 2 or 3 not blank on',          &
               ' A, F, G or H card ' )
  2900 FORMAT( ' ' )
- 2970 FORMAT( ' Line ', i5, 4X, A160 )
- 2980 FORMAT( ' Line ', i5, '.', i2, 1X, A65 )
- 2990 FORMAT( ' Line ', i5, 4X, A65 )
+ 2970 FORMAT( ' Line ', I7, 3X, A )
+ 2980 FORMAT( ' Line ', I7, '.', I1, 1X, A )
+ 2990 FORMAT( ' Line ', I7, 3X, A )
  3000 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
@@ -15712,7 +15720,7 @@
             nuline = blnkln
             READ ( input, 1000, END = 590, ERR = 590 ) nuline
           END IF
-          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2990 ) lineno, TRIM( nuline )
         ELSE
           IF ( gotlin ) THEN
             gotlin = .FALSE.
@@ -15720,7 +15728,7 @@
             nuline = blnkln
             READ ( input, 1010, END = 590, ERR = 590 ) nuline
           END IF
-          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, nuline
+          IF ( out > 0 .AND. debug ) WRITE( out, 2970 ) lineno, TRIM( nuline )
 
 !  if the card is in free format, translate it into fixed format
 
@@ -15735,7 +15743,8 @@
             ilines = 1
             nuline = blnkln
             nuline = NULINA( ilines )
-            IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+            IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                      &
+              lineno, ilines, TRIM( nuline )
 
 !  there are only blank lines on the free format card
 
@@ -15750,7 +15759,8 @@
          ilines = ilines + 1
          nuline = blnkln
          nuline = NULINA( ilines )
-         IF ( out > 0 .AND. debug ) WRITE( out, 2980 ) lineno, ilines, nuline
+         IF ( out > 0 .AND. debug ) WRITE( out, 2980 )                         &
+           lineno, ilines, TRIM( nuline )
       END IF
 
 !  consider the header part of the card
@@ -16807,9 +16817,9 @@
  2730 FORMAT( ' ** Exit from MAKE_group_ad - field 2 or 3 not blank on',       &
               ' A, F, G or H card ' )
  2900 FORMAT( ' ' )
- 2970 FORMAT( ' Line ', i5, 4X, A160 )
- 2980 FORMAT( ' Line ', i5, '.', i2, 1X, A65 )
- 2990 FORMAT( ' Line ', i5, 4X, A65 )
+ 2970 FORMAT( ' Line ', I7, 3X, A )
+ 2980 FORMAT( ' Line ', I7, '.', I1, 1X, A )
+ 2990 FORMAT( ' Line ', I7, 3X, A )
  3000 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
