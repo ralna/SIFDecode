@@ -14,7 +14,7 @@ notifications:
   email: false
 
 env:
-  - ARCHDEFS_VERSION=2.0.2
+  - ARCHDEFS_VERSION=2.0.3
   - ARCHDEFS_VERSION=master
 
 before_install:
@@ -36,7 +36,7 @@ before_install:
 
 install:
   - cd $TRAVIS_BUILD_DIR
-  - if [[ $TRAVIS_OS_NAME == "linux" ]]; then printf "6\n2\n4\n" > sifdecode.input; fi
+  - if [[ $TRAVIS_OS_NAME == "linux" ]]; then printf "6\n2\n5\n" > sifdecode.input; fi
   - if [[ $TRAVIS_OS_NAME == "osx" ]]; then printf "13\n2\n" > sifdecode.input; fi
   - printf "nny" >> sifdecode.input
   - ./install_sifdecode < sifdecode.input
