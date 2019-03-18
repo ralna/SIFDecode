@@ -45,3 +45,6 @@ install:
 
 script:
   - ./bin/sifdecoder ROSENBR.SIF
+  - grep DOUBLE ELFUN.f || false
+  - ./bin/sifdecoder -sp ROSENBR.SIF
+  - grep REAL ELFUN.f || false
