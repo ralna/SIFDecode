@@ -7,6 +7,7 @@ sifdecoder \- SIF-decoding script.
 [\-f] [\-b] [\-a \fI1|2\fP]
 [\-p \fI1|2|3\fP]
 [\-s \fI0|1|2|3\fP]
+[\-sp]
 [\-st \fI1|2|3\fP]
 [\-show] [\-param
 \fIname=value\fP[\fI,name=value...\fP]] [\-force]
@@ -76,6 +77,10 @@ of up to approximately 10000 variables and constraints, and
 \-s 3 is for larger problems. Setting \-s too large may cause memory
 allocation errors on modest computers.
 The default is for meedium-sized problems.
+.TP
+.BI \-sp
+Decode the problem for use with the single precision tools. The default is to
+decode the problem for use with the double precision tools.
 .TP
 .BI \-st " 1|2|3"
 Specifies the starting point vector to be used if there is more than one.

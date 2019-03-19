@@ -33,6 +33,7 @@ display_long_help() {
     echo "                   differences (default: do not check)"
     echo "          -s     : rough size of problem for array initialization"
     echo "                   0=debug, 1=small, 2=medium, 3=large (default)"
+    echo "          -sp    : decode problem in single precision (default: double)"
     echo "          -st    : starting point vector to be used"
     echo "                   (Default: -st 1)"
     echo "          -show  : displays possible parameter settings for"
@@ -140,6 +141,10 @@ let PACKAGE=3
 
 let size=2
 
+#  specify the precision of the output files (single = 0, double = 1)
+
+let double=1
+
 #  starting point vector to be used; if st > # starting vectors, st = 1
 
 let st=1
@@ -173,6 +178,9 @@ while (( i <= last )); do
   elif [[ "$opt" == '-s' ]]; then
     (( i++ ))
     let size=${!i}
+  elif [[ "$opt" == '-sp' ]]; then
+    (( i++ ))
+    let double=0
   elif [[ "$opt" == '-st' ]]; then
     (( i++ ))
     let st=${!i}
@@ -430,7 +438,7 @@ echo $OUTPUT    >> $sdinput
 echo $PROBNAME  >> $sdinput
 echo $automatic >> $sdinput
 echo $ad0       >> $sdinput
-echo '1'        >> $sdinput   # Double precision.
+echo $double    >> $sdinput
 echo $size      >> $sdinput
 echo $st        >> $sdinput
 
@@ -531,4 +539,3 @@ if [[ $DERIVCHECK == "1" ]]; then
 fi
 
 exit 0
-
