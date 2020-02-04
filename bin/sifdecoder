@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # sifdecoder: script to decode a sif file
 #
 #  N. Gould, D. Orban & Ph. Toint, November 7th, 2000
