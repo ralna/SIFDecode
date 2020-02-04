@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #  Classifies all of the SIF problems in a directory.
 

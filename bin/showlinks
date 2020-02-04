@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Collect all symbolic links under the current directory and output a shell
 # script that restores them. This is useful on systems that do not support
 # true symbolic links, such as MSYS.

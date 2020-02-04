@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #  add the classification of the problem, whose name is
 #  given as an argument. to the CLASSF.DB file 
