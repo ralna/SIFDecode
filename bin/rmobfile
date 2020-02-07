@@ -1,4 +1,4 @@
-#!/bin/bash -f
+#!/usr/bin/env bash
 
 # Remove the object file FILE from the directory FILEDIR if FILE is present
 

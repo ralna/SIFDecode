@@ -1,4 +1,4 @@
-#!/bin/bash -f
+#!/usr/bin/env bash
 
 # Remove the archive file FILE from the archive ARC if FILE is present
 

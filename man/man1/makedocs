@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/usr/bin/env csh
 
 #foreach pack ( classall  classify  select  sifdecoder )
 

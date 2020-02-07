@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #  Probes the classification file using slct.  By default,
 #  the classification file is assumed to be $MASTSIF/CLASSF.DB,
