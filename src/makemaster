@@ -1,7 +1,7 @@
 #  Main body of the installation makefile for the SIFDECODE packages
 
 #  N. Gould, D. Orban and Ph. L. Toint.
-#  This version: 05 XII 2012
+#  This version: 03 XII 2021
 
 SHELL = /bin/$(BINSHELL)
 
@@ -24,6 +24,18 @@ all_double:
                      check_derivs PRECIS=double PWD=$(PWD)/check )
 	( cd select  ; $(MAKE) -f $(SIFDECODE)/makefiles/$(VERSION) \
                      select PRECIS=double PWD=$(PWD)/select )
+
+#  main compilations and runs
+
+test: test_$(PRECIS)
+
+test_single:
+	( cd decode ; $(MAKE) -f $(SIFDECODE)/makefiles/$(VERSION) \
+                     test PRECIS=single PWD=$(PWD)/decode )
+
+test_double:
+	( cd decode ; $(MAKE) -f $(SIFDECODE)/makefiles/$(VERSION) \
+                     test PRECIS=double PWD=$(PWD)/decode )
 
 #  book keeping
 
