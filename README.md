@@ -1,7 +1,7 @@
 # SIFDecode
 A package to decode SIF optimization test examples for use by CUTEst and GALAHAD
 
-See the [CUTEst wiki](https://github.com/ralna/CUTEst/wiki) for download and instalation instructions
+See the [CUTEst wiki](https://github.com/ralna/CUTEst/wiki) for download and installation instructions
 
 [![Build Status](https://travis-ci.org/ralna/SIFDecode.svg?branch=master)](https://travis-ci.org/ralna/SIFDecode)
 
