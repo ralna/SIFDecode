@@ -16,6 +16,26 @@ jobs:
         include:
           - compiler: gnu
             fc_cmd: gfortran
+          - os: ubuntu-latest
+            compiler: intel
+            compiler_version: 2021.9.0
+            fc_cmd: ifort
+          - os: windows-latest
+            compiler: intel
+            compiler_version: 2021.9.0
+            fc_cmd: ifort
+          - os: macos-latest
+            compiler: intel
+            compiler_version: 2021.9.0
+            fc_cmd: ifort
+          - os: ubuntu-latest
+            compiler: intel-llvm
+            compiler_version: 2023.2.0
+            fc_cmd: ifx
+          - os: windows-latest
+            compiler: intel-llvm
+            compiler_version: 2023.2.0
+            fc_cmd: ifx
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out SIFDecode
