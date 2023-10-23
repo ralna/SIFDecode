@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 1.2 - 24/10/2016 AT 13:30 GMT.
+! THIS VERSION: SIFDECODE 1.2 - 2023-10-24 AT 16:30 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 
@@ -892,6 +892,10 @@
           READ( UNIT = iinex, FMT = 1000, END = 600, ERR = 600 ) lineex
         END IF
 
+!  adapt to single precision if necessary
+
+        IF ( single ) CALL single_string( lineex( 1 : 72 ) )
+
 !  skip blank lines
 
         DO i = 1, 72
@@ -971,6 +975,23 @@
               ' variable', A, ' bounded from below and above ' )
  2240 FORMAT( ' There ', A, 1X, I0, ' fixed variable', A )
  2250 FORMAT( ' There ', A, 1X, I0, ' slack variable', A )
+
+      CONTAINS
+
+!  convert string 'DOUBLE PRECISION' to 'REAL' and suitable exponents
+
+        SUBROUTINE single_string( string )
+        CHARACTER ( LEN = 72 ), INTENT( INOUT ) :: string
+        INTEGER :: i
+        DO i = 1, 72
+          IF ( string( i : i + 15 ) == 'DOUBLE PRECISION' )                    &
+            string( i : i + 15 ) = 'REAL            '
+          IF ( string( i : i + 1 ) == 'D+' )                                   &
+            string( i : i + 1 ) = 'E+'
+          IF ( string( i : i + 1 ) == 'D-' )                                   &
+            string( i : i + 1 ) = 'E-'
+        END DO
+        END SUBROUTINE single_string
 
 !  end of subroutine SIFDECODE_decode
 
