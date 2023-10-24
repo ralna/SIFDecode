@@ -137,7 +137,7 @@ eval "`cat $SIFDECODE/bin/sys/$ARCH`"
 
 # Define the path to the decoder
 
-CLSF=$SIFDECODE/objects/$ARCH/double/clsf
+CLSF=$SIFDECODE/objects/$ARCH/clsf
 
 cd $MASTSIF
 echo "n"  > CLSF.DAT

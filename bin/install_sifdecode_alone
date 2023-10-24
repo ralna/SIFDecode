@@ -6,7 +6,7 @@
 # syntax: install_sifdecode
 
 # N. Gould, D. Orban & Ph. Toint
-# ( Last modified on 6 February 2013 at 07:15 GMT )
+# ( Last modified 2023-10-24 at 14:15 GMT )
 
 #  check input arguments (if any)
 
@@ -93,26 +93,10 @@ echo "$MACHINE ($OPSYS) $COMPUSED" > $SIFDECODE/versions/$VERSION
 
 if [[ ! -e $OBJDIR ]]; then
     $MKDIR $OBJDIR
-    $MKDIR $OBJDIR/double $OBJDIR/single
-else
-    if [[ ! -e $OBJDIR/double ]]; then
-        $MKDIR $OBJDIR/double
-    fi
-    if [[ ! -e $OBJDIR/single ]]; then
-        $MKDIR $OBJDIR/single
-    fi
 fi
 
 if [[ ! -e $MODDIR ]]; then
     $MKDIR $MODDIR
-    $MKDIR $MODDIR/double $MODDIR/single
-else
-    if [[ ! -e $MODDIR/double ]]; then
-        $MKDIR $MODDIR/double
-    fi
-    if [[ ! -e $MODDIR/single ]]; then
-        $MKDIR $MODDIR/single
-    fi
 fi
 
 #  write out the sifdecode/bin/sys file for this architecture
@@ -168,11 +152,8 @@ echo ' '                                                           >> $MAKEFILE
 echo '#  Directory for binaries'                                   >> $MAKEFILE
 echo ' '                                                           >> $MAKEFILE
 echo 'PRECIS = double'                                             >> $MAKEFILE
-echo 'OBJ = $(SIFDECODE)/objects/$(VERSION)/$(PRECIS)'             >> $MAKEFILE
-echo 'OBJS = $(SIFDECODE)/objects/$(VERSION)/single'               >> $MAKEFILE
-echo 'OBJD = $(SIFDECODE)/objects/$(VERSION)/double'               >> $MAKEFILE
-echo 'MOD = $(SIFDECODE)/modules/$(VERSION)/$(PRECIS)'             >> $MAKEFILE
-echo 'SEDS = $(SIFDECODE)/seds/$(PRECIS).sed'                      >> $MAKEFILE
+echo 'OBJ = $(SIFDECODE)/objects/$(VERSION)'                       >> $MAKEFILE
+echo 'MOD = $(SIFDECODE)/modules/$(VERSION)'                       >> $MAKEFILE
 echo 'MVMODS = '"$MVMODS"                                          >> $MAKEFILE
 echo ' '                                                           >> $MAKEFILE
 echo '#  Compiler options'                                         >> $MAKEFILE

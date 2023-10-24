@@ -1,7 +1,7 @@
 #  Main body of the installation makefile for the SIFDECODE select package
 
 #  N. Gould, D. Orban and Ph. L. Toint.
-#  This version: 05 XIII 2012
+#  This version: 2023-10-24
 
 SHELL = /bin/$(BINSHELL)
 
@@ -18,8 +18,6 @@ RUNFFLAGS =          $(OPTIMIZATION) $(DEBUG) $(MODULES)
 #  names of random libraries
 
 LS  =
-LSS =
-LSD =
 
 #  Libraries used
 
@@ -32,14 +30,9 @@ ARR = $(AR) $(ARREPFLAGS) $(LS)
 RMARFILE = $(SIFDECODER)/bin/rmarfile $(AR) $(GREP) $(LS)
 RMOBFILE = $(SIFDECODER)/bin/rmobfile $(RM) $(OBJ)
 
-#  sed scripts
-
 #  compilation agenda
 
-SELECTS = $(OBJS)/slct.o $(OBJS)/clsf.o
-SELECTD = $(OBJD)/slct.o $(OBJD)/clsf.o
-
-SUCC = precision version) compiled successfully
+SELECTS = $(OBJ)/slct.o $(OBJ)/clsf.o
 
 #  main compilations and runs
 
@@ -47,14 +40,10 @@ all: basics
 
 #  basic packages
 
-select_silent: select_silent_$(PRECIS)
-select_silent_single: $(SELECTS)
-select_silent_double: $(SELECTD)
+select_silent: $(SELECTS)
 
-select: select_$(PRECIS)
-	@printf ' %-21s\n' "select: packages ($(PRECIS) $(SUCC)"
-select_single: $(SELECTS)
-select_double: $(SELECTD)
+select: $(SELECTS)
+	@printf ' %-21s\n' "select: packages compiled successfully"
 
 #  individual compilations
 
@@ -62,24 +51,24 @@ slct: $(OBJ)/slct.o
 
 $(OBJ)/slct.o: ../select/slct.f
 	@printf ' %-9s %-15s\t\t' "Compiling" "slct"
-	$(SED) -f $(SEDS) ../select/slct.f > $(OBJ)/slct.f
+	$(CP) ../select/slct.f $(OBJ)/slct.f
 	cd $(OBJ); $(FORTRAN) -o slct.o $(FFLAGS77) slct.f \
                 || ( printf ' %-26s' "=> Disabling optimization " ; \
                    $(FORTRAN) -o slct.o $(FFLAGS77N) slct.f )
 	cd $(OBJ); $(FORTRAN) -o slct $(RUNFFLAGS) slct.o
-	cd $(OBJ); $(RM) slct.f slct.o
+	cd $(OBJ); $(RM) slct.f
 	@printf '[ OK ]\n'
 
 clsf: $(OBJ)/clsf.o
 
 $(OBJ)/clsf.o: ../select/clsf.f
 	@printf ' %-9s %-15s\t\t' "Compiling" "clsf"
-	$(SED) -f $(SEDS) ../select/clsf.f > $(OBJ)/clsf.f
+	$(CP) ../select/clsf.f $(OBJ)/clsf.f
 	cd $(OBJ); $(FORTRAN) -o clsf.o $(FFLAGS77) clsf.f \
                 || ( printf ' %-26s' "=> Disabling optimization " ; \
                    $(FORTRAN) -o clsf.o $(FFLAGS77N) clsf.f )
 	cd $(OBJ); $(FORTRAN) -o clsf $(RUNFFLAGS) clsf.o
-	cd $(OBJ); $(RM) clsf.f clsf.o
+	cd $(OBJ); $(RM) clsf.f
 	@printf '[ OK ]\n'
 
 #  book keeping
@@ -91,6 +80,6 @@ clean:
 
 cleanall:
 	@printf ' %-14s\t\t' \
-          "Removing all $(PRECIS) precision object and module files"
+          "Removing all select object and module files"
 	$(RM) $(OBJ)/* $(MOD)/*
 	@printf '[ OK ]\n'

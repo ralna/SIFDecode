@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 1.2 - 2023-10-24 AT 16:30 GMT.
+! THIS VERSION: SIFDECODE 2.2 - 2023-10-24 AT 16:30 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 

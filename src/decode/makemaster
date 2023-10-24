@@ -1,7 +1,7 @@
 #  Main body of the installation makefile for the SIFDECODE decode package
 
 #  N. Gould, D. Orban and Ph. L. Toint.
-#  This version: 03 XII 2021
+#  This version: 2023-10-24
 
 SHELL = /bin/$(BINSHELL)
 
@@ -16,9 +16,7 @@ RUNFFLAGS =          $(OPTIMIZATION) $(DEBUG) $(MODULES)
 
 #  names of random libraries
 
-LS  = $(OBJ)/libsifdecode.a
-LSS = $(OBJS)/libsifdecode.a
-LSD = $(OBJD)/libsifdecode.a
+LS = $(OBJ)/libsifdecode.a
 
 #  Libraries used
 
@@ -31,14 +29,9 @@ ARR = $(AR) $(ARREPFLAGS) $(LS)
 RMARFILE = $(SIFDECODE)/bin/rmarfile $(AR) $(GREP) $(LS)
 RMOBFILE = $(SIFDECODE)/bin/rmobfile $(RM) $(OBJ)
 
-#  sed scripts
-
 #  compilation agenda
 
-SIFDECODES = $(LSS)(sifdecode.o) $(OBJS)/sifdecode_main.o
-SIFDECODED = $(LSD)(sifdecode.o) $(OBJD)/sifdecode_main.o
-
-SUCC = precision version) compiled successfully
+SIFDECODES = $(LS)(sifdecode.o) $(OBJ)/sifdecode_main.o
 
 #  main compilations and runs
 
@@ -46,36 +39,27 @@ all: sifdecode
 
 #  basic packages
 
-sifdecode_silent: sifdecode_silent_$(PRECIS)
-sifdecode_silent_single: $(SIFDECODES)
-sifdecode_silent_double: $(SIFDECODED)
+sifdecode_silent: $(SIFDECODES)
 
-sifdecode: sifdecode_$(PRECIS)
-	@printf ' %-21s\n' "sifdecode: tools packages ($(PRECIS) $(SUCC)"
-sifdecode_single: $(SIFDECODES)
-	$(RANLIB) $(LSS)
-sifdecode_double: $(SIFDECODED)
-	$(RANLIB) $(LSD)
+sifdecode: $(SIFDECODES)
+	$(RANLIB) $(LS)
+	@printf ' %-21s\n' "sifdecode: tools packages compiled successfully"
 
-# run spec-sheet example tests
+# run example tests
 
 test: test_unconstrained test_constrained
 
-test_unconstrained: test_unconstrained_$(PRECIS)
-
-test_unconstrained_double: $(SIFDECODED) $(OBJD)/sifdecode_main.o
+test_unconstrained: $(SIFDECODES)
 	echo ""
 	echo " Decode unconstrained SIF file"
-	cd $(SIFDECODE)/sif/ ; sifdecoder ALLINITU
+	cd $(SIFDECODE)/sif/ ; sifdecoder -A $(VERSION) ALLINITU
 	echo ""
 	echo " Tests for unconstrained sifdecode complete"
 
-test_constrained: test_constrained_$(PRECIS)
-
-test_constrained_double: $(SIFDECODED) $(OBJD)/sifdecode_main.o
+test_constrained: $(SIFDECODES)
 	echo ""
 	echo " Decode unconstrained SIF file"
-	cd $(SIFDECODE)/sif/ ; sifdecoder ALLINITC
+	cd $(SIFDECODE)/sif/ ; sifdecoder -A $(VERSION) ALLINITC
 	echo ""
 	echo " Tests for constrained sifdecode complete"
 
@@ -85,7 +69,7 @@ sifdecode.o: $(LS)(sifdecode.o)
 
 $(LS)(sifdecode.o): ../decode/sifdecode.f90
 	@printf ' %-9s %-15s\t\t' "Compiling" "sifdecode"
-	$(SED) -f $(SEDS) ../decode/sifdecode.f90 > $(OBJ)/sifdecode.f90
+	$(CP) ../decode/sifdecode.f90 $(OBJ)/sifdecode.f90
 	cd $(OBJ); $(FORTRAN) -o sifdecode.o $(FFLAGS) sifdecode.f90 \
                 || ( printf ' %-26s' "=> Disabling optimization " ; \
                    $(FORTRAN) -o sifdecode.o $(FFLAGSN) sifdecode.f90 )
@@ -100,14 +84,13 @@ sifdecode_main.o: $(OBJ)/sifdecode_main.o
 
 $(OBJ)/sifdecode_main.o: ../decode/sifdecode_main.f90
 	@printf ' %-9s %-15s\t\t' "Compiling" "sifdecode_main"
-	$(SED) -f $(SEDS) ../decode/sifdecode_main.f90 > \
-                $(OBJ)/sifdecode_main.f90
+	$(CP) ../decode/sifdecode_main.f90 $(OBJ)/sifdecode_main.f90
 	cd $(OBJ); $(FORTRAN) -o sifdecode_main.o $(FFLAGS) sifdecode_main.f90 \
           || ( printf ' %-26s' "=> Disabling optimization " ; \
             $(FORTRAN) -o sifdecode_main.o $(FFLAGSN) sifdecode_main.f90 )
 	cd $(OBJ); $(FORTRAN) -o run_sifdecode $(RUNFFLAGS) \
           sifdecode_main.o -L$(OBJ) $(PLIBS) ; $(RM) sifdecode_main.f90
-	cd $(OBJ); $(RM) sifdecode_main.f90 sifdecode_main.o
+	cd $(OBJ); $(RM) sifdecode_main.f90
 	@printf '[ OK ]\n'
 
 #  book keeping
@@ -119,6 +102,6 @@ clean:
 
 cleanall:
 	@printf ' %-14s\t\t' \
-          "Removing all $(PRECIS) precision object and module files"
+          "Removing all decode object and module files"
 	$(RM) $(OBJ)/* $(MOD)/*
 	@printf '[ OK ]\n'

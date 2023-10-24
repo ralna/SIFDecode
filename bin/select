@@ -131,10 +131,9 @@ fi
 
 eval "`cat $SIFDECODE/bin/sys/$ARCH`"
 
-
 # Define the path to the decoder
 
-SLCT=$SIFDECODE/objects/$ARCH/double/slct
+SLCT=$SIFDECODE/objects/$ARCH/slct
 
 echo $MASTSIF > SLCT.DAT
 $SLCT

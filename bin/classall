@@ -131,7 +131,7 @@ eval "`cat $SIFDECODE/bin/sys/$ARCH`"
 # Define the path to the decoder
 
 cd $MASTSIF
-CLSF=$SIFDECODE/objects/$ARCH/double/clsf
+CLSF=$SIFDECODE/objects/$ARCH/clsf
 
 [[  -e CLASSF.DB  ]] && $RM CLASSF.DB
 for i  in  *.SIF; do

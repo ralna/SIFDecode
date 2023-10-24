@@ -2,8 +2,7 @@
 # sifdecoder: script to decode a sif file
 #
 #  N. Gould, D. Orban & Ph. Toint, November 7th, 2000
-#  Updated, January 20th, 2013
-#  This version October 21st, 2015
+#  This version October 24th, 2023
 
 display_short_help() {
     echo ' Use: sifdecoder [-A architecture] [-sp] [-h] [-c] [-f] [-b] [-a j]'
@@ -411,11 +410,11 @@ fi
 
 # Define the path to the decoder
 
-DECODER=${SIFDECODE}/objects/${ARCH}/double/run_sifdecode
+DECODER=${SIFDECODE}/objects/${ARCH}/run_sifdecode
 
 if [[ ! -x $DECODER  ]]; then
     error "No SIF decoder sifdec found in
- $SIFDECODE/objects/$ARCH/double/run_sifdecode
+ $SIFDECODE/objects/$ARCH/run_sifdecode
  Terminating execution."
     exit 4
 fi
@@ -525,7 +524,7 @@ if [[ $DERIVCHECK == "1" ]]; then
 
 #  create the executable
 
- OBJMAIN=$SIFDECODE/objects/$ARCH/double
+ OBJMAIN=$SIFDECODE/objects/$ARCH
  ${FORTRAN} ${FFLAGS} -o check_derivs $OBJMAIN/check_derivs_main.o \
   $NSUB -L$OBJMAIN -lsifdecode
 

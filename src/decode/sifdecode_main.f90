@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 1.1 - 21/10/2015 AT 12:00 GMT.
+! THIS VERSION: SIFDECODE 2.2 - 2023-10-24 AT 16:30 GMT.
 
 !-*-*-*-*-*-*-*-*-  S I F D E C O D E  _ m a i n   P R O G R A M  -*-*-*-*-*-*-
 
@@ -17,9 +17,9 @@
 
 !  ------------------------------------------------------------------------
 !  this is the main program for running the SIF decoder for the GALAHAD and
-!  CUTEst optimization packages. It calls the driver routine SDLANC which does
-!  all the work. The purpose of this main program is to open and close all
-!  files, and to care for the proper filenames when possible
+!  CUTEst optimization packages. It calls the driver routine SIFDECDE which 
+!  does all the work. The purpose of this main program is to open and close
+!  all files, and to care for the proper filenames when possible
 !  ------------------------------------------------------------------------
 
       USE SIFDECODE
