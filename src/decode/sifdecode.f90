@@ -24,7 +24,7 @@
 !  V e r s i o n
 !---------------
 
-      CHARACTER ( LEN = 6 ) :: version = '1.0   '
+      CHARACTER ( LEN = 6 ) :: version = '2.0   '
 
 !--------------------
 !   P r e c i s i o n
@@ -10532,7 +10532,7 @@
 !  -------- set up subroutine call and reserved parameter declarations
 
           IF ( single ) THEN
-             WRITE( outfn, 3001 ) FIELDI( 1 )( 1 : 6 ),                        &
+             WRITE( outfn, 3001 ) FIELDI( 1 )( 1 : 5 ),                        &
                FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                   &
                FIELDI( 18 )( 1 : 6 ),                                          &
              ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),      &
@@ -11488,11 +11488,11 @@
 
   600 CONTINUE
 
-!  write a dummy elfuns routine
+!  write a dummy elfun routine
 
       IF ( neltype == 0 ) THEN
         IF ( single ) THEN
-          WRITE( outfn, 3003 ) FIELDI( 1 )( 1 : 6 ),                           &
+          WRITE( outfn, 3003 ) FIELDI( 1 )( 1 : 5 ),                           &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
          ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
            FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),       &
@@ -11532,7 +11532,7 @@
          WRITE( outfn, 3201 )
       ELSE
         IF ( single ) THEN
-          WRITE( outfn, 3001 ) FIELDI( 1 )( 1 : 6 ),                           &
+          WRITE( outfn, 3001 ) FIELDI( 1 )( 1 : 5 ),                           &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
          ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
            FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),       &
@@ -11820,7 +11820,7 @@
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
               '      INTEGER ', 5( A6, ', ' ), A6, /,                          &
               '      INTEGER ', A6 )
- 3001 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3001 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -11858,7 +11858,7 @@
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3003 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3003 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -11965,7 +11965,7 @@
               'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
               'C', /,                                                          &
               '      INTEGER I' )
- 4001 FORMAT( '      SUBROUTINE RANGE( IELEMN, TRANSP, W1,',                   &
+ 4001 FORMAT( '      SUBROUTINE RANGE_s( IELEMN, TRANSP, W1,',                 &
               ' W2, nelvar, ninvar,', /,                                       &
               '     *                  itype, LW1, LW2 )', /,                  &
               '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
@@ -11990,7 +11990,7 @@
               'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
               'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
               'C' )
- 4003 FORMAT( '      SUBROUTINE RANGE( IELEMN, TRANSP, W1,',                   &
+ 4003 FORMAT( '      SUBROUTINE RANGE_s( IELEMN, TRANSP, W1,',                 &
               ' W2, nelvar, ninvar,', /,                                       &
               '     *                  itype, LW1, LW2 )', /,                  &
               '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
@@ -12500,7 +12500,7 @@
            FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                       &
            FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                       &
            FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
-            WRITE( outfd, 3005 ) FIELDI( 33 )( 1 : 6 ),                        &
+            WRITE( outfd, 3005 ) FIELDI( 33 )( 1 : 5 ),                        &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
         ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),           &
           FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),        &
@@ -13543,7 +13543,7 @@
 
   600 CONTINUE
 
-!  write a dummy elfuns routine
+!  write a dummy elfun routine
 
       IF ( iauto == 1 ) THEN
         IF ( single ) THEN
@@ -13583,7 +13583,7 @@
            FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                       &
            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
-          WRITE( outfd, 3007 ) FIELDI( 33 )( 1 : 6 ),                          &
+          WRITE( outfd, 3007 ) FIELDI( 33 )( 1 : 5 ),                          &
            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                       &
            FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),        &
            FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                       &
@@ -13664,7 +13664,7 @@
        pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),   &
        FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                           &
        FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
-          WRITE( outfd, 3001 ) FIELDI( 33 )( 1 : 6 ),                          &
+          WRITE( outfd, 3103 ) FIELDI( 33 )( 1 : 5 ),                          &
        FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),    &
        ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),            &
        FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),           &
@@ -14002,7 +14002,7 @@
         'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,                  &
         '      INTEGER ', 5( A6, ', ' ), A6, /,                                &
         '      INTEGER ', A6 )
- 3001 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3001 FORMAT( '      SUBROUTINE ', A6, '_s( ', 5( A6, ', ' ), /,               &
         '     *                   ', 5( A6, ', ' ), /,                         &
         '     *                   ', 5( A6, ', ' ), /,                         &
         '     *                   ', 5( A6, ', ' ), /,                         &
@@ -14040,7 +14040,7 @@
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3003 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3003 FORMAT( '      SUBROUTINE ', A6, '_s( ', 5( A6, ', ' ), /,                 &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -14079,7 +14079,7 @@
               '      INTEGER, POINTER :: H_index( : ) ', /,                    &
               '      DOUBLE PRECISION, POINTER :: H_result( : ) ', /,          &
               '      DOUBLE PRECISION X_int( ', i6, ') ' )
- 3005 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3005 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -14119,7 +14119,7 @@
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3007 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3007 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -14257,6 +14257,26 @@
  3100 FORMAT( '       IF ( ', A6, ' == 1 ) THEN', /,                           &
               '        ', A6, '(', A6, ')= ', A41 )
  3101 FORMAT( '       F_value = ', A41 )
+ 3103 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
+        '     *                   ', 5( A6, ', ' ), /,                         &
+        '     *                   ', 5( A6, ', ' ), /,                         &
+        '     *                   ', 5( A6, ', ' ), /,                         &
+        '     *                   ', 2( A6, ', ' ), A6, ' )', /,               &
+        '      INTEGER ', 5( A6, ', ' ),  A6, /,                               &
+        '      INTEGER ', 5( A6, ', ' ),  A6, /,                               &
+        '      INTEGER ', A6, /,                                               &
+        '      INTEGER ', 2( A6, '(', A6, '), ' ),                             &
+                             A6, '(', A6, ')', /,                              &
+        '      INTEGER ', 2( A6, '(', A6, '), ' ),                             &
+                             A6, '(', A6, ')', /,                              &
+        '      INTEGER ', A6, '(', A6, ')', /,                                 &
+        '      REAL             ', A6, '(', A6, '), ',                         &
+                                   A6, '(', A6, '), ',                         &
+                                   A6, '(', A6, ')', /,                        &
+        'C', /, 'C  Problem name : ', A10, /,                                  &
+        'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,                  &
+        '      INTEGER ', 5( A6, ', ' ), A6, /,                                &
+        '      INTEGER ', A6 )
  3110 FORMAT( '     *                  ', A41 )
  3120 FORMAT( '       ELSE' )
  3121 FORMAT( '        WRITE(6,*) '' impossible value IFFLAG = '', ',          &
@@ -14706,7 +14726,8 @@
 !  -------- set up subroutine call and reserved parameter declarations
 
           IF ( single ) THEN
-            WRITE( outgr, 3001 ) ( FIELDI( i )( 1 : 6 ), i = 1, 4 ),           &
+            WRITE( outgr, 3001 ) FIELDI( 1 )( 1 : 5 ),                         &
+                    ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                        &
                       FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),            &
                       FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),            &
                       FIELDI(  7 )( 1 : 6 ),                                   &
@@ -15319,7 +15340,8 @@
 !  write a dummy groups routine
 
       IF ( single ) THEN
-         WRITE( outgr, 3001 ) ( FIELDI( i )( 1 : 6 ), i = 1, 4 ),              &
+         WRITE( outgr, 3001 ) FIELDI( 1 )( 1 : 5 ),                            &
+                  ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
                     FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
                     FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
                     FIELDI(  7 )( 1 : 6 ),                                     &
@@ -15483,7 +15505,7 @@
                                       '(', A6, ')', /,                         &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3001 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3001 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
               '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
@@ -15898,7 +15920,8 @@
           END IF
           IF ( single ) THEN
             IF ( loutgf )                                                      &
-              WRITE( outgf, 3001 ) ( FIELDI( i )( 1 : 6 ), i = 1, 4 ),         &
+              WRITE( outgf, 3001 ) FIELDI( 1 )( 1 : 6 ),                       &
+                          ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                  &
                             FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),      &
                             FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),      &
                             FIELDI(  7 )( 1 : 6 ),                             &
@@ -15914,7 +15937,7 @@
                             FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),      &
                             FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),      &
                             pname, TRIM( version )
-            WRITE( outgd, 3005 ) FIELDI( 21 )( 1 : 6 ),                        &
+            WRITE( outgd, 3005 ) FIELDI( 21 )( 1 : 5 ),                        &
                         ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                    &
                           FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),        &
                           FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),        &
@@ -16630,7 +16653,7 @@
 
   600 CONTINUE
 
-!  write a dummy groups routine
+!  write a dummy group routine
 
       IF ( iauto == 1 ) THEN
         IF ( single ) THEN
@@ -16652,7 +16675,8 @@
       END IF
       IF ( single ) THEN
         IF ( loutgf )                                                          &
-          WRITE( outgf, 3001 ) ( FIELDI( i )( 1 : 6 ), i = 1, 4 ),             &
+          WRITE( outgf, 3001 ) FIELDI( 1 )( 1 : 6 ),                           &
+                  ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
                     FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
                     FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
                     FIELDI(  7 )( 1 : 6 ),                                     &
@@ -16668,7 +16692,7 @@
                     FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),              &
                     FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),              &
                     pname, TRIM( version )
-        WRITE( outgd, 3005 ) FIELDI( 21 )( 1 : 6 ),                            &
+        WRITE( outgd, 3005 ) FIELDI( 21 )( 1 : 5 ),                            &
                   ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
                     FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
                     FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
@@ -16854,7 +16878,7 @@
                                       '(', A6, ')', /,                         &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3001 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3001 FORMAT( '      SUBROUTINE ', A6, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
               '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
@@ -16885,7 +16909,7 @@
               '      INTEGER, POINTER :: H_index( : ) ', /,                    &
               '      DOUBLE PRECISION, POINTER :: H_result( : ) ', /,          &
               '      DOUBLE PRECISION :: A_int( 1 ) ' )
- 3005 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3005 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
               '      USE HSL_', A4, '_', A15, /,                               &

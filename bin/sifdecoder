@@ -178,7 +178,6 @@ while (( i <= last )); do
     (( i++ ))
     let size=${!i}
   elif [[ "$opt" == '-sp' ]]; then
-    (( i++ ))
     let double=0
   elif [[ "$opt" == '-st' ]]; then
     (( i++ ))
@@ -479,17 +478,17 @@ fi
 if (( automatic != 0  )); then
   [[ -e ELFUND.f  ]] && $MV ELFUND.f ELFUN.f
   [[ -e GROUPD.f  ]] && $MV GROUPD.f GROUP.f
+  [[ -e ELFUND_s.f  ]] && $MV ELFUND_s.f ELFUN_s.f
+  [[ -e GROUPD_s.f  ]] && $MV GROUPD_s.f GROUP_s.f
   [[ -e EXTERA.f  ]] && $MV EXTERA.f EXTER.f
-else
-  [[ -e ELFUNS.f  ]] && $MV ELFUNS.f ELFUN.f
-  [[ -e GROUPS.f  ]] && $MV GROUPS.f GROUP.f
-  [[ -e EXTERN.f  ]] && $MV EXTERN.f EXTER.f
+  [[ -e EXTERA_s.f  ]] && $MV EXTERA_s.f EXTER_s.f
 fi
 
-[[  -e RANGES.f  ]] && $MV RANGES.f RANGE.f
-
 if [[ -e EXTER.f  ]]; then
- [[ -z EXTER.f  ]] && $RM EXTER.f
+ [[ ! -s EXTER.f  ]] && $RM EXTER.f
+fi
+if [[ -e EXTER_s.f  ]]; then
+ [[ ! -s EXTER_s.f  ]] && $RM EXTER_s.f
 fi
 
 #  Record the type of derivatives used in the decoding

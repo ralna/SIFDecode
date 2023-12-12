@@ -57,20 +57,20 @@
       INTEGER, PARAMETER :: outff = 0
       INTEGER, PARAMETER :: outgf = 0
 
-!  assign file names
+!  i/o file names
 
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbin  = 'SIFDECODE.CNF          '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbout = 'OUTSDIF.d              '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbfn  = 'ELFUN.f                '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbff  = 'ELFUNF.f               '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbfd  = 'ELFUND.f               '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbra  = 'RANGE.f                '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbgr  = 'GROUP.f                '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbgf  = 'GROUPF.f               '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbgd  = 'GROUPD.f               '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbet  = 'SETTYP.f               '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbex  = 'EXTER.f                '
-      CHARACTER ( LEN = 24 ), PARAMETER :: prbea  = 'EXTERA.f               '
+      CHARACTER ( LEN = 24 ), PARAMETER :: prbin = 'SIFDECODE.CNF          '
+      CHARACTER ( LEN = 24 ) :: prbout
+      CHARACTER ( LEN = 24 ) :: prbfn
+      CHARACTER ( LEN = 24 ) :: prbff
+      CHARACTER ( LEN = 24 ) :: prbfd
+      CHARACTER ( LEN = 24 ) :: prbra
+      CHARACTER ( LEN = 24 ) :: prbgr
+      CHARACTER ( LEN = 24 ) :: prbgf
+      CHARACTER ( LEN = 24 ) :: prbgd
+      CHARACTER ( LEN = 24 ) :: prbet
+      CHARACTER ( LEN = 24 ) :: prbex
+      CHARACTER ( LEN = 24 ) :: prbea
 
       LOGICAL, PARAMETER :: noname = .FALSE.
 
@@ -108,6 +108,34 @@
 
       READ( in, "( I2 )" ) i
       single = i == 0
+
+!  set names for output files, with additional _s in the single precsion case
+
+      IF ( single ) THEN
+        prbout = 'OUTSDIF.d              '
+        prbfn  = 'ELFUN_s.f              '
+        prbff  = 'ELFUNF_s.f             '
+        prbfd  = 'ELFUND_s.f             '
+        prbra  = 'RANGE_s.f              '
+        prbgr  = 'GROUP_s.f              '
+        prbgf  = 'GROUPF_s.f             '
+        prbgd  = 'GROUPD_s.f             '
+        prbet  = 'SETTYP_s.f             '
+        prbex  = 'EXTER_s.f              '
+        prbea  = 'EXTERA_s.f             '
+      ELSE
+        prbout = 'OUTSDIF.d              '
+        prbfn  = 'ELFUN.f                '
+        prbff  = 'ELFUNF.f               '
+        prbfd  = 'ELFUND.f               '
+        prbra  = 'RANGE.f                '
+        prbgr  = 'GROUP.f                '
+        prbgf  = 'GROUPF.f               '
+        prbgd  = 'GROUPD.f               '
+        prbet  = 'SETTYP.f               '
+        prbex  = 'EXTER.f                '
+        prbea  = 'EXTERA.f               '
+      END IF
 
 !  specify the "size" of the problem (1=small,2=medium,3=large). This value
 !  is simply used to set initial array sizes; incorrect values will be

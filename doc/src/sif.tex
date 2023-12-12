@@ -729,7 +729,7 @@ for  some other  reason.  The  constants  $w_{i,j}$ are  known as {\em
 weights}, while
 the function $a_i^T  x -  b_i$  is known  as the {\em linear}
 element for the $i$-th group.
-{\bf New}
+%{\bf New}
 The additional term $\half \sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k$
 in the objective function is the {\em quadratic objective} group; the
 leading $\half$ is there by convention.
@@ -1074,7 +1074,9 @@ elemental variables, $v_1$, $v_2$ and $v_3$, say (with  $v_1  = x_1$,
 $v_2  = x_{100}$ and $v_3 =  x_2$);  there  is a useful transformation
 from elemental to internal variables of the form $u_1 = v_1 - v_2$ and
 $u_2 = v_3$ and the  element function may then  be represented as $u_1
-u_2$. {\bf New} The second group may be considered as a quadratic
+u_2$. 
+%{\bf New} 
+The second group may be considered as a quadratic
 objective group, and written as
 $\half( h_{1,1} x_1 x_1 + h_{1,100} x_1 x_{100}
  + h_{100,1} x_{100} x_1 )$,
@@ -1587,7 +1589,9 @@ default on line 38 to $\half$ --- the set of starting values are
 named  {\tt START1} ---  and then specify the individual  value for the
 variable {\tt Y} on line 39.
 
-We now specify the nonlinear information. {\bf New} Firstly, we recall that
+We now specify the nonlinear information. 
+%{\bf New} 
+Firstly, we recall that
 there is a quadratic objective group,
 $x_1^2 + 2 x_1^{ } x_{100}^{ } \equiv \half( 4 x_1 x_1 +
  2 x_1 x_{100} + 2 x_{100} x_1 )$. We need to specify the nonzero coefficients
@@ -2293,7 +2297,9 @@ way.
 
 A do-loop may occur at any point in the {\tt GROUPS}, {\tt VARIABLES},
 {\tt CONSTANTS}, {\tt RANGES},  {\tt BOUNDS},
-{\tt START POINT}, {\bf New}{\tt QUADRATIC}, {\tt ELEMENT USES} or
+{\tt START POINT}, 
+%{\bf New}
+{\tt QUADRATIC}, {\tt ELEMENT USES} or
 {\tt GROUP USES} sections.
 Do-loops are  used to make   array
 definitions,  that is,   to  make compact definitions of
@@ -2995,10 +3001,11 @@ actual numerical  value {\tt  numerical-vl}  may occupy  up   to   12
 characters in data field~4.
 
 \item
-It may be used to announce that all the entries (if any) in the linear
-element
-for  the  group under consideration are to  be scaled; in this
-case field~3  will contain the   string  {\tt `SCALE'}.
+It may be used to announce that 
+the group function under consideration is to be scaled;  
+%all the entries (if any) in the linear
+%element for  the  group under consideration are to  be scaled; 
+in this case field~3  will contain the   string  {\tt `SCALE'}.
 The numerical value of the scale factor,  that is the  factor by which
 the group is to be divided, is now specified exactly as above.
 
@@ -3580,7 +3587,7 @@ numerical value   is  (or values  are) specified using  up   to twelve
 characters  in the string(s)  {\tt numerical-vl} in data field~4 (and
 if required field~6).
 
-{\bf New}
+%{\bf New}
 \subsubsection{\label{S2.2.13a}The
 {\tt QUADRATIC}, {\tt HESSIAN}, {\tt QUADS}, {\tt QUADOBJ} or {\tt QSECTION}
  Data Cards}
