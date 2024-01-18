@@ -15,11 +15,11 @@ jobs:
         include:
           - os: ubuntu-latest
             compiler: gnu
-            input: '1\n1\nn\n1\nn\ny'
+            input: '1\n1\nn\n1'
             arch: 'pc64.lnx.gfo'
           - os: macos-latest
             compiler: gnu
-            input: '2\nn\n1\nn\ny'
+            input: '2\nn\n4'
             arch: 'mac64.osx.gfo'
           - os: ubuntu-latest
             compiler: intel
