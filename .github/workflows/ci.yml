@@ -77,6 +77,6 @@ jobs:
           [[ "${{ matrix.compiler }}" == "intel" ]] && source /opt/intel/oneapi/setvars.sh
           $SIFDECODE/bin/sifdecoder --help
           $SIFDECODE/bin/sifdecoder -A ${{ matrix.arch }} ROSENBR.SIF
-          # check that all output files exist (EXTER.f is allowed to be empty)
-          [[ -s "OUTSDIF.d" && -s "AUTOMAT.d" && -f "EXTER.f" && -s "RANGE.f" && -s "ELFUN.f" && -s "GROUP.f" ]] || exit 1
+          # check that all output files exist (EXTER.f may not exist)
+          [[ -s "OUTSDIF.d" && -s "AUTOMAT.d" && -s "RANGE.f" && -s "ELFUN.f" && -s "GROUP.f" ]] || exit 1
 
