@@ -52,14 +52,16 @@ test: test_unconstrained test_constrained
 test_unconstrained: $(SIFDECODES)
 	echo ""
 	echo " Decode unconstrained SIF file"
-	cd $(SIFDECODE)/sif/ ; sifdecoder -A $(VERSION) ALLINITU
+	cd $(SIFDECODE)/sif/ ; \
+          $(SIFDECODE)/bin/sifdecoder -A $(VERSION) ALLINITU
 	echo ""
 	echo " Tests for unconstrained sifdecode complete"
 
 test_constrained: $(SIFDECODES)
 	echo ""
 	echo " Decode unconstrained SIF file"
-	cd $(SIFDECODE)/sif/ ; sifdecoder -A $(VERSION) ALLINITC
+	cd $(SIFDECODE)/sif/ ; \
+          $(SIFDECODE)/bin/sifdecoder -A $(VERSION) ALLINITC
 	echo ""
 	echo " Tests for constrained sifdecode complete"
 
