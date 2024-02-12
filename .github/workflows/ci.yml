@@ -79,4 +79,3 @@ jobs:
           $SIFDECODE/bin/sifdecoder -A ${{ matrix.arch }} ROSENBR.SIF
           # check that all output files exist (EXTER.f may not exist)
           [[ -s "OUTSDIF.d" && -s "AUTOMAT.d" && -s "RANGE.f" && -s "ELFUN.f" && -s "GROUP.f" ]] || exit 1
-
