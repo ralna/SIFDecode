@@ -3,11 +3,10 @@
 .SH NAME
 sifdecoder \- SIF-decoding script.
 .SH SYNOPSIS
-\fBsifdecoder\fP [\-A \fIarch\fP] [\-sp] [\-h] [\-o \fI0|1\fP] [-m]
+\fBsifdecoder\fP [\-A \fIarch\fP] [\-sp] [\-qp] [\-h] [\-o \fI0|1\fP] [-m]
 [\-f] [\-b] [\-a \fI1|2\fP]
 [\-p \fI1|2|3\fP]
 [\-s \fI0|1|2|3\fP]
-[\-sp]
 [\-st \fI1|2|3\fP]
 [\-show] [\-param
 \fIname=value\fP[\fI,name=value...\fP]] [\-force]
@@ -32,9 +31,13 @@ directory $SIFDECODE/versions. If no \-A option is given, a valid
 architecture given by the environment variable $MYARCH will be
 used, but if $MYARCH is invalid or empty the decoder will terminate.
 .TP
-.B \-sp
-Run sifdecoder in single-precision mode, if available.
-Double precision is the default.
+.BI \-sp
+Decode the problem for use with the single precision tools. The default is to
+decode the problem for use with the double precision tools.
+.TP
+.BI \-qp
+Decode the problem for use with the quadruple precision tools. The default is to
+decode the problem for use with the double precision tools.
 .TP
 .B \-h
 Print a short help message.
@@ -77,10 +80,6 @@ of up to approximately 10000 variables and constraints, and
 \-s 3 is for larger problems. Setting \-s too large may cause memory
 allocation errors on modest computers.
 The default is for meedium-sized problems.
-.TP
-.BI \-sp
-Decode the problem for use with the single precision tools. The default is to
-decode the problem for use with the double precision tools.
 .TP
 .BI \-st " 1|2|3"
 Specifies the starting point vector to be used if there is more than one.

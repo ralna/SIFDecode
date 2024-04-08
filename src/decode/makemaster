@@ -59,9 +59,45 @@ test_unconstrained: $(SIFDECODES)
 
 test_constrained: $(SIFDECODES)
 	echo ""
-	echo " Decode unconstrained SIF file"
+	echo " Decode constrained SIF file"
 	cd $(SIFDECODE)/sif/ ; \
           $(SIFDECODE)/bin/sifdecoder -A $(VERSION) ALLINITC
+	echo ""
+	echo " Tests for constrained sifdecode complete"
+
+test_single: test_unconstrained_single test_constrained_single
+
+test_unconstrained_single: $(SIFDECODES)
+	echo ""
+	echo " Decode unconstrained SIF file"
+	cd $(SIFDECODE)/sif/ ; \
+          $(SIFDECODE)/bin/sifdecoder -A $(VERSION) -sp ALLINITU
+	echo ""
+	echo " Tests for unconstrained sifdecode complete"
+
+test_constrained_single: $(SIFDECODES)
+	echo ""
+	echo " Decode constrained SIF file"
+	cd $(SIFDECODE)/sif/ ; \
+          $(SIFDECODE)/bin/sifdecoder -A $(VERSION) -sp ALLINITC
+	echo ""
+	echo " Tests for constrained sifdecode complete"
+
+test_quadruple: test_unconstrained_quadruple test_constrained_quadruple
+
+test_unconstrained_quadruple: $(SIFDECODES)
+	echo ""
+	echo " Decode unconstrained SIF file"
+	cd $(SIFDECODE)/sif/ ; \
+          $(SIFDECODE)/bin/sifdecoder -A $(VERSION) -qp ALLINITU
+	echo ""
+	echo " Tests for unconstrained sifdecode complete"
+
+test_constrained_quadruple: $(SIFDECODES)
+	echo ""
+	echo " Decode constrained SIF file"
+	cd $(SIFDECODE)/sif/ ; \
+          $(SIFDECODE)/bin/sifdecoder -A $(VERSION) -qp ALLINITC
 	echo ""
 	echo " Tests for constrained sifdecode complete"
 

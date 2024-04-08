@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.2 - 2023-10-24 AT 16:30 GMT.
+! THIS VERSION: SIFDECODE 2.3 - 2024-04-07 AT 10:00 GMT.
 
 !-*-*-*-*-*-*-*-*-  S I F D E C O D E  _ m a i n   P R O G R A M  -*-*-*-*-*-*-
 
@@ -28,7 +28,7 @@
 !  local variables
 
       INTEGER :: i, ad0, auto, print_level, status, algorithm, size, start
-      LOGICAL :: single
+      INTEGER :: realpr
 
 !  assign the standard output unit numbers
 
@@ -104,14 +104,14 @@
 
       READ( in, "( I2 )" ) ad0
 
-!  specify the precision of the output files (single=0,double=1)
+!  specify the precision of the output files (single=32,double=64,quadruple=128)
 
-      READ( in, "( I2 )" ) i
-      single = i == 0
+      READ( in, "( I3 )" ) realpr
 
-!  set names for output files, with additional _s in the single precsion case
+!  set names for output files, with additional _s in the single precsion case,
+!  and _q in the quadruple precision case
 
-      IF ( single ) THEN
+      IF ( realpr == 32 ) THEN
         prbout = 'OUTSDIF.d              '
         prbfn  = 'ELFUN_s.f              '
         prbff  = 'ELFUNF_s.f             '
@@ -123,6 +123,18 @@
         prbet  = 'SETTYP_s.f             '
         prbex  = 'EXTER_s.f              '
         prbea  = 'EXTERA_s.f             '
+      ELSE IF ( realpr == 128 ) THEN
+        prbout = 'OUTSDIF.d              '
+        prbfn  = 'ELFUN_q.f              '
+        prbff  = 'ELFUNF_q.f             '
+        prbfd  = 'ELFUND_q.f             '
+        prbra  = 'RANGE_q.f              '
+        prbgr  = 'GROUP_q.f              '
+        prbgf  = 'GROUPF_q.f             '
+        prbgd  = 'GROUPD_q.f             '
+        prbet  = 'SETTYP_q.f             '
+        prbex  = 'EXTER_q.f              '
+        prbea  = 'EXTERA_q.f             '
       ELSE
         prbout = 'OUTSDIF.d              '
         prbfn  = 'ELFUN.f                '
@@ -187,7 +199,7 @@
       CALL SIFDECODE_decode( ingps, outda, infn, outfn, outff, outfd, outra,   &
                              ingr, outgr, outgf, outgd, inex, outex, outem,    &
                              outea, print_level, out, noname, algorithm,       &
-                             auto, ad0, single, size, start, status )
+                             auto, ad0, realpr, size, start, status )
 
 !  close the opened files
 

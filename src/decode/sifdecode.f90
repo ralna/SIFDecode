@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.2 - 2023-10-24 AT 16:30 GMT.
+! THIS VERSION: SIFDECODE 2.3 - 2024-04-07 AT 10:00 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 
@@ -9,6 +9,7 @@
 !   fortran 77 version originally released as part of CUTE, December 1990
 !   Became separate subroutines in SifDec, April 2004
 !   Updated fortran 2003 version packaged and released December 2012
+!   Generation of separate single and quadratic precision versions, April 2024 
 
 !  For full documentation, see
 !   http://galahad.rl.ac.uk/galahad-www/specs.html
@@ -24,7 +25,7 @@
 !  V e r s i o n
 !---------------
 
-      CHARACTER ( LEN = 6 ) :: version = '2.0   '
+      CHARACTER ( LEN = 6 ) :: version = '2.3   '
 
 !--------------------
 !   P r e c i s i o n
@@ -256,12 +257,12 @@
       SUBROUTINE SIFDECODE_decode( iingps, outda, iinfn, outfn, outff, outfd,  &
                                    outra, iingr, outgr, outgf, outgd, iinex,   &
                                    outex, outem, outea, print_level, out,      &
-                                   noname, ialgor, iauto, iad0, single, size,  &
+                                   noname, ialgor, iauto, iad0, realpr, size,  &
                                    start, status )
       INTEGER :: iingps, iinfn, iingr, outea, outex, print_level, out
       INTEGER :: outda, outra, outfn, outgr, outff, outfd, outgf, outgd, outem
-      INTEGER :: ialgor, iad0, iauto, size, start, status
-      LOGICAL :: noname, single
+      INTEGER :: ialgor, iad0, iauto, realpr, size, start, status
+      LOGICAL :: noname
 
 !  ------------------------------------------------------------------------
 !  decode a SIF file and convert the data into a form suitable for input to
@@ -282,6 +283,7 @@
       INTEGER :: len_renames, len_innames, len_lonames, len_minames
       REAL ( KIND = wp ) :: blo, bup
       LOGICAL :: debug, gotlin
+      INTEGER :: firstb
       CHARACTER ( LEN = 10 ) :: pname
       CHARACTER ( LEN = 10 ) :: nameof, namerh, namera, namebn, namest, nameob
       CHARACTER ( LEN = 24 ) :: bad_alloc
@@ -371,8 +373,10 @@
       END IF
 
       debug = print_level < 0
-      IF ( single ) THEN
+      IF ( realpr == 32 ) THEN
         WRITE( out, 2050 )
+      ELSE IF ( realpr == 128 ) THEN
+        WRITE( out, 2070 )
       ELSE
         WRITE( out, 2060 )
       END IF
@@ -397,7 +401,7 @@
                    len_iinames, IINAMES, len_rinames, RINAMES,                 &
                    GNAMES, VNAMES, BNAMES, ETYPES, IVNAMES,                    &
                    LNAMES, ONAMES, EVNAMES, SNAMES, GANAMES, GTYPES, EPNAMES,  &
-                   GPNAMES, OBBNAME, single, size, iingps, out, status, debug )
+                   GPNAMES, OBBNAME, realpr, size, iingps, out, status, debug )
       IF ( status /= 0 ) THEN
         WRITE( out, 2010 ) status
         RETURN
@@ -454,7 +458,7 @@
       END IF
       IF ( nobj > 0 .AND. oneobj ) nameof = ONAMES( 1 )
       IF ( nobbnd > 0 ) nameob = OBBNAME( 1 )
-      IF ( print_level /= 0 ) WRITE( out, 2070 )                               &
+      IF ( print_level /= 0 ) WRITE( out, 2180 )                               &
                                 nconst, nrange, nbnd, nstart, nobj, nobbnd
 
 !  convert to input for GALAHAD or other external packages
@@ -474,7 +478,7 @@
                          B, BL, BU, X, ESCALE, GSCALE, VSCALE,                 &
                          GNAMES, VNAMES, BNAMES, SNAMES, ONAMES, ETYPES,       &
                          GTYPES, OBBNAME, ialgor, iauto, out, outda,           &
-                         single, status, debug )
+                         realpr, status, debug )
       IF ( status /= 0 ) THEN
          WRITE( out, 2020 ) status
          RETURN
@@ -740,7 +744,7 @@
                          len_exnames, EXNAMES,                                 &
                          DEFINED, length, TABLE, KEY, INLIST,                  &
                          ETYPES, ELV, INV, EPNAMES, ELP, debug,                &
-                         single, nuline, gotlin, print_level )
+                         realpr, nuline, gotlin, print_level )
         IF ( status /= 0 ) THEN
           WRITE( out, 2030 ) status
           RETURN
@@ -757,7 +761,7 @@
                             len_exnames, EXNAMES,                              &
                             DEFINED, length, TABLE, KEY, INLIST,               &
                             ETYPES, ELV, INV, EPNAMES, ELP, debug,             &
-                            single, nuline, gotlin, iauto,                     &
+                            realpr, nuline, gotlin, iauto,                     &
                             iad0, print_level )
         IF ( status /= 0 ) THEN
           WRITE( out, 2090 ) status
@@ -805,7 +809,7 @@
                          len_exnames, EXNAMES,                                 &
                          GPNAMES, DEFINED, GTYPES, GTYPESP_ptr,                &
                          debug, length, TABLE, KEY, INLIST,                    &
-                         single, nuline, gotlin, print_level )
+                         realpr, nuline, gotlin, print_level )
         IF ( status /= 0 ) THEN
           WRITE( out, 2040 ) status
           RETURN
@@ -821,7 +825,7 @@
                             len_exnames, EXNAMES,                              &
                             GPNAMES, DEFINED, GTYPES, GTYPESP_ptr,             &
                             debug, length, TABLE, KEY, INLIST,                 &
-                            single, nuline, gotlin, iauto, iad0, print_level )
+                            realpr, nuline, gotlin, iauto, iad0, print_level )
         IF ( status /= 0 ) THEN
            WRITE( out, 2160 ) status
            RETURN
@@ -884,6 +888,7 @@
 
 !  finally, read any additional programs
 
+      firstb = 0
       DO
         IF ( gotlin ) THEN
           lineex( 1 : 72 ) = nuline( 1 : 72 )
@@ -892,9 +897,26 @@
           READ( UNIT = iinex, FMT = 1000, END = 600, ERR = 600 ) lineex
         END IF
 
-!  adapt to single precision if necessary
+!  adapt to single or quadruple precision if necessary
 
-        IF ( single ) CALL single_string( lineex( 1 : 72 ) )
+        IF ( realpr == 32 ) THEN
+          CALL single_string( lineex( 1 : 72 ) )
+        ELSE IF ( realpr == 128 ) THEN
+          CALL quadruple_string( lineex( 1 : 72 ) )
+!         IF ( firstb < 1 ) THEN
+            DO i = 1, 72
+              IF ( i <= 56 ) THEN
+                IF ( lineex( i : i + 15 ) == '      SUBROUTINE' ) THEN
+                  firstb = 0
+                END IF
+              END IF
+              IF ( firstb == 0 .AND. lineex( i : i ) == ')' ) THEN
+                firstb = 1
+                EXIT
+              END IF
+            END DO
+!         END IF
+        END IF
 
 !  skip blank lines
 
@@ -904,6 +926,10 @@
             EXIT
           END IF
         END DO
+        IF ( realpr == 128 .AND. firstb == 1 ) THEN
+          WRITE( outex, "( '      USE ISO_FORTRAN_ENV' )" )
+          firstb = 2
+        END IF
       END DO
 
 !  if required, translate any external file to accept automatic differentiation
@@ -911,7 +937,7 @@
 
   600 CONTINUE
       IF ( iauto == 1 .OR. iauto == 2 ) THEN
-        CALL TRANSLATE_for_ad( out, status, outex, outea, outem, single,       &
+        CALL TRANSLATE_for_ad( out, status, outex, outea, outem, realpr,       &
                                iauto, iad0, len_rinames, RINAMES,              &
                                len_iinames, IINAMES )
         IF ( status /= 0 ) WRITE( out, 2170 ) status
@@ -955,7 +981,7 @@
  2040 FORMAT( /, ' Return from MAKE_group, status = ', I0 )
  2050 FORMAT( /, ' Single precision version will be formed', / )
  2060 FORMAT( /, ' Double precision version will be formed', / )
- 2070 FORMAT( /, '  nconst  nrange    nbnd  nstart    nobj  nobbnd ', /, 6I8, /)
+ 2070 FORMAT( /, ' Quadruple precision version will be formed', / )
  2080 FORMAT( A10, 12I8 )
  2090 FORMAT( /, ' Return from MAKE_elfun_ad, status = ', I0 )
  2100 FORMAT( ' The objective function uses ', I0, ' linear group', A )
@@ -966,6 +992,7 @@
  2150 FORMAT( ' There ', A, 1X, I0, ' nonlinear inequality constraint', A )
  2160 FORMAT( /, ' Return from MAKE_group_ad, status = ', I0 )
  2170 FORMAT( /, ' Return from TRANSLATE_for_ad, status = ', I0 )
+ 2180 FORMAT( /, '  nconst  nrange    nbnd  nstart    nobj  nobbnd ', /, 6I8, /)
  2200 FORMAT( ' There ', A, 1X, I0, ' free variable', A1 )
  2210 FORMAT( ' There ', A, 1X, I0, ' variable', A,                            &
                 ' bounded only from above ' )
@@ -993,6 +1020,20 @@
         END DO
         END SUBROUTINE single_string
 
+        SUBROUTINE quadruple_string( string )
+        CHARACTER ( LEN = 72 ), INTENT( INOUT ) :: string
+        INTEGER :: i
+        DO i = 1, 72
+          IF ( string( i : i + 15 ) == 'DOUBLE PRECISION' )                    &
+            string( i : i + 15 ) = 'REAL(REAL128)   '
+          IF ( string( i : i + 1 ) == 'D+' )                                   &
+            string( i : i + 1 ) = 'E+'
+          IF ( string( i : i + 1 ) == 'D-' )                                   &
+            string( i : i + 1 ) = 'E-'
+        END DO
+        END SUBROUTINE quadruple_string
+
+
 !  end of subroutine SIFDECODE_decode
 
       END SUBROUTINE SIFDECODE_decode
@@ -1015,15 +1056,15 @@
                          len_iinames, IINAMES, len_rinames, RINAMES,           &
                          GNAMES, VNAMES, BNAMES, ETYPES, IVNAMES, LNAMES,      &
                          ONAMES, EVNAMES, SNAMES, GANAMES, GTYPES, EPNAMES,    &
-                         GPNAMES, OBBNAME, single, size, input, out,           &
+                         GPNAMES, OBBNAME, realpr, size, input, out,           &
                          status, debug )
       INTEGER :: nobbnd, nrival, nelvar, nnza, length, n, ng
       INTEGER :: nconst, nrange, nbnd, nstart, neltype, ngtype
       INTEGER :: nlvars, nnlvrs, nelnum, neling, narray, nobj
-      INTEGER :: nlisgp, nlisep, size, input, out, status
+      INTEGER :: nlisgp, nlisep, realpr, size, input, out, status
       INTEGER :: len1_blu, len1_vstart, len1_cstart, len_iinames, len_rinames
       INTEGER :: nevnames, nivnames, nepnames, ngpnames
-      LOGICAL :: single, debug
+      LOGICAL :: debug
       CHARACTER ( LEN = 10 ) :: pname
       INTEGER, ALLOCATABLE, DIMENSION( : ) :: ELV, INV, ELP
       INTEGER, ALLOCATABLE, DIMENSION( : ) :: EV_ptr, TYPEE, EP_ptr, TYPEV
@@ -3522,7 +3563,7 @@
   500 CONTINUE
       CALL SOBBND( nobbnd, nrival, len_fbound, FBOUND_l, FBOUND_u, RIVAL,      &
                    field1, field2, value4, field5, len_obbname, OBBNAME,       &
-                   length, TABLE, KEY, INLIST, single, out, status )
+                   length, TABLE, KEY, INLIST, realpr, out, status )
       IF ( status == 0 ) THEN
         IF ( doloop ) GO TO 600
         GO TO 100
@@ -7242,11 +7283,10 @@
       SUBROUTINE SOBBND( nobbnd, nrival, len_fbound, FBOUND_l, FBOUND_u,       &
                          RIVAL, field1, field2, value4, field5,                &
                          len_obbname, OBBNAME,                                 &
-                         length, TABLE, KEY, INLIST, single, out, status )
+                         length, TABLE, KEY, INLIST, realpr, out, status )
       INTEGER :: out, status, length, nobbnd, nrival
-      INTEGER :: len_fbound, len_obbname
+      INTEGER :: len_fbound, len_obbname, realpr
       REAL ( KIND = wp ) :: value4
-      LOGICAL :: single
       CHARACTER ( LEN = 2 ) :: field1
       CHARACTER ( LEN = 10 ) :: field2, field5
       INTEGER, ALLOCATABLE, DIMENSION( : ) :: TABLE, INLIST
@@ -7266,7 +7306,7 @@
       REAL ( KIND = wp ) :: big
       CHARACTER ( LEN = 24 ) :: bad_alloc
 
-      IF ( single ) THEN
+      IF ( realpr == 32 ) THEN
         big = 9.0D-1 * HUGE( 1.0_sp )
       ELSE
         big = 9.0D-1 * HUGE( one )
@@ -9010,17 +9050,14 @@
                          ESCALE, GSCALE, VSCALE,                               &
                          GNAMES, VNAMES, BNAMES, SNAMES, ONAMES,               &
                          ETYPES, GTYPES, OBBNAME, ialgor, iauto,               &
-                         out, outda, single, status, debug  )
+                         out, outda, realpr, status, debug  )
 
-      INTEGER :: n, ng, length, nelvar, neling
-      INTEGER :: nlvars
-      INTEGER :: nlisgp, nlisep
+      INTEGER :: n, ng, length, nelvar, neling, nlvars, nlisgp, nlisep
       INTEGER :: nbnd, nnza, nconst, nstart, nrange, nobjgr
       INTEGER :: ialgor, out, outda, status, nobbnd
       INTEGER :: neltype, ngtype, nobj, nelnum
-      INTEGER :: len1_blu, len1_vstart, len1_cstart
-      INTEGER :: iauto
-      LOGICAL :: single, debug
+      INTEGER :: len1_blu, len1_vstart, len1_cstart, realpr, iauto
+      LOGICAL :: debug
       CHARACTER ( LEN = 10 ) :: pname
       CHARACTER ( LEN = 10 ) :: nameob, namerh, namera, namebn, namest, nameof
       INTEGER :: ELING_ptr( ng + 1 ), ELVAR( nelvar )
@@ -9651,9 +9688,9 @@
       nnza = ABYROW_ptr( ng1 ) - 1
       WRITE( outda, 3110 ) ( ABYROW_col( i ), i = 1, nnza )
 
-!  write single precision format
+!  write single or quadruple precision format
 
-      IF ( single ) THEN
+      IF ( realpr == 32 .OR. realpr == 128 ) THEN
 
 !  output the values of the nonzeros in each linear element, the
 !  constant term in each group, the lower and upper bounds on
@@ -10134,13 +10171,12 @@
                              len_lonames, LONAMES, len_minames, MINAMES,       &
                              len_exnames, EXNAMES, DEFINED,                    &
                              length, TABLE, KEY, INLIST,                       &
-                             ETYPES, ELV, INV, EPNAMES, ELP, debug, single,    &
+                             ETYPES, ELV, INV, EPNAMES, ELP, debug, realpr,    &
                              nuline, gotlin, print_level )
       INTEGER :: input, out, outfn, outra, print_level, length, status
-      INTEGER :: neltype
-      INTEGER :: nevnames, nivnames, nepnames
+      INTEGER :: neltype, nevnames, nivnames, nepnames, realpr
       INTEGER :: len_renames, len_innames, len_lonames, len_minames, len_exnames
-      LOGICAL :: debug, single, gotlin
+      LOGICAL :: debug, gotlin
       CHARACTER ( LEN = max_record_length ) :: nuline
       INTEGER, ALLOCATABLE, DIMENSION( : ) :: TABLE, INLIST
       INTEGER, DIMENSION( neltype + 1 ) :: ELV, INV, ELP
@@ -10475,8 +10511,10 @@
 
 !  -------- set up subroutine call for range routine
 
-              IF ( single ) THEN
+              IF ( realpr == 32 ) THEN
                 WRITE( outra, 4001 ) pname, TRIM( version )
+              ELSE IF ( realpr == 128 ) THEN
+                WRITE( outra, 4002 ) pname, TRIM( version )
               ELSE
                 WRITE( outra, 4000 ) pname, TRIM( version )
               END IF
@@ -10531,8 +10569,32 @@
 
 !  -------- set up subroutine call and reserved parameter declarations
 
-          IF ( single ) THEN
+          IF ( realpr == 32 ) THEN
              WRITE( outfn, 3001 ) FIELDI( 1 )( 1 : 5 ),                        &
+               FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                   &
+               FIELDI( 18 )( 1 : 6 ),                                          &
+             ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),      &
+               FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),   &
+               FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                   &
+               FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                   &
+             ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                            &
+               FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                   &
+               FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                   &
+               FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                   &
+               FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                   &
+               FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                   &
+               FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                   &
+               FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                   &
+               FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                   &
+               FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                   &
+               FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                   &
+               pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ),                  &
+               FIELDI( 14 )( 1 : 6 ),                                          &
+               FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                   &
+               FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                   &
+               FIELDI( 21 )( 1 : 6 )
+          ELSE IF ( realpr == 128 ) THEN
+             WRITE( outfn, 3002 ) FIELDI( 1 )( 1 : 5 ),                        &
                FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                   &
                FIELDI( 18 )( 1 : 6 ),                                          &
              ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),      &
@@ -10589,8 +10651,10 @@
 ! --------- insert real declarations
 
           IF ( nrenames > 0 ) THEN
-            IF ( single ) THEN
+            IF ( realpr == 32 ) THEN
               WRITE( outfn, 3019 ) ( RENAMES( i ), i = 1, nrenames )
+            ELSE IF ( realpr == 128 ) THEN
+              WRITE( outfn, 3018 ) ( RENAMES( i ), i = 1, nrenames )
             ELSE
               WRITE( outfn, 3020 ) ( RENAMES( i ), i = 1, nrenames )
             END IF
@@ -10648,7 +10712,7 @@
             IF ( ETYPES( itype ) == cqsqr ) THEN
               WRITE( outfn, 3060 ) ETYPES( itype )
               IF ( neltype > 1 ) WRITE( outfn, 3061 ) itype
-              IF ( single ) THEN
+              IF ( realpr == 32 .OR. realpr == 128 ) THEN
                 WRITE( outfn, 3053 ) 'E', 'E'
               ELSE
                 WRITE( outfn, 3053 ) 'D', 'D'
@@ -10662,7 +10726,7 @@
             ELSE IF ( ETYPES( itype ) == cqprod ) THEN
               WRITE( outfn, 3060 ) ETYPES( itype )
               IF ( neltype > 1 ) WRITE( outfn, 3061 ) itype
-              IF ( single ) THEN
+              IF ( realpr == 32 .OR. realpr == 128 ) THEN
                 WRITE( outfn, 3054 ) 'E', 'E', 'E'
               ELSE
                 WRITE( outfn, 3054 ) 'D', 'D', 'D'
@@ -10955,7 +11019,7 @@
             IF ( .NOT. endofh ) THEN
               DO ihvar = 1, nhess
                 IF ( .NOT. SETVEC( ihvar ) ) THEN
-                  IF ( single ) THEN
+                  IF ( realpr == 32 .OR. realpr == 128 ) THEN
                     WRITE( outfn, 3162 ) FIELDI(  3 )( 1 : 6 ),                &
                                          FIELDI( 15 )( 1 : 6 ), ihvar
                   ELSE
@@ -10981,7 +11045,7 @@
 
               DO ivar = 1, ninvar
                 IF ( .NOT. SETVEC( ivar ) ) THEN
-                  IF ( single ) THEN
+                  IF ( realpr == 32 .OR. realpr == 128 ) THEN
                     WRITE( outfn, 3132 ) FIELDI(  3 )( 1 : 6 ),                &
                                          FIELDI( 17 )( 1 : 6 ), ivar
                   ELSE
@@ -11149,7 +11213,7 @@
 
               IF ( setran ) THEN
                 CALL OUTRANGE( nelv, ninv, U, outfn, outra,                    &
-                               EVNAMES( js + 1 ), IVNAMES( is + 1 ), single )
+                               EVNAMES( js + 1 ), IVNAMES( is + 1 ), realpr )
                 setran = .FALSE.
               END IF
 
@@ -11239,7 +11303,7 @@
 
                 IF ( setran ) THEN
                   CALL OUTRANGE( nelv, ninv, U, outfn, outra,                  &
-                                 EVNAMES( js + 1 ), IVNAMES( is + 1 ), single )
+                                 EVNAMES( js + 1 ), IVNAMES( is + 1 ), realpr )
                   setran = .FALSE.
                 END IF
 
@@ -11346,7 +11410,7 @@
 ! --------- set a component of g
 
                         DO ivar = 1, ninvar
-                          IF ( single ) THEN
+                          IF ( realpr == 32 .OR. realpr == 128 ) THEN
                             WRITE( outfn, 3132 ) FIELDI(  3 )( 1 : 6 ),        &
                                                  FIELDI( 17 )( 1 : 6 ), ivar
                           ELSE
@@ -11363,7 +11427,7 @@
                       IF ( .NOT. endofg ) THEN
                         DO ivar = 1, ninvar
                           IF ( .NOT. SETVEC( ivar ) ) THEN
-                            IF ( single ) THEN
+                            IF ( realpr == 32 .OR. realpr == 128 ) THEN
                               WRITE( outfn, 3132 ) FIELDI(  3 )( 1 : 6 ),      &
                                                    FIELDI( 17 )( 1 : 6 ), ivar
                             ELSE
@@ -11491,8 +11555,26 @@
 !  write a dummy elfun routine
 
       IF ( neltype == 0 ) THEN
-        IF ( single ) THEN
-          WRITE( outfn, 3003 ) FIELDI( 1 )( 1 : 5 ),                           &
+        IF ( realpr == 32 ) THEN
+          WRITE( outfn, 3004 ) FIELDI( 1 )( 1 : 5 ),                           &
+          FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
+         ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
+           FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),       &
+           FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                       &
+           FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                       &
+         ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                                &
+           FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                       &
+           FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                       &
+           FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                       &
+           FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                       &
+           FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                       &
+           FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                       &
+           FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                       &
+           FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                       &
+           FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
+           FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
+        ELSE IF ( realpr == 128 ) THEN
+          WRITE( outfn, 3004 ) FIELDI( 1 )( 1 : 5 ),                           &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
          ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
            FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),       &
@@ -11510,7 +11592,7 @@
            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
         ELSE
-          WRITE( outfn, 3002 ) FIELDI( 1 )( 1 : 6 ),                           &
+          WRITE( outfn, 3003 ) FIELDI( 1 )( 1 : 6 ),                           &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
          ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
            FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),       &
@@ -11531,7 +11613,7 @@
          WRITE( outfn, 3009 ) FIELDI( 32 )( 1 : 6 )
          WRITE( outfn, 3201 )
       ELSE
-        IF ( single ) THEN
+        IF ( realpr == 32 ) THEN
           WRITE( outfn, 3001 ) FIELDI( 1 )( 1 : 5 ),                           &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
          ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
@@ -11552,11 +11634,37 @@
            FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                       &
            FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                       &
            FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
-            IF ( qprod ) THEN
-               WRITE( outfn, 3019 ) 'X     ', 'Y     '
-            ELSE
-               WRITE( outfn, 3019 ) 'X     '
-            END IF
+          IF ( qprod ) THEN
+            WRITE( outfn, 3019 ) 'X     ', 'Y     '
+          ELSE
+            WRITE( outfn, 3019 ) 'X     '
+          END IF
+        ELSE IF ( realpr == 128 ) THEN
+          WRITE( outfn, 3002 ) FIELDI( 1 )( 1 : 5 ),                           &
+          FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
+         ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
+           FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),       &
+           FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),&
+           FIELDI( 12 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),       &
+           FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                       &
+           FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                       &
+           FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                       &
+           FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                       &
+           FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                       &
+           FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                       &
+           FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                       &
+           FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                       &
+           FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
+           FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                       &
+           pname, TRIM( version ),                                             &
+           FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                       &
+           FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                       &
+           FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
+          IF ( qprod ) THEN
+            WRITE( outfn, 3018 ) 'X     ', 'Y     '
+          ELSE
+            WRITE( outfn, 3018 ) 'X     '
+          END IF
         ELSE
           WRITE( outfn, 3000 ) FIELDI( 1 )( 1 : 6 ),                           &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
@@ -11611,7 +11719,7 @@
           IF ( ETYPES( itype ) == cqsqr ) THEN
             WRITE( outfn, 3060 ) ETYPES( itype )
             IF ( neltype > 1 ) WRITE( outfn, 3061 ) itype
-            IF ( single ) THEN
+            IF ( realpr == 32 .OR. realpr == 128 ) THEN
               WRITE( outfn, 3053 ) 'E', 'E'
             ELSE
               WRITE( outfn, 3053 ) 'D', 'D'
@@ -11625,7 +11733,7 @@
           ELSE IF ( ETYPES( itype ) == cqprod ) THEN
             WRITE( outfn, 3060 ) ETYPES( itype )
             IF ( neltype > 1 ) WRITE( outfn, 3061 ) itype
-            IF ( single ) THEN
+            IF ( realpr == 32 .OR. realpr == 128 ) THEN
               WRITE( outfn, 3054 ) 'E', 'E', 'E'
             ELSE
               WRITE( outfn, 3054 ) 'D', 'D', 'D'
@@ -11640,10 +11748,12 @@
 
 !  write a dummy range routine
 
-      IF ( single ) THEN
-         WRITE( outra, 4003 ) pname, TRIM( version )
+      IF ( realpr == 32 ) THEN
+         WRITE( outra, 4004 ) pname, TRIM( version )
+      ELSE IF ( realpr == 128 ) THEN
+         WRITE( outra, 4005 ) pname, TRIM( version )
       ELSE
-         WRITE( outra, 4002 ) pname, TRIM( version )
+         WRITE( outra, 4003 ) pname, TRIM( version )
       END IF
       WRITE( outra, 4080 )
       WRITE( outra, 4090 )
@@ -11676,7 +11786,7 @@
 ! --------- set a component of h
 
               IF ( .NOT. SETVEC( ihvar ) ) THEN
-                 IF ( single ) THEN
+                 IF ( realpr == 32 .OR. realpr == 128 ) THEN
                    WRITE( outfn, 3162 ) FIELDI(  3 )( 1 : 6 ),                 &
                                         FIELDI( 15 )( 1 : 6 ), ihvar
                  ELSE
@@ -11702,7 +11812,7 @@
           IF ( .NOT. endofg ) THEN
             DO ivar = 1, ninvar
               IF ( .NOT. SETVEC( ivar ) ) THEN
-                IF ( single ) THEN
+                IF ( realpr == 32 .OR. realpr == 128 ) THEN
                   WRITE( outfn, 3132 ) FIELDI(  3 )( 1 : 6 ),                  &
                                        FIELDI( 17 )( 1 : 6 ), ivar
                 ELSE
@@ -11840,7 +11950,28 @@
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
               '      INTEGER ', 5( A6, ', ' ), A6, /,                          &
               '      INTEGER ', A6 )
- 3002 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3002 FORMAT( '      SUBROUTINE ', A5, '_q( ', 5( A6, ', ' ), /,               &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', A6, /,                                         &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', A6, '(', A6, ')', /,                           &
+              '      REAL (REAL128)   ', A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, ')', /,                  &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              '      INTEGER ', 5( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', A6 )
+ 3003 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -11858,7 +11989,7 @@
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3003 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
+ 3004 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -11876,8 +12007,28 @@
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
+ 3005 FORMAT( '      SUBROUTINE ', A5, '_q( ', 5( A6, ', ' ), /,               &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', A6, /,                                         &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', A6, '(', A6, ')', /,                           &
+              '      REAL (REAL128)   ', A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, ')', /,                  &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
  3009 FORMAT( '      ', A6, ' = 0' )
  3010 FORMAT( ( '      INTEGER ', A6, :, 4( ', ', A6, : ) ) )
+ 3018 FORMAT( ( '      REAL (REAL128)   ', A6, :, 4( ', ', A6, : ) ) )
  3019 FORMAT( ( '      REAL             ', A6, :, 4( ', ', A6, : ) ) )
  3020 FORMAT( ( '      DOUBLE PRECISION ', A6, :, 4( ', ', A6, : ) ) )
  3021 FORMAT( ( '      INTRINSIC ', A6, :, 4( ', ', A6, : ) ) )
@@ -11978,7 +12129,21 @@
               'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
               'C', /,                                                          &
               '      INTEGER I' )
- 4002 FORMAT( '      SUBROUTINE RANGE( IELEMN, TRANSP, W1,',                   &
+ 4002 FORMAT( '      SUBROUTINE RANGE_q( IELEMN, TRANSP, W1,',                 &
+              ' W2, nelvar, ninvar,', /,                                       &
+              '     *                  itype, LW1, LW2 )', /,                  &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
+              ' LW1, LW2', /,                                                  &
+              '      LOGICAL TRANSP', /,                                       &
+              '      REAL (REAL128)   W1( LW1 ), W2( LW2 )', /,                &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
+              'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
+              'C', /,                                                          &
+              '      INTEGER I' )
+ 4003 FORMAT( '      SUBROUTINE RANGE( IELEMN, TRANSP, W1,',                   &
               ' W2, nelvar, ninvar,', /,                                       &
               '     *                  itype, LW1, LW2 )', /,                  &
               '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
@@ -11990,7 +12155,7 @@
               'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
               'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
               'C' )
- 4003 FORMAT( '      SUBROUTINE RANGE_s( IELEMN, TRANSP, W1,',                 &
+ 4004 FORMAT( '      SUBROUTINE RANGE_s( IELEMN, TRANSP, W1,',                 &
               ' W2, nelvar, ninvar,', /,                                       &
               '     *                  itype, LW1, LW2 )', /,                  &
               '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
@@ -12002,11 +12167,24 @@
               'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
               'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
               'C' )
+ 4005 FORMAT( '      SUBROUTINE RANGE_q( IELEMN, TRANSP, W1,',                 &
+              ' W2, nelvar, ninvar,', /,                                       &
+              '     *                  itype, LW1, LW2 )', /,                  &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
+              ' LW1, LW2', /,                                                  &
+              '      LOGICAL TRANSP', /,                                       &
+              '      REAL (REAL128)   W1( LW1 ), W2( LW2 )', /,                &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
+              'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
+              'C' )
  4040 FORMAT( '      GO TO (', 8( i5, :, ',' ), /,                             &
             ( '     *       ', 8( i5, :, ',' ) ) )
  4050 FORMAT( '     *        ', 48X, '), ITYPE' )
  4060 FORMAT( 'C', /, 'C  Element type : ', A10, /, 'C', /,                    &
-              i5, ' CONTINUE', /,                                              &
+              I5, ' CONTINUE', /,                                              &
               '      IF ( TRANSP ) THEN' )
  4070 FORMAT( 'C', /,                                                          &
               'C  Elements without internal variables.', /,                    &
@@ -12032,13 +12210,13 @@
                                 len_lonames, LONAMES, len_minames, MINAMES,    &
                                 len_exnames, EXNAMES, DEFINED,                 &
                                 length, TABLE, KEY, INLIST,                    &
-                                ETYPES, ELV, INV, EPNAMES, ELP, debug, single, &
+                                ETYPES, ELV, INV, EPNAMES, ELP, debug, realpr, &
                                 nuline, gotlin, iauto, iad0, print_level )
       INTEGER :: input, out, outff, outra, outfd, outem, status
       INTEGER :: nevnames, nivnames, nepnames, neltype
-      INTEGER :: length, print_level, iauto, iad0
+      INTEGER :: length, print_level, iauto, iad0, realpr
       INTEGER :: len_renames, len_innames, len_lonames, len_minames, len_exnames
-      LOGICAL :: debug, single, gotlin
+      LOGICAL :: debug, gotlin
       CHARACTER ( LEN = max_record_length ) :: nuline
       INTEGER, ALLOCATABLE, DIMENSION( : ) :: TABLE, INLIST
       INTEGER, DIMENSION( neltype + 1 ) :: ELV, INV, ELP
@@ -12127,7 +12305,7 @@
       CHARACTER ( LEN = 8 ) :: field3
       CHARACTER ( LEN = 10 ) :: field2, ctemp
       CHARACTER ( LEN = 12 ) :: field, header
-      CHARACTER ( LEN = 15 ) :: aorb
+      CHARACTER ( LEN = 18 ) :: aorb
       CHARACTER ( LEN = 24 ) :: bad_alloc
       CHARACTER ( LEN = 41 ) :: field7
       CHARACTER ( LEN = 72 ) :: ctem
@@ -12405,8 +12583,10 @@
 
 !  -------- set up subroutine call for range routine
 
-              IF ( single ) THEN
+              IF ( realpr == 32 ) THEN
                  WRITE( outra, 4001 ) pname, TRIM( version )
+              ELSE IF ( realpr == 128 ) THEN
+                 WRITE( outra, 4002 ) pname, TRIM( version )
               ELSE
                  WRITE( outra, 4000 ) pname, TRIM( version )
               END IF
@@ -12462,16 +12642,20 @@
 !  -------- set up subroutine call and reserved parameter declarations
 
           IF ( iauto == 1 ) THEN
-            IF ( single ) THEN
-              aorb = 'FORWARD_SINGLE '
+            IF ( realpr == 32 ) THEN
+              aorb = 'FORWARD_SINGLE    '
+            ELSE IF ( realpr == 128 ) THEN
+              aorb = 'FORWARD_QUADRUPLE '
             ELSE
-              aorb = 'FORWARD_DOUBLE '
+              aorb = 'FORWARD_DOUBLE    '
             END IF
           ELSE
-            IF ( single ) THEN
-              aorb = 'BACKWARD_SINGLE'
+            IF ( realpr == 32 ) THEN
+              aorb = 'BACKWARD_SINGLE   '
+            ELSE IF ( realpr == 128 ) THEN
+              aorb = 'BACKWARD_QUADRUPLE'
             ELSE
-              aorb = 'BACKWARD_DOUBLE'
+              aorb = 'BACKWARD_DOUBLE   '
             END IF
           END IF
           IF ( iad0 == 1 ) THEN
@@ -12479,90 +12663,147 @@
           ELSE
             ad0 = 'AD02'
           END IF
-          IF ( single ) THEN
+          IF ( realpr == 32 ) THEN
             IF ( loutff ) WRITE( outff, 3001 ) FIELDI( 1 )( 1 : 6 ),           &
-          FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
-         ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
-           FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),       &
-           FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),&
-           FIELDI( 12 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),       &
-           FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                       &
-           FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                       &
-           FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                       &
-           FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                       &
-           FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                       &
-           FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                       &
-           FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                       &
-           FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                       &
-           FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
-           FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                       &
-           pname, TRIM( version ),                                             &
-           FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                       &
-           FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                       &
-           FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
-            WRITE( outfd, 3005 ) FIELDI( 33 )( 1 : 5 ),                        &
-          FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
-        ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),           &
-          FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),        &
-          FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), ad0, aorb,             &
-          FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                        &
-        ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ), FIELDI(  6 )( 1 : 6 ),          &
-          FIELDI( 22 )( 1 : 6 ), FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ), &
-          FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                        &
-          FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                        &
-          FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                        &
-          FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                        &
-          FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                        &
-          FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                        &
-          FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                        &
-          FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                        &
-          pname, TRIM( version ),                                              &
-          FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                        &
-          FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                        &
-          FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                        &
-          FIELDI( 21 )( 1 : 6 ), maxnin
+                FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                  &
+                FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),   &
+                FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                  &
+              ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),                           &
+                FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                  &
+                FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                  &
+              ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                           &
+                FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                  &
+                FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                  &
+                FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                  &
+                FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                  &
+                FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                  &
+                FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                  &
+                FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                  &
+                FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                  &
+                FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                  &
+                FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                  &
+                pname, TRIM( version ),                                        &
+                FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                  &
+                FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                  &
+                FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                  &
+                FIELDI( 21 )( 1 : 6 )
+            WRITE( outfd, 3007 ) FIELDI( 33 )( 1 : 5 ),                        &
+               FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                   &
+               FIELDI( 18 )( 1 : 6 ),                                          &
+             ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),      &
+               FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),   &
+               FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), ad0, aorb,        &
+               FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                   &
+             ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ), FIELDI(  6 )( 1 : 6 ),     &
+               FIELDI( 22 )( 1 : 6 ), FIELDI(  7 )( 1 : 6 ),                   &
+               FIELDI( 23 )( 1 : 6 ),                                          &
+               FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                   &
+               FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                   &
+               FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                   &
+               FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                   &
+               FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                   &
+               FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                   &
+               FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                   &
+               FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                   &
+               pname, TRIM( version ),                                         &
+               FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                   &
+               FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                   &
+               FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                   &
+               FIELDI( 21 )( 1 : 6 ), maxnin
+          ELSE IF ( realpr == 128 ) THEN
+            IF ( loutff ) WRITE( outff, 3002 ) FIELDI( 1 )( 1 : 6 ),           &
+                FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                  &
+                FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),   &
+                FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                  &
+              ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),                           &
+                FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                  &
+                FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                  &
+              ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                           &
+                FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                  &
+                FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                  &
+                FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                  &
+                FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                  &
+                FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                  &
+                FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                  &
+                FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                  &
+                FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                  &
+                FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                  &
+                FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                  &
+                pname, TRIM( version ),                                        &
+                FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                  &
+                FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                  &
+                FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                  &
+                FIELDI( 21 )( 1 : 6 )
+            WRITE( outfd, 3008 ) FIELDI( 33 )( 1 : 5 ),                        &
+               FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                   &
+               FIELDI( 18 )( 1 : 6 ),                                          &
+             ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),      &
+               FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),   &
+               FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), ad0, aorb,        &
+               FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                   &
+             ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ), FIELDI(  6 )( 1 : 6 ),     &
+               FIELDI( 22 )( 1 : 6 ), FIELDI(  7 )( 1 : 6 ),                   &
+               FIELDI( 23 )( 1 : 6 ),                                          &
+               FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                   &
+               FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                   &
+               FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                   &
+               FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                   &
+               FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                   &
+               FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                   &
+               FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                   &
+               FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                   &
+               pname, TRIM( version ),                                         &
+               FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                   &
+               FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                   &
+               FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                   &
+               FIELDI( 21 )( 1 : 6 ), maxnin
           ELSE
             IF ( loutff ) WRITE( outff, 3000 ) FIELDI( 1 )( 1 : 6 ),           &
-          FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
-        ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),           &
-          FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),        &
-          FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ), &
-          FIELDI( 12 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),        &
-          FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                        &
-          FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                        &
-          FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                        &
-          FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                        &
-          FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                        &
-          FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                        &
-          FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                        &
-          FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                        &
-          FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                        &
-          FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                        &
-          pname, TRIM( version ),                                              &
-          FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                        &
-          FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                        &
-          FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
-            WRITE( outfd, 3004 ) FIELDI( 33 )( 1 : 6 ),                        &
-          FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
-        ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),           &
-          FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),        &
-          FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), ad0, aorb,             &
-          FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                        &
-        ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                                 &
-          FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ), FIELDI(  7 )( 1 : 6 ), &
-          FIELDI( 23 )( 1 : 6 ), FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ), &
-          FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                        &
-          FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                        &
-          FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                        &
-          FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                        &
-          FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                        &
-          FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                        &
-          FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                        &
-          pname, TRIM( version ),                                              &
-          FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                        &
-          FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                        &
-          FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                        &
-          FIELDI( 21 )( 1 : 6 ), maxnin
+                FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                  &
+                FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),   &
+                FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                  &
+              ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),                           &
+                FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                  &
+                FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                  &
+              ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                           &
+                FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                  &
+                FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                  &
+                FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                  &
+                FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                  &
+                FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                  &
+                FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                  &
+                FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                  &
+                FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                  &
+                FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                  &
+                FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                  &
+                pname, TRIM( version ),                                        &
+                FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                  &
+                FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                  &
+                FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                  &
+                FIELDI( 21 )( 1 : 6 )
+            WRITE( outfd, 3006 ) FIELDI( 33 )( 1 : 6 ),                        &
+               FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                   &
+               FIELDI( 18 )( 1 : 6 ),                                          &
+             ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),      &
+               FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),   &
+               FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), ad0, aorb,        &
+               FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                   &
+             ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ), FIELDI(  6 )( 1 : 6 ),     &
+               FIELDI( 22 )( 1 : 6 ), FIELDI(  7 )( 1 : 6 ),                   &
+               FIELDI( 23 )( 1 : 6 ),                                          &
+               FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                   &
+               FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                   &
+               FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                   &
+               FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                   &
+               FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                   &
+               FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                   &
+               FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                   &
+               FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                   &
+               pname, TRIM( version ),                                         &
+               FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),                   &
+               FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                   &
+               FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                   &
+               FIELDI( 21 )( 1 : 6 ), maxnin
           END IF
           IF ( iad0 == 1 ) THEN
             WRITE( outfd, 3024 ) maxnel, maxnin
@@ -12573,9 +12814,9 @@
 ! --------- insert integer declarations
 
           IF ( ninnames > 0 .AND. loutff )                                     &
-            WRITE( outff, 3010 ) ( INNAMES( i ), i = 1, ninnames )
+            WRITE( outff, 3014 ) ( INNAMES( i ), i = 1, ninnames )
           IF ( ninnames > 0 )                                                  &
-            WRITE( outfd, 3010 ) ( INNAMES( i ), i = 1, ninnames )
+            WRITE( outfd, 3014 ) ( INNAMES( i ), i = 1, ninnames )
 
 !  order the real values so that the list of variables which belong
 !  to intrinsic or external functions follow those which do not
@@ -12604,8 +12845,10 @@
 ! --------- insert real declarations
 
             IF ( loutff ) THEN
-              IF ( single ) THEN
+              IF ( realpr == 32 ) THEN
                 WRITE( outff, 3019 ) ( RENAMES( i ), i = 1, nrenames )
+              ELSE IF ( realpr == 128 ) THEN
+                WRITE( outff, 3026 ) ( RENAMES( i ), i = 1, nrenames )
               ELSE
                 WRITE( outff, 3020 ) ( RENAMES( i ), i = 1, nrenames )
               END IF
@@ -12644,25 +12887,31 @@
 
           IF ( xvar /= '      ' ) THEN
             IF ( yvar /= '      ' ) THEN
-              IF ( single ) THEN
+              IF ( realpr == 32 ) THEN
                 IF ( loutff ) WRITE( outff, 3019 ) xvar, yvar
                 WRITE( outfd, 3019 ) xvar, yvar
+              ELSE IF ( realpr == 128 ) THEN
+                IF ( loutff ) WRITE( outff, 3026 ) xvar, yvar
+                WRITE( outfd, 3026 ) xvar, yvar
               ELSE
                 IF ( loutff ) WRITE( outff, 3020 ) xvar, yvar
                 WRITE( outfd, 3020 ) xvar, yvar
               END IF
             ELSE
-              IF ( single ) THEN
+              IF ( realpr == 32 ) THEN
                 IF ( loutff ) WRITE( outff, 3019 ) xvar
                 WRITE( outfd, 3019 ) xvar
+              ELSE IF ( realpr == 128 ) THEN
+                IF ( loutff ) WRITE( outff, 3026 ) xvar
+                WRITE( outfd, 3026 ) xvar
               ELSE
                 IF ( loutff ) WRITE( outff, 3020 ) xvar
                 WRITE( outfd, 3020 ) xvar
               END IF
             END IF
           END IF
-          IF ( loutff ) WRITE( outff, 3009 ) FIELDI( 32 )( 1 : 6 )
-          WRITE( outfd, 3009 ) FIELDI( 32 )( 1 : 6 )
+          IF ( loutff ) WRITE( outff, 3013 ) FIELDI( 32 )( 1 : 6 )
+          WRITE( outfd, 3013 ) FIELDI( 32 )( 1 : 6 )
         END IF
 
 !  the general parameter assignments have been completed
@@ -12685,9 +12934,9 @@
                    FIELDI( 12 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),               &
                    FIELDI( 10 )( 1 : 6 ), FIELDI( 13 )( 1 : 6 )
           IF ( iad0 == 1 ) THEN
-            WRITE( outfd, 3008 )
+            WRITE( outfd, 3012 )
           ELSE
-            WRITE( outfd, 3011 )
+            WRITE( outfd, 3015 )
             DO i = 1, nrenm1
                WRITE( outfd, 3016 ) ad0, RENAMES( i )
             END DO
@@ -12727,7 +12976,7 @@
                  IF ( loutff ) WRITE( outff, 3061 ) itype
                  WRITE( outfd, 3061 ) itype
               END IF
-              IF ( single ) THEN
+              IF ( realpr == 32 .OR. realpr == 128 ) THEN
                  IF ( loutff ) WRITE( outff, 3055 ) 'E'
                  WRITE( outfd, 3057 ) xvar, 'E', xvar, xvar, xvar, 'E'
               ELSE
@@ -12750,7 +12999,7 @@
                  IF ( loutff ) WRITE( outff, 3061 ) itype
                  WRITE( outfd, 3061 ) itype
               END IF
-              IF ( single ) THEN
+              IF ( realpr == 32 .OR. realpr == 128 ) THEN
                 IF ( loutff ) WRITE( outff, 3056 )
                 WRITE( outfd, 3058 )                                           &
                   xvar, yvar, xvar, yvar, yvar, xvar, 'E', 'E', 'E'
@@ -13300,7 +13549,7 @@
                  IF ( setran ) THEN
                    CALL OUTRANGE_ad( nelv, ninv, U, outff, outfd,              &
                                      outra, EVNAMES( js + 1 ),                 &
-                                     IVNAMES( is + 1 ), single, ad0 )
+                                     IVNAMES( is + 1 ), realpr, ad0 )
                    setran = .FALSE.
                  END IF
 
@@ -13426,7 +13675,7 @@
                IF ( setran ) THEN
                  CALL OUTRANGE_ad( nelv, ninv, U, outff, outfd,                &
                                    outra, EVNAMES( js + 1 ),                   &
-                                   IVNAMES( is + 1 ), single, ad0 )
+                                   IVNAMES( is + 1 ), realpr, ad0 )
                  setran = .FALSE.
                END IF
 
@@ -13546,16 +13795,20 @@
 !  write a dummy elfun routine
 
       IF ( iauto == 1 ) THEN
-        IF ( single ) THEN
-          aorb = 'FORWARD_SINGLE '
+        IF ( realpr == 32 ) THEN
+          aorb = 'FORWARD_SINGLE    '
+        ELSE IF ( realpr == 128 ) THEN
+          aorb = 'FORWARD_QUADRUPLE '
         ELSE
-          aorb = 'FORWARD_DOUBLE '
+          aorb = 'FORWARD_DOUBLE    '
         END IF
       ELSE
-        IF ( single ) THEN
-          aorb = 'BACKWARD_SINGLE'
+        IF ( realpr == 32 ) THEN
+          aorb = 'BACKWARD_SINGLE   '
+        ELSE IF ( realpr == 128 ) THEN
+          aorb = 'BACKWARD_QUADRUPLE'
         ELSE
-          aorb = 'BACKWARD_DOUBLE'
+          aorb = 'BACKWARD_DOUBLE   '
         END IF
       END IF
       IF ( iad0 == 1 ) THEN
@@ -13564,8 +13817,8 @@
         ad0 = 'AD02'
       END IF
       IF ( neltype == 0 ) THEN
-        IF ( single ) THEN
-          IF ( loutff ) WRITE( outff, 3003 ) FIELDI( 1 )( 1 : 6 ),             &
+        IF ( realpr == 32 ) THEN
+          IF ( loutff ) WRITE( outff, 3007 ) FIELDI( 1 )( 1 : 6 ),             &
            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                       &
            FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),        &
            FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                       &
@@ -13583,7 +13836,44 @@
            FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                       &
            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
-          WRITE( outfd, 3007 ) FIELDI( 33 )( 1 : 5 ),                          &
+          WRITE( outfd, 3010 ) FIELDI( 33 )( 1 : 5 ),                          &
+           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                       &
+           FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),        &
+           FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                       &
+         ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),                                &
+           FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), ad0, aorb,            &
+           FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                       &
+         ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                                &
+           FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                       &
+           FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                       &
+           FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                       &
+           FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                       &
+           FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                       &
+           FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                       &
+           FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                       &
+           FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                       &
+           FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
+           FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
+        ELSE IF ( realpr == 128 ) THEN
+          IF ( loutff ) WRITE( outff, 3008 ) FIELDI( 1 )( 1 : 6 ),             &
+           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                       &
+           FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),        &
+           FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                       &
+         ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),                                &
+           FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                       &
+           FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                       &
+         ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                                &
+           FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                       &
+           FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                       &
+           FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                       &
+           FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                       &
+           FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                       &
+           FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                       &
+           FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                       &
+           FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                       &
+           FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
+           FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
+          WRITE( outfd, 3011 ) FIELDI( 33 )( 1 : 5 ),                          &
            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                       &
            FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),        &
            FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                       &
@@ -13602,7 +13892,7 @@
            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
         ELSE
-          IF ( loutff ) WRITE( outff, 3002 ) FIELDI( 1 )( 1 : 6 ),             &
+          IF ( loutff ) WRITE( outff, 3006 ) FIELDI( 1 )( 1 : 6 ),             &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                        &
           FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),         &
           FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                        &
@@ -13620,7 +13910,7 @@
           FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                        &
           FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                        &
           FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
-          WRITE( outfd, 3006 ) FIELDI( 33 )( 1 : 6 ),                          &
+          WRITE( outfd, 3009 ) FIELDI( 33 )( 1 : 6 ),                          &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                        &
           FIELDI( 18 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ),         &
           FIELDI( 19 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                        &
@@ -13639,51 +13929,56 @@
           FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                        &
           FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
         END IF
-        IF ( loutff ) WRITE( outff, 3009 ) FIELDI( 32 )( 1 : 6 )
-        WRITE( outfd, 3009 ) FIELDI( 32 )( 1 : 6 )
+        IF ( loutff ) WRITE( outff, 3013 ) FIELDI( 32 )( 1 : 6 )
+        WRITE( outfd, 3013 ) FIELDI( 32 )( 1 : 6 )
         IF ( loutff ) WRITE( outff, 3201 )
         WRITE( outfd, 3201 )
       ELSE
-        IF ( single ) THEN
+        IF ( realpr == 32 ) THEN
           IF ( loutff ) WRITE( outff, 3001 ) FIELDI( 1 )( 1 : 6 ),             &
-       FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),    &
-       ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),            &
-        FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),          &
-       FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),    &
-       FIELDI( 12 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),           &
-       FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                           &
-       FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                           &
-       FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                           &
-       FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                           &
-       FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                           &
-       FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                           &
-       FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                           &
-       FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                           &
-       FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                           &
-       FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                           &
-       pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),   &
-       FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                           &
-       FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
-          WRITE( outfd, 3103 ) FIELDI( 33 )( 1 : 5 ),                          &
-       FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),    &
-       ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),            &
-       FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),           &
-       FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                           &
-       FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                           &
-       ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                                  &
-       FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                           &
-       FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                           &
-       FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                           &
-       FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                           &
-       FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                           &
-       FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                           &
-       FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                           &
-       FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                           &
-       FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                           &
-       FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                           &
-       pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),   &
-       FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                           &
-       FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
+            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ),                                             &
+            ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),       &
+              FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),    &
+            FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                      &
+            FIELDI(  5 )( 1 : 6 ),                                             &
+            FIELDI( 12 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),      &
+            FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                      &
+            FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                      &
+            FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                      &
+            FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                      &
+            FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                      &
+            FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                      &
+            FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                      &
+            FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                      &
+            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                      &
+            pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ),                     &
+            FIELDI( 14 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),                      &
+            FIELDI( 16 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),                      &
+            FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
+          WRITE( outfd, 3102 ) FIELDI( 33 )( 1 : 5 ),                          &
+            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ),                                             &
+            ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),       &
+            FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),      &
+            FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                      &
+            FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                      &
+            ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                             &
+            FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                      &
+            FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                      &
+            FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                      &
+            FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                      &
+            FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                      &
+            FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                      &
+            FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                      &
+            FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                      &
+            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                      &
+            pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ),                     &
+            FIELDI( 14 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),                      &
+            FIELDI( 16 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),                      &
+            FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
           IF ( qprod ) THEN
             IF ( loutff ) WRITE( outff, 3019 ) 'X     ', 'Y     '
             WRITE( outfd, 3019 ) 'X     ', 'Y     '
@@ -13691,46 +13986,103 @@
             IF ( loutff ) WRITE( outff, 3019 ) 'X     '
              WRITE( outfd, 3019 ) 'X     '
           END IF
+        ELSE IF ( realpr == 128 ) THEN
+          IF ( loutff ) WRITE( outff, 3002 ) FIELDI( 1 )( 1 : 6 ),             &
+            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ),                                             &
+            ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),       &
+              FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),    &
+            FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                      &
+            FIELDI(  5 )( 1 : 6 ),                                             &
+            FIELDI( 12 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),      &
+            FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                      &
+            FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                      &
+            FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                      &
+            FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                      &
+            FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                      &
+            FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                      &
+            FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                      &
+            FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                      &
+            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                      &
+            pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ),                     &
+            FIELDI( 14 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),                      &
+            FIELDI( 16 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),                      &
+            FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
+          WRITE( outfd, 3103 ) FIELDI( 33 )( 1 : 5 ),                          &
+            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ),                                             &
+            ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),       &
+            FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),      &
+            FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                      &
+            FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                      &
+            ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                             &
+            FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                      &
+            FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                      &
+            FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                      &
+            FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                      &
+            FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                      &
+            FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                      &
+            FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                      &
+            FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                      &
+            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                      &
+            pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ),                     &
+            FIELDI( 14 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),                      &
+            FIELDI( 16 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),                      &
+            FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
+          IF ( qprod ) THEN
+            IF ( loutff ) WRITE( outff, 3026 ) 'X     ', 'Y     '
+            WRITE( outfd, 3026 ) 'X     ', 'Y     '
+          ELSE
+            IF ( loutff ) WRITE( outff, 3026 ) 'X     '
+             WRITE( outfd, 3026 ) 'X     '
+          END IF
         ELSE
           IF ( loutff ) WRITE( outff, 3000 ) FIELDI( 1 )( 1 : 6 ),             &
-       FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),    &
-       ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),            &
-       FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),           &
-       FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                           &
-       FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                           &
-       ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ), FIELDI(  6 )( 1 : 6 ),           &
-       FIELDI( 22 )( 1 : 6 ), FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),    &
-       FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                           &
-       FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                           &
-       FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                           &
-       FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                           &
-       FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                           &
-       FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                           &
-       FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                           &
-       FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                           &
-       pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),   &
-       FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                           &
-       FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),                           &
-       FIELDI( 21 )( 1 : 6 )
+            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ),                                             &
+            ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),       &
+              FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),    &
+            FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                      &
+            FIELDI(  5 )( 1 : 6 ),                                             &
+            FIELDI( 12 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),      &
+            FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                      &
+            FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                      &
+            FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                      &
+            FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                      &
+            FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                      &
+            FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                      &
+            FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                      &
+            FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                      &
+            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                      &
+            pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ),                     &
+            FIELDI( 14 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),                      &
+            FIELDI( 16 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),                      &
+            FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
           WRITE( outfd, 3000 ) FIELDI( 33 )( 1 : 6 ),                          &
-       FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),    &
-       ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),            &
-       FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),           &
-       FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),    &
-       FIELDI( 12 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),           &
-       FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                           &
-       FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                           &
-       FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                           &
-       FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                           &
-       FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                           &
-       FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                           &
-       FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                           &
-       FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                           &
-       FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                           &
-       FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                           &
-       pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ), FIELDI( 14 )( 1 : 6 ),   &
-       FIELDI( 15 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),                           &
-       FIELDI( 17 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
+            FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ),                                             &
+            ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),       &
+            FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),      &
+            FIELDI( 12 )( 1 : 6 ), FIELDI( 32 )( 1 : 6 ),                      &
+            FIELDI(  5 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),                      &
+            ( FIELDI(  i )( 1 : 6 ), i = 22, 32 ),                             &
+            FIELDI(  6 )( 1 : 6 ), FIELDI( 22 )( 1 : 6 ),                      &
+            FIELDI(  7 )( 1 : 6 ), FIELDI( 23 )( 1 : 6 ),                      &
+            FIELDI(  8 )( 1 : 6 ), FIELDI( 24 )( 1 : 6 ),                      &
+            FIELDI(  9 )( 1 : 6 ), FIELDI( 25 )( 1 : 6 ),                      &
+            FIELDI( 10 )( 1 : 6 ), FIELDI( 26 )( 1 : 6 ),                      &
+            FIELDI( 19 )( 1 : 6 ), FIELDI( 27 )( 1 : 6 ),                      &
+            FIELDI( 11 )( 1 : 6 ), FIELDI( 28 )( 1 : 6 ),                      &
+            FIELDI(  3 )( 1 : 6 ), FIELDI( 29 )( 1 : 6 ),                      &
+            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                      &
+            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ),                      &
+            pname, TRIM( version ), FIELDI( 13 )( 1 : 6 ),                     &
+            FIELDI( 14 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),                      &
+            FIELDI( 16 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),                      &
+            FIELDI( 20 )( 1 : 6 ), FIELDI( 21 )( 1 : 6 )
           IF ( qprod ) THEN
             IF ( loutff ) WRITE( outff, 3020 ) 'X     ', 'Y     '
             WRITE( outfd, 3020 ) 'X     ', 'Y     '
@@ -13739,8 +14091,8 @@
             WRITE( outfd, 3020 ) 'X     '
           END IF
         END IF
-        IF ( loutff ) WRITE( outff, 3009 ) FIELDI( 32 )( 1 : 6 )
-        WRITE( outfd, 3009 ) FIELDI( 32 )( 1 : 6 )
+        IF ( loutff ) WRITE( outff, 3013 ) FIELDI( 32 )( 1 : 6 )
+        WRITE( outfd, 3013 ) FIELDI( 32 )( 1 : 6 )
         IF ( loutff ) WRITE( outff, 3050 ) nloop,                              &
                 FIELDI( 21 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),                  &
                 FIELDI( 13 )( 1 : 6 ), FIELDI( 11 )( 1 : 6 ),                  &
@@ -13785,7 +14137,7 @@
             WRITE( outfd, 3060 ) ETYPES( itype )
             IF ( neltype > 1 ) WRITE( outff, 3061 ) itype
             IF ( neltype > 1 ) WRITE( outfd, 3061 ) itype
-            IF ( single ) THEN
+            IF ( realpr == 32 .OR. realpr == 128 ) THEN
               IF ( loutff ) WRITE( outff, 3055 ) 'E'
               WRITE( outfd, 3053 ) 'E', 'E'
             ELSE
@@ -13808,7 +14160,7 @@
               IF ( loutff ) WRITE( outff, 3061 ) itype
               WRITE( outfd, 3061 ) itype
             END IF
-            IF ( single ) THEN
+            IF ( realpr == 32 .OR. realpr == 128 ) THEN
               IF ( loutff ) WRITE( outff, 3056 )
               WRITE( outfd, 3054 ) 'E', 'E', 'E'
             ELSE
@@ -13833,10 +14185,12 @@
 
 !  write a dummy range routine
 
-      IF ( single ) THEN
-        WRITE( outra, 4003 ) pname, TRIM( version )
+      IF ( realpr == 32 ) THEN
+        WRITE( outra, 4004 ) pname, TRIM( version )
+      ELSE IF ( realpr == 128 ) THEN
+        WRITE( outra, 4005 ) pname, TRIM( version )
       ELSE
-        WRITE( outra, 4002 ) pname, TRIM( version )
+        WRITE( outra, 4003 ) pname, TRIM( version )
       END IF
       WRITE( outra, 4080 )
       WRITE( outra, 4090 )
@@ -13984,52 +14338,12 @@
  2980 FORMAT( ' Line ', I7, '.', I1, 1X, A )
  2990 FORMAT( ' Line ', I7, 3X, A )
  3000 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 2( A6, ', ' ), A6, ' )', /,               &
-        '      INTEGER ', 5( A6, ', ' ),  A6, /,                               &
-        '      INTEGER ', 5( A6, ', ' ),  A6, /,                               &
-        '      INTEGER ', 2( A6, '(', A6, '), ' ),                             &
-                             A6, '(', A6, ')', /,                              &
-        '      INTEGER ', 2( A6, '(', A6, '), ' ),                             &
-                             A6, '(', A6, ')', /,                              &
-        '      INTEGER ', A6, '(', A6, ')', /,                                 &
-        '      DOUBLE PRECISION ', A6, '(', A6, '), ',                         &
-                                   A6, '(', A6, '), ',                         &
-                                   A6, '(', A6, ')', /,                        &
-        'C', /, 'C  Problem name : ', A10, /,                                  &
-        'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,                  &
-        '      INTEGER ', 5( A6, ', ' ), A6, /,                                &
-        '      INTEGER ', A6 )
- 3001 FORMAT( '      SUBROUTINE ', A6, '_s( ', 5( A6, ', ' ), /,               &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 2( A6, ', ' ), A6, ' )', /,               &
-        '      INTEGER ', 5( A6, ', ' ),  A6, /,                               &
-        '      INTEGER ', 5( A6, ', ' ),  A6, /,                               &
-        '      INTEGER ', A6, /,                                               &
-        '      INTEGER ', 2( A6, '(', A6, '), ' ),                             &
-                             A6, '(', A6, ')', /,                              &
-        '      INTEGER ', 2( A6, '(', A6, '), ' ),                             &
-                             A6, '(', A6, ')', /,                              &
-        '      INTEGER ', A6, '(', A6, ')', /,                                 &
-        '      REAL             ', A6, '(', A6, '), ',                         &
-                                   A6, '(', A6, '), ',                         &
-                                   A6, '(', A6, ')', /,                        &
-        'C', /, 'C  Problem name : ', A10, /,                                  &
-        'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,                  &
-        '      INTEGER ', 5( A6, ', ' ), A6, /,                                &
-        '      INTEGER ', A6 )
- 3002 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
               '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
               '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
-              '      INTEGER ', A6, /,                                         &
               '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
                                    A6, '(', A6, ')', /,                        &
               '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
@@ -14039,8 +14353,10 @@
                                          A6, '(', A6, '), ',                   &
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
-              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3003 FORMAT( '      SUBROUTINE ', A6, '_s( ', 5( A6, ', ' ), /,                 &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              '      INTEGER ', 5( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', A6 )
+ 3001 FORMAT( '      SUBROUTINE ', A6, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
@@ -14057,13 +14373,36 @@
                                          A6, '(', A6, '), ',                   &
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
-              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3004 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              '      INTEGER ', 5( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', A6 )
+ 3002 FORMAT( '      SUBROUTINE ', A6, '_q( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
-       '      USE HSL_', A4, '_', A15, /, '      INTEGER ',                    &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', A6, /,                                         &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', A6, '(', A6, ')', /,                           &
+              '      REAL (REAL128)   ', A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, ')', /,                  &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              '      INTEGER ', 5( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', A6 )
+ 3006 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
+       '      USE HSL_', A4, '_', A18, /, '      INTEGER ',                    &
         5( A6, ', ' ),  A6, /, '      INTEGER ', 5( A6, ', ' ),  A6, /,        &
        '      INTEGER ', A6, /, '      INTEGER ', 2( A6, '(',                  &
        A6, '), ' ), A6, '(', A6, ')', /,                                       &
@@ -14079,12 +14418,12 @@
               '      INTEGER, POINTER :: H_index( : ) ', /,                    &
               '      DOUBLE PRECISION, POINTER :: H_result( : ) ', /,          &
               '      DOUBLE PRECISION X_int( ', i6, ') ' )
- 3005 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
+ 3007 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
-       '      USE HSL_', A4, '_', A15, /, '      INTEGER ', 5( A6,             &
+       '      USE HSL_', A4, '_', A18, /, '      INTEGER ', 5( A6,             &
        ', ' ),  A6, /, '      INTEGER ', 5( A6, ', ' ),  A6, /,                &
        '      INTEGER ', A6, /, '      INTEGER ', 2( A6, '(', A6,              &
        '), ' ), A6, '(', A6, ')', /,                                           &
@@ -14100,12 +14439,34 @@
               '      INTEGER, POINTER :: H_index( : ) ', /,                    &
               '      REAL, POINTER :: H_result( : ) ', /,                      &
               '      REAL X_int( ', i6, ') ' )
- 3006 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3008 FORMAT( '      SUBROUTINE ', A5, '_q( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
-              '      USE HSL_', A4, '_', A15, /,                               &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      USE HSL_', A4, '_', A18, /, '      INTEGER ', 5( A6,      &
+              ', ' ),  A6, /, '      INTEGER ', 5( A6, ', ' ),  A6, /,         &
+              '      INTEGER ', A6, /, '      INTEGER ', 2( A6, '(', A6,       &
+              '), ' ), A6, '(', A6, ')', /,                                    &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', A6, '(', A6, ')', /,                           &
+              '      REAL (REAL128)   ', A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, ')', /,                  &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+       '      INTEGER ', 5( A6, ', ' ), A6, /, '      INTEGER ', A6, /,        &
+              '      INTEGER, POINTER :: H_index( : ) ', /,                    &
+              '      REAL, POINTER :: H_result( : ) ', /,                      &
+              '      REAL X_int( ', i6, ') ' )
+ 3009 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
+              '      USE HSL_', A4, '_', A18, /,                               &
               '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
               '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
               '      INTEGER ', A6, /,                                         &
@@ -14119,12 +14480,12 @@
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3007 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
+ 3010 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
-              '      USE HSL_', A4, '_', A15, /,                               &
+              '      USE HSL_', A4, '_', A18, /,                               &
               '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
               '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
               '      INTEGER ', A6, /,                                         &
@@ -14138,17 +14499,30 @@
                                          A6, '(', A6, ')', /,                  &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3008 FORMAT( '      X_AD01_int = AD01_UNDEFINED' )
-!3008 format( '      call ad01_undefine( x_ad01_int ) ' )
- 3009 FORMAT( '      ', A6, ' = 0' )
- 3010 FORMAT( ( '      INTEGER ', A6, :, 4( ', ', A6, : ) ) )
-!3011 format( '      nullify( data_ad02 )', /,
-!    *        '      call ad02_initialize(ifflag-1, x_value(1),', /,
-!    *        '     *          xvalue(ielvar(istaev(1)+1)),', /,
-!    *        '     *                      data_ad02, 0)' )
- 3011 FORMAT( '      CALL AD02_INITIALIZE_DATA(DATA_AD02, ERROR_AD02)' )
-!3015 format( '       call ', a4, '_undefine( ', a6,
-!    *        ', data_ad02 )' )
+ 3011 FORMAT( '      SUBROUTINE ', A5, '_q( ', 5( A6, ', ' ), /,               &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      USE HSL_', A4, '_', A18, /,                               &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', A6, /,                                         &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', A6, '(', A6, ')', /,                           &
+              '      REAL (REAL128)   ', A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, ')', /,                  &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
+ 3012 FORMAT( '      X_AD01_int = AD01_UNDEFINED' )
+ 3013 FORMAT( '      ', A6, ' = 0' )
+ 3014 FORMAT( ( '      INTEGER ', A6, :, 4( ', ', A6, : ) ) )
+ 3015 FORMAT( '      CALL AD02_INITIALIZE_DATA(DATA_AD02, ERROR_AD02)' )
  3016 FORMAT( '      CALL ', A4, '_UNDEFINE( ', A6,                            &
               ', DATA_AD02 )' )
  3017 FORMAT( ( '      TYPE (', A4, '_REAL) :: ', A6 ) )
@@ -14167,6 +14541,7 @@
               '      TYPE (AD02_REAL) :: X_value(', i6, '),',                  &
                    ' X_AD02_int(',I6, ')', /,                                  &
               '      TYPE (AD02_DATA), POINTER :: DATA_AD02' )
+ 3026 FORMAT( ( '      REAL (REAL128)   ', A6, :, 4( ', ', A6, : ) ) )
  3030 FORMAT( '      ', A6, ' = ', A41 )
  3031 FORMAT( '      IF (', A6, ') ', A6, ' = ', A41 )
  3032 FORMAT( '      IF (.NOT.', A6, ') ', A6, ' = ', A41 )
@@ -14257,26 +14632,47 @@
  3100 FORMAT( '       IF ( ', A6, ' == 1 ) THEN', /,                           &
               '        ', A6, '(', A6, ')= ', A41 )
  3101 FORMAT( '       F_value = ', A41 )
- 3103 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 5( A6, ', ' ), /,                         &
-        '     *                   ', 2( A6, ', ' ), A6, ' )', /,               &
-        '      INTEGER ', 5( A6, ', ' ),  A6, /,                               &
-        '      INTEGER ', 5( A6, ', ' ),  A6, /,                               &
-        '      INTEGER ', A6, /,                                               &
-        '      INTEGER ', 2( A6, '(', A6, '), ' ),                             &
-                             A6, '(', A6, ')', /,                              &
-        '      INTEGER ', 2( A6, '(', A6, '), ' ),                             &
-                             A6, '(', A6, ')', /,                              &
-        '      INTEGER ', A6, '(', A6, ')', /,                                 &
-        '      REAL             ', A6, '(', A6, '), ',                         &
-                                   A6, '(', A6, '), ',                         &
+ 3102 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', A6, /,                                         &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
                                    A6, '(', A6, ')', /,                        &
-        'C', /, 'C  Problem name : ', A10, /,                                  &
-        'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,                  &
-        '      INTEGER ', 5( A6, ', ' ), A6, /,                                &
-        '      INTEGER ', A6 )
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', A6, '(', A6, ')', /,                           &
+              '      REAL             ', A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, ')', /,                  &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              '      INTEGER ', 5( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', A6 )
+ 3103 FORMAT( '      SUBROUTINE ', A5, '_q( ', 5( A6, ', ' ), /,               &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 2( A6, ', ' ), A6, ' )', /,         &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', 5( A6, ', ' ),  A6, /,                         &
+              '      INTEGER ', A6, /,                                         &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', 2( A6, '(', A6, '), ' ),                       &
+                                   A6, '(', A6, ')', /,                        &
+              '      INTEGER ', A6, '(', A6, ')', /,                           &
+              '      REAL (REAL128)   ', A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, '), ',                   &
+                                         A6, '(', A6, ')', /,                  &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              '      INTEGER ', 5( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', A6 )
  3110 FORMAT( '     *                  ', A41 )
  3120 FORMAT( '       ELSE' )
  3121 FORMAT( '        WRITE(6,*) '' impossible value IFFLAG = '', ',          &
@@ -14339,7 +14735,7 @@
               'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
               'C', /,                                                          &
               '      INTEGER I' )
- 4001 FORMAT( '      SUBROUTINE RANGE( IELEMN, TRANSP, W1,',                   &
+ 4001 FORMAT( '      SUBROUTINE RANGE_s( IELEMN, TRANSP, W1,',                 &
               ' W2, nelvar, ninvar,', /,                                       &
               '     *                  itype, LW1, LW2 )', /,                  &
               '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
@@ -14352,7 +14748,21 @@
               'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
               'C', /,                                                          &
               '      INTEGER I' )
- 4002 FORMAT( '      SUBROUTINE RANGE( IELEMN, TRANSP, W1,',                   &
+ 4002 FORMAT( '      SUBROUTINE RANGE_q( IELEMN, TRANSP, W1,',                 &
+              ' W2, nelvar, ninvar,', /,                                       &
+              '     *                  itype, LW1, LW2 )', /,                  &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
+              ' LW1, LW2', /,                                                  &
+              '      LOGICAL TRANSP', /,                                       &
+              '      REAL (REAL128)   W1( LW1 ), W2( LW2 )', /,                &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
+              'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
+              'C', /,                                                          &
+              '      INTEGER I' )
+ 4003 FORMAT( '      SUBROUTINE RANGE( IELEMN, TRANSP, W1,',                   &
               ' W2, nelvar, ninvar,', /,                                       &
               '     *                  itype, LW1, LW2 )', /,                  &
               '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
@@ -14364,13 +14774,26 @@
               'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
               'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
               'C' )
- 4003 FORMAT( '      SUBROUTINE RANGE( IELEMN, TRANSP, W1,',                   &
+ 4004 FORMAT( '      SUBROUTINE RANGE_s( IELEMN, TRANSP, W1,',                 &
               ' W2, nelvar, ninvar,', /,                                       &
               '     *                  itype, LW1, LW2 )', /,                  &
               '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
               ' LW1, LW2', /,                                                  &
               '      LOGICAL TRANSP', /,                                       &
               '      REAL             W1( LW1 ), W2( LW2 )', /,                &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
+              'C  TRANSP = .TRUE.  <=> W2 = U(transpose) * W1', /,             &
+              'C' )
+ 4005 FORMAT( '      SUBROUTINE RANGE_q( IELEMN, TRANSP, W1,',                 &
+              ' W2, nelvar, ninvar,', /,                                       &
+              '     *                  itype, LW1, LW2 )', /,                  &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER IELEMN, nelvar, ninvar, itype,',                  &
+              ' LW1, LW2', /,                                                  &
+              '      LOGICAL TRANSP', /,                                       &
+              '      REAL (REAL128)   W1( LW1 ), W2( LW2 )', /,                &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
               'C  TRANSP = .FALSE. <=> W2 = U * W1', /,                        &
@@ -14405,12 +14828,12 @@
                              len_lonames, LONAMES, len_minames, MINAMES,       &
                              len_exnames, EXNAMES, GPNAMES, DEFINED,           &
                              GTYPES, GTYPESP_ptr, debug, length,               &
-                             TABLE, KEY, INLIST, single, nuline, gotlin,       &
+                             TABLE, KEY, INLIST, realpr, nuline, gotlin,       &
                              print_level )
       INTEGER :: input, out, outgr, status, length, print_level
-      INTEGER :: ngtype, ngpnames
+      INTEGER :: ngtype, ngpnames, realpr
       INTEGER :: len_renames, len_innames, len_lonames, len_minames, len_exnames
-      LOGICAL :: gotlin, debug, single
+      LOGICAL :: gotlin, debug
       CHARACTER ( LEN = 10 ) :: pname
       CHARACTER ( LEN = max_record_length ) :: nuline
       INTEGER :: GTYPESP_ptr( ngtype + 1 )
@@ -14725,8 +15148,26 @@
 
 !  -------- set up subroutine call and reserved parameter declarations
 
-          IF ( single ) THEN
+          IF ( realpr == 32 ) THEN
             WRITE( outgr, 3001 ) FIELDI( 1 )( 1 : 5 ),                         &
+                    ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                        &
+                      FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),            &
+                      FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),            &
+                      FIELDI(  7 )( 1 : 6 ),                                   &
+                    ( FIELDI(  i )( 1 : 6 ), i = 15, 19 ),                     &
+                      FIELDI(  8 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),            &
+                      FIELDI(  3 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),            &
+                    ( FIELDI(  i )( 1 : 6 ), i = 15, 20 ),                     &
+                      FIELDI(  8 )( 1 : 6 ),                                   &
+                      FIELDI(  6 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),            &
+                      FIELDI( 12 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),            &
+                      FIELDI(  7 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),            &
+                      FIELDI(  2 )( 1 : 6 ), FIELDI(  3 )( 1 : 6 ),            &
+                      FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),            &
+                      FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),            &
+                      pname, TRIM( version )
+          ELSE IF ( realpr == 128 ) THEN
+            WRITE( outgr, 3002 ) FIELDI( 1 )( 1 : 5 ),                         &
                     ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                        &
                       FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),            &
                       FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),            &
@@ -14765,7 +15206,7 @@
             WRITE( outgr, 3009 ) FIELDI( 20 )( 1 : 6 )
             GO TO 910
           END IF
-          WRITE( outgr, 3002 ) FIELDI(  9 )( 1 : 6 ),                          &
+          WRITE( outgr, 3003 ) FIELDI(  9 )( 1 : 6 ),                          &
                         FIELDI( 10 )( 1 : 6 ), FIELDI( 13 )( 1 : 6 ),          &
                         FIELDI( 14 )( 1 : 6 )
 
@@ -14777,8 +15218,10 @@
 ! --------- insert real declarations
 
           IF ( nrenames > 0 ) THEN
-            IF ( single ) THEN
+            IF ( realpr == 32 ) THEN
               WRITE( outgr, 3019 ) ( RENAMES( i ), i = 1, nrenames )
+            ELSE IF ( realpr == 128 ) THEN
+              WRITE( outgr, 3018 ) ( RENAMES( i ), i = 1, nrenames )
             ELSE
               WRITE( outgr, 3020 ) ( RENAMES( i ), i = 1, nrenames )
             END IF
@@ -15339,8 +15782,26 @@
 
 !  write a dummy groups routine
 
-      IF ( single ) THEN
+      IF ( realpr == 32 ) THEN
          WRITE( outgr, 3001 ) FIELDI( 1 )( 1 : 5 ),                            &
+                  ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
+                    FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
+                    FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
+                    FIELDI(  7 )( 1 : 6 ),                                     &
+                  ( FIELDI(  i )( 1 : 6 ), i = 15, 19 ),                       &
+                    FIELDI(  8 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),              &
+                    FIELDI(  3 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
+                  ( FIELDI(  i )( 1 : 6 ), i = 15, 20 ),                       &
+                    FIELDI(  8 )( 1 : 6 ),                                     &
+                    FIELDI(  6 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),              &
+                    FIELDI( 12 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),              &
+                    FIELDI(  7 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),              &
+                    FIELDI(  2 )( 1 : 6 ), FIELDI(  3 )( 1 : 6 ),              &
+                    FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),              &
+                    FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),              &
+                    pname, TRIM( version )
+      ELSE IF ( realpr == 128 ) THEN
+         WRITE( outgr, 3002 ) FIELDI( 1 )( 1 : 5 ),                            &
                   ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
                     FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
                     FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
@@ -15518,9 +15979,24 @@
                                       '(', A6, ')', /,                         &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3002 FORMAT( '      INTEGER ', A6, ', ', A6, ', ', A6, ', ', A6 )
+ 3002 FORMAT( '      SUBROUTINE ', A5, '_q( ', 5( A6, ', ' ), /,               &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
+              '      LOGICAL ', A6, /,                                         &
+              '      INTEGER ', A6, '(', A6, '), ', A6, '(', A6,               &
+                             '), ', A6, '(', A6, ')', /,                       &
+              '      REAL (REAL128)   ', A6, '(', A6, ',3), ',                 &
+                                         A6, '(', A6, '), ', A6,               &
+                                      '(', A6, ')', /,                         &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
+ 3003 FORMAT( '      INTEGER ', A6, ', ', A6, ', ', A6, ', ', A6 )
  3009 FORMAT( '      ', A6, ' = 0' )
  3010 FORMAT( ( '      INTEGER ', A6, 4( :, ', ', A6 ) ) )
+ 3018 FORMAT( ( '      REAL (REAL128)   ', A6, 4( :, ', ', A6 ) ) )
  3019 FORMAT( ( '      REAL             ', A6, 4( :, ', ', A6 ) ) )
  3020 FORMAT( ( '      DOUBLE PRECISION ', A6, 4( :, ', ', A6 ) ) )
  3021 FORMAT( ( '      INTRINSIC ', A6, 4( :, ', ', A6 ) ) )
@@ -15573,13 +16049,12 @@
                                  len_lonames, LONAMES, len_minames, MINAMES,   &
                                  len_exnames, EXNAMES, GPNAMES,                &
                                  DEFINED, GTYPES, GTYPESP_ptr,                 &
-                                 debug, length, TABLE, KEY, INLIST, single,    &
+                                 debug, length, TABLE, KEY, INLIST, realpr,    &
                                  nuline, gotlin, iauto, iad0, print_level )
-      INTEGER :: input, out, outgf, status, length
-      INTEGER :: ngtype, ngpnames
-      INTEGER :: print_level, outgd, outem, iauto, iad0
+      INTEGER :: input, out, outgf, status, length, ngtype, ngpnames
+      INTEGER :: print_level, outgd, outem, iauto, iad0, realpr
       INTEGER :: len_renames, len_innames, len_lonames, len_minames, len_exnames
-      LOGICAL :: gotlin, debug, single
+      LOGICAL :: gotlin, debug
       CHARACTER ( LEN = 10 ) ::  pname
       CHARACTER ( LEN = max_record_length ) :: nuline
       INTEGER :: GTYPESP_ptr( ngtype + 1 )
@@ -15658,7 +16133,7 @@
       CHARACTER ( LEN = 8 ) :: field2, field3
       CHARACTER ( LEN = 10 ) :: ctemp
       CHARACTER ( LEN = 12 ) :: field, header
-      CHARACTER ( LEN = 15 ) :: aorb
+      CHARACTER ( LEN = 18 ) :: aorb
       CHARACTER ( LEN = 24 ) :: bad_alloc
       CHARACTER ( LEN = 41 ) :: field7
       CHARACTER ( LEN = 72 ) :: ctem
@@ -15901,16 +16376,20 @@
 !  -------- set up subroutine call and reserved parameter declarations
 
           IF ( iauto == 1 ) THEN
-            IF ( single ) THEN
-              aorb = 'FORWARD_SINGLE '
+            IF ( realpr == 32 ) THEN
+              aorb = 'FORWARD_SINGLE    '
+            ELSE IF ( realpr == 128 ) THEN
+              aorb = 'FORWARD_QUADRUPLE '
             ELSE
-              aorb = 'FORWARD_DOUBLE '
+              aorb = 'FORWARD_DOUBLE    '
             END IF
           ELSE
-            IF ( single ) THEN
-              aorb = 'BACKWARD_SINGLE'
+            IF ( realpr == 32 ) THEN
+              aorb = 'BACKWARD_SINGLE   '
+            ELSE IF ( realpr == 128 ) THEN
+              aorb = 'BACKWARD_QUADRUPLE'
             ELSE
-              aorb = 'BACKWARD_DOUBLE'
+              aorb = 'BACKWARD_DOUBLE   '
             END IF
           END IF
           IF ( iad0 == 1 ) THEN
@@ -15918,9 +16397,45 @@
           ELSE
             ad0 = 'AD02'
           END IF
-          IF ( single ) THEN
+          IF ( realpr == 32 ) THEN
             IF ( loutgf )                                                      &
               WRITE( outgf, 3001 ) FIELDI( 1 )( 1 : 6 ),                       &
+                          ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                  &
+                            FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),      &
+                            FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),      &
+                            FIELDI(  7 )( 1 : 6 ),                             &
+                          ( FIELDI(  i )( 1 : 6 ), i = 15, 19 ),               &
+                            FIELDI(  8 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),      &
+                            FIELDI(  3 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),      &
+                          ( FIELDI(  i )( 1 : 6 ), i = 15, 20 ),               &
+                            FIELDI(  8 )( 1 : 6 ),                             &
+                            FIELDI(  6 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),      &
+                            FIELDI( 12 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),      &
+                            FIELDI(  7 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),      &
+                            FIELDI(  2 )( 1 : 6 ), FIELDI(  3 )( 1 : 6 ),      &
+                            FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),      &
+                            FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),      &
+                            pname, TRIM( version )
+            WRITE( outgd, 3004 ) FIELDI( 21 )( 1 : 5 ),                        &
+                        ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                    &
+                          FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),        &
+                          FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),        &
+                          FIELDI(  7 )( 1 : 6 ),                               &
+                        ( FIELDI(  i )( 1 : 6 ), i = 15, 19 ),                 &
+                          FIELDI(  8 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),        &
+               ad0, aorb, FIELDI(  3 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),        &
+                        ( FIELDI(  i )( 1 : 6 ), i = 15, 20 ),                 &
+                          FIELDI(  8 )( 1 : 6 ),                               &
+                          FIELDI(  6 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),        &
+                          FIELDI( 12 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),        &
+                          FIELDI(  7 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),        &
+                          FIELDI(  2 )( 1 : 6 ), FIELDI(  3 )( 1 : 6 ),        &
+                          FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),        &
+                          FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),        &
+                          pname, TRIM( version )
+          ELSE IF ( realpr == 128 ) THEN
+            IF ( loutgf )                                                      &
+              WRITE( outgf, 3002 ) FIELDI( 1 )( 1 : 6 ),                       &
                           ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                  &
                             FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),      &
                             FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),      &
@@ -15972,7 +16487,7 @@
                             FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),      &
                             FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),      &
                             pname, TRIM( version )
-            WRITE( outgd, 3004 ) FIELDI( 21 )( 1 : 6 ),                        &
+            WRITE( outgd, 3003 ) FIELDI( 21 )( 1 : 6 ),                        &
                         ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                    &
                           FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),        &
                           FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),        &
@@ -16000,10 +16515,10 @@
              WRITE( outgd, 3009 ) FIELDI( 20 )( 1 : 6 )
              GO TO 910
           END IF
-          IF ( loutgf ) WRITE( outgf, 3002 ) FIELDI(  9 )( 1 : 6 ),            &
+          IF ( loutgf ) WRITE( outgf, 3012 ) FIELDI(  9 )( 1 : 6 ),            &
                           FIELDI( 10 )( 1 : 6 ), FIELDI( 13 )( 1 : 6 ),        &
                           FIELDI( 14 )( 1 : 6 )
-          WRITE( outgd, 3002 ) FIELDI(  9 )( 1 : 6 ),                          &
+          WRITE( outgd, 3012 ) FIELDI(  9 )( 1 : 6 ),                          &
                           FIELDI( 10 )( 1 : 6 ), FIELDI( 13 )( 1 : 6 ),        &
                           FIELDI( 14 )( 1 : 6 )
 
@@ -16040,9 +16555,12 @@
 
 ! --------- insert real declarations
 
-            IF ( single ) THEN
+            IF ( realpr == 32 ) THEN
               IF ( loutgf )                                                    &
                 WRITE( outgf, 3019 ) ( RENAMES( i ), i = 1, nrenames )
+            ELSE IF ( realpr == 128 ) THEN
+              IF ( loutgf )                                                    &
+                WRITE( outgf, 3018 ) ( RENAMES( i ), i = 1, nrenames )
             ELSE
              IF ( loutgf )                                                     &
                WRITE( outgf, 3020 ) ( RENAMES( i ), i = 1, nrenames )
@@ -16426,7 +16944,6 @@
           IF ( loutgf )                                                        &
           WRITE( outgf, 3063 ) GPNAMES( k ), FIELDI( 11 )( 1 : 6 ),            &
                                FIELDI( 13 )( 1 : 6 ), ivar
-!         if ( iad0 == 2 ) write( ioutgd, 3015 ) ad0, GPNAMES( k )
           WRITE( outgd, 3063 ) GPNAMES( k ), FIELDI( 11 )( 1 : 6 ),            &
                FIELDI( 13 )( 1 : 6 ), ivar
         END DO
@@ -16656,16 +17173,20 @@
 !  write a dummy group routine
 
       IF ( iauto == 1 ) THEN
-        IF ( single ) THEN
-          aorb = 'FORWARD_SINGLE '
+        IF ( realpr == 32 ) THEN
+          aorb = 'FORWARD_SINGLE    '
+        ELSE IF ( realpr == 128 ) THEN
+          aorb = 'FORWARD_QUADRUPLE '
         ELSE
-          aorb = 'FORWARD_DOUBLE '
+          aorb = 'FORWARD_DOUBLE    '
         END IF
       ELSE
-        IF ( single ) THEN
-          aorb = 'BACKWARD_SINGLE'
+        IF ( realpr == 32 ) THEN
+          aorb = 'BACKWARD_SINGLE   '
+        ELSE IF ( realpr == 128 ) THEN
+          aorb = 'BACKWARD_QUADRUPLE'
         ELSE
-          aorb = 'BACKWARD_DOUBLE'
+          aorb = 'BACKWARD_DOUBLE   '
         END IF
       END IF
       IF ( iad0 == 1 ) THEN
@@ -16673,9 +17194,45 @@
       ELSE
         ad0 = 'AD02'
       END IF
-      IF ( single ) THEN
+      IF ( realpr == 32 ) THEN
         IF ( loutgf )                                                          &
           WRITE( outgf, 3001 ) FIELDI( 1 )( 1 : 6 ),                           &
+                  ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
+                    FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
+                    FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
+                    FIELDI(  7 )( 1 : 6 ),                                     &
+                  ( FIELDI(  i )( 1 : 6 ), i = 15, 19 ),                       &
+                    FIELDI(  8 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),              &
+                    FIELDI(  3 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
+                  ( FIELDI(  i )( 1 : 6 ), i = 15, 20 ),                       &
+                    FIELDI(  8 )( 1 : 6 ),                                     &
+                    FIELDI(  6 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),              &
+                    FIELDI( 12 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),              &
+                    FIELDI(  7 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),              &
+                    FIELDI(  2 )( 1 : 6 ), FIELDI(  3 )( 1 : 6 ),              &
+                    FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),              &
+                    FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),              &
+                    pname, TRIM( version )
+        WRITE( outgd, 3004 ) FIELDI( 21 )( 1 : 5 ),                            &
+                  ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
+                    FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
+                    FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
+                    FIELDI(  7 )( 1 : 6 ),                                     &
+                  ( FIELDI(  i )( 1 : 6 ), i = 15, 19 ),                       &
+                    FIELDI(  8 )( 1 : 6 ), FIELDI( 20 )( 1 : 6 ),              &
+         ad0, aorb, FIELDI(  3 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
+                  ( FIELDI(  i )( 1 : 6 ), i = 15, 20 ),                       &
+                    FIELDI(  8 )( 1 : 6 ),                                     &
+                    FIELDI(  6 )( 1 : 6 ), FIELDI( 15 )( 1 : 6 ),              &
+                    FIELDI( 12 )( 1 : 6 ), FIELDI( 16 )( 1 : 6 ),              &
+                    FIELDI(  7 )( 1 : 6 ), FIELDI( 17 )( 1 : 6 ),              &
+                    FIELDI(  2 )( 1 : 6 ), FIELDI(  3 )( 1 : 6 ),              &
+                    FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),              &
+                    FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),              &
+                    pname, TRIM( version )
+      ELSE IF ( realpr == 128 ) THEN
+        IF ( loutgf )                                                          &
+          WRITE( outgf, 3002 ) FIELDI( 1 )( 1 : 6 ),                           &
                   ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
                     FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
                     FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
@@ -16727,7 +17284,7 @@
                     FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ),              &
                     FIELDI( 11 )( 1 : 6 ), FIELDI( 19 )( 1 : 6 ),              &
                     pname, TRIM( version )
-        WRITE( outgd, 3004 ) FIELDI( 21 )( 1 : 6 ),                            &
+        WRITE( outgd, 3003 ) FIELDI( 21 )( 1 : 6 ),                            &
                   ( FIELDI( i )( 1 : 6 ), i = 2, 4 ),                          &
                     FIELDI( 11 )( 1 : 6 ), FIELDI(  5 )( 1 : 6 ),              &
                     FIELDI(  6 )( 1 : 6 ), FIELDI( 12 )( 1 : 6 ),              &
@@ -16891,11 +17448,24 @@
                                       '(', A6, ')', /,                         &
               'C', /, 'C  Problem name : ', A10, /,                            &
               'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
- 3002 FORMAT( '      INTEGER ', A6, ', ', A6, ', ', A6, ', ', A6 )
- 3004 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+ 3002 FORMAT( '      SUBROUTINE ', A6, '_q( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
-              '      USE HSL_', A4, '_', A15, /,                               &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
+              '      LOGICAL ', A6, /,                                         &
+              '      INTEGER ', A6, '(', A6, '), ', A6, '(', A6,               &
+                             '), ', A6, '(', A6, ')', /,                       &
+              '      REAL (REAL128)   ', A6, '(', A6, ',3), ',                 &
+                                         A6, '(', A6, '), ', A6,               &
+                                      '(', A6, ')', /,                         &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C' )
+ 3003 FORMAT( '      SUBROUTINE ', A6, '( ', 5( A6, ', ' ), /,                 &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
+              '      USE HSL_', A4, '_', A18, /,                               &
               '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
               '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
               '      LOGICAL ', A6, /,                                         &
@@ -16909,10 +17479,10 @@
               '      INTEGER, POINTER :: H_index( : ) ', /,                    &
               '      DOUBLE PRECISION, POINTER :: H_result( : ) ', /,          &
               '      DOUBLE PRECISION :: A_int( 1 ) ' )
- 3005 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
+ 3004 FORMAT( '      SUBROUTINE ', A5, '_s( ', 5( A6, ', ' ), /,               &
               '     *                   ', 5( A6, ', ' ), /,                   &
               '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
-              '      USE HSL_', A4, '_', A15, /,                               &
+              '      USE HSL_', A4, '_', A18, /,                               &
               '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
               '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
               '      LOGICAL ', A6, /,                                         &
@@ -16926,6 +17496,24 @@
               '      INTEGER, POINTER :: H_index( : ) ', /,                    &
               '      REAL, POINTER :: H_result( : ) ', /,                      &
               '      REAL :: A_int( 1 ) ' )
+ 3005 FORMAT( '      SUBROUTINE ', A5, '_q( ', 5( A6, ', ' ), /,               &
+              '     *                   ', 5( A6, ', ' ), /,                   &
+              '     *                   ', 4( A6, ', ' ), A6, ' )', /,         &
+              '      USE ISO_FORTRAN_ENV', /,                                  &
+              '      USE HSL_', A4, '_', A18, /,                               &
+              '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
+              '      INTEGER ', 3( A6, ', ' ), A6, /,                          &
+              '      LOGICAL ', A6, /,                                         &
+              '      INTEGER ', A6, '(', A6, '), ', A6, '(', A6,               &
+                             '), ', A6, '(', A6, ')', /,                       &
+              '      REAL (REAL128)   ', A6, '(', A6, ',3), ',                 &
+                                         A6, '(', A6, '), ', A6,               &
+                                      '(', A6, ')', /,                         &
+              'C', /, 'C  Problem name : ', A10, /,                            &
+              'C', /, 'C  -- produced by SIFdecode ', A, /, 'C', /,            &
+              '      INTEGER, POINTER :: H_index( : ) ', /,                    &
+              '      REAL (REAL128), POINTER :: H_result( : ) ', /,            &
+              '      REAL (REAL128) :: A_int( 1 ) ' )
  3006 FORMAT( '      TYPE (AD01_REAL) :: G_value = AD01_UNDEFINED', /,         &
               '      TYPE (AD01_REAL) :: A_value( 1 )' )
  3007 FORMAT( '      INTEGER :: ERROR_AD02', /,                                &
@@ -16934,13 +17522,8 @@
               '      TYPE (AD02_DATA), POINTER :: DATA_AD02' )
  3009 FORMAT( '      ', A6, ' = 0' )
  3010 FORMAT( ( '      INTEGER ', A6, 4( :, ', ', A6 ) ) )
-!3011 format( '      nullify( data_ad02 )', /,
-!    *        '      call ad02_initialize(2, g_value,', /,
-!    *        '     *                     gvalue(1,1),', /,
-!    *        '     *                     data_ad02, 0)' )
  3011 FORMAT( '      CALL AD02_INITIALIZE_DATA(DATA_AD02, ERROR_AD02)' )
-!3015 format( '       call ', a4, '_undefine( ', a6,
-!    *        ', data_ad02 )' )
+ 3012 FORMAT( '      INTEGER ', A6, ', ', A6, ', ', A6, ', ', A6 )
  3016 FORMAT( '      CALL ', A4, '_UNDEFINE( ', A6,                            &
               ', DATA_AD02 )' )
  3017 FORMAT( ( '      TYPE (', A4, '_REAL) :: ', A6 ) )
@@ -17013,9 +17596,8 @@
 !-*-*-*-*- S I F D E C O D E   O U T R A N G E   S U B R O U T I N E -*-*-*-*-
 
       SUBROUTINE OUTRANGE( nelv, ninv, U, outfn, outra, EVNAMES, IVNAMES,      &
-                           single )
-      INTEGER :: nelv, ninv, outfn, outra
-      LOGICAL :: single
+                           realpr )
+      INTEGER :: nelv, ninv, outfn, outra, realpr
       REAL ( KIND = wp ) :: U( ninv, nelv )
       CHARACTER ( LEN = 10 ) :: EVNAMES( * ), IVNAMES( * )
 
@@ -17094,7 +17676,7 @@
           IF ( MOD( k, 19 ) == 0 ) WRITE( outra, 4112 ) j, j
         END DO
         IF ( .NOT. anynnz ) THEN
-          IF ( single ) THEN
+          IF ( realpr == 32 .OR. realpr == 128 ) THEN
             WRITE( outra, 4111 ) j
           ELSE
             WRITE( outra, 4110 ) j
@@ -17182,7 +17764,7 @@
           END IF
         END DO
         IF ( .NOT. anynnz ) THEN
-          IF ( single ) THEN
+          IF ( realpr == 32 .OR. realpr == 128 ) THEN
             WRITE( outfn, 3111 ) ivname
             WRITE( outra, 4111 ) i
           ELSE
@@ -17230,9 +17812,8 @@
 !-*-*- S I F D E C O D E   O U T R A N G E _ a d    S U B R O U T I N E -*-*-
 
       SUBROUTINE OUTRANGE_ad( nelv, ninv, U, outff, outfd, outra,              &
-                              EVNAMES, IVNAMES, single, ad0 )
-      INTEGER :: nelv, ninv, outff, outfd, outra
-      LOGICAL :: single
+                              EVNAMES, IVNAMES, realpr, ad0 )
+      INTEGER :: nelv, ninv, outff, outfd, outra, realpr
       CHARACTER ( LEN = 4 ) :: ad0
       REAL ( KIND = wp ) :: U( ninv, nelv )
       CHARACTER ( LEN = 10 ) :: EVNAMES( * ), IVNAMES( * )
@@ -17314,7 +17895,7 @@
           IF ( MOD( k, 19 ) == 0 ) WRITE( outra, 4112 ) j, j
         END DO
         IF ( .NOT. anynnz ) THEN
-          IF ( single ) THEN
+          IF ( realpr == 32 .OR. realpr == 128 ) THEN
             WRITE( outra, 4111 ) j
           ELSE
             WRITE( outra, 4110 ) j
@@ -17411,7 +17992,7 @@
           END IF
         END DO
         IF ( .NOT. anynnz ) THEN
-          IF ( single ) THEN
+          IF ( realpr == 32 .OR. realpr == 128 ) THEN
             IF ( loutff ) WRITE( outff, 3120 ) ivname
             WRITE( outfd, 3121 ) ad0, i
             WRITE( outra, 4111 ) i
@@ -17862,13 +18443,12 @@
 
 !-*-*-*-*-*- S I F D E C O D E   T R A N S    S U B R O U T I N E -*-*-*-*-*-
 
-      SUBROUTINE TRANSLATE_for_ad( out, status, input, output, tempry, single, &
+      SUBROUTINE TRANSLATE_for_ad( out, status, input, output, tempry, realpr, &
                                    iauto, iad0, len_rinames, RINAMES,  &
                                    len_dummy, DUMMY )
       INTEGER :: out, status, input, output, tempry, iauto, iad0
-      INTEGER :: len_rinames, len_dummy
+      INTEGER :: len_rinames, len_dummy, realpr
       CHARACTER ( LEN = 10 ), ALLOCATABLE, DIMENSION( : ) :: RINAMES, DUMMY
-      LOGICAL :: single
 
 !  -------------------------------------------------------
 !  translate a fortran 77 program so that it is capable of
@@ -17887,7 +18467,7 @@
       CHARACTER ( LEN = 1 ) :: card
       CHARACTER ( LEN = 4 ) :: ad0
       CHARACTER ( LEN = 10 ) :: blank, field
-      CHARACTER ( LEN = 15 ) :: adtype
+      CHARACTER ( LEN = 18 ) :: adtype
       CHARACTER ( LEN = 72 ) :: nuline, oldlin, bl72
       CHARACTER ( LEN = 72 ) :: RELINE( 20 )
 
@@ -17915,16 +18495,20 @@
 !  determine the type of automatic derivative to be used
 
       IF ( iauto == 1 ) THEN
-        IF ( single ) THEN
-          adtype = 'FORWARD_SINGLE '
+        IF ( realpr == 32 ) THEN
+          adtype = 'FORWARD_SINGLE    '
+        ELSE IF ( realpr == 128 ) THEN
+          adtype = 'FORWARD_QUADRUPLE '
         ELSE
-          adtype = 'FORWARD_DOUBLE '
+          adtype = 'FORWARD_DOUBLE    '
         END IF
       ELSE
-        IF ( single ) THEN
-          adtype = 'BACKWARD_SINGLE'
+        IF ( realpr == 32 ) THEN
+          adtype = 'BACKWARD_SINGLE   '
+        ELSE IF ( realpr == 128 ) THEN
+          adtype = 'BACKWARD_QUADRUPLE'
         ELSE
-          adtype = 'BACKWARD_DOUBLE'
+          adtype = 'BACKWARD_DOUBLE   '
         END IF
       END IF
 
@@ -17989,7 +18573,7 @@
             IF ( status /= 0 ) RETURN
             GO TO 400
           END IF
-          IF ( single ) THEN
+          IF ( realpr == 32 ) THEN
             IF ( NULINE( i : i + 15 ) == 'DOUBLE PRECISION' ) GO TO 400
             IF ( NULINE( i : i + 3 ) == 'REAL' ) THEN
               card = 'R'
@@ -18084,7 +18668,7 @@
             IF ( OLDLIN( i : i + 8 ) == 'DIMENSION' ) GO TO 180
             IF ( OLDLIN( i : i + 8 ) == 'PARAMETER' ) GO TO 180
             IF ( OLDLIN( i : i + 10 ) == 'EQUIVALENCE' ) GO TO 180
-            IF ( single ) THEN
+            IF ( realpr == 32 ) THEN
               IF ( OLDLIN( i : i + 15 ) == 'DOUBLE PRECISION' ) GO TO 180
               ii = i + 4
               RELINE( 1 ) = bl72
@@ -18314,7 +18898,7 @@
 
 !  hunt for the string ' real '
 
-            IF ( single ) THEN
+            IF ( realpr == 32 ) THEN
               DO j = 1, i
                 IF ( NULINE( j : j + 5 ) == usp .OR.                           &
                      NULINE( j : j + 5 ) == lsp ) THEN
@@ -18409,7 +18993,7 @@
  1000 FORMAT( A72 )
  2000 FORMAT( A72 )
  2010 FORMAT( '      TYPE ( ', A4, '_REAL )' )
- 2020 FORMAT( '      USE HSL_', A4, '_', A15 )
+ 2020 FORMAT( '      USE HSL_', A4, '_', A18 )
 !2030 FORMAT( '      call ad01_undefine(', a6, ')' )
  2030 FORMAT( '      ', A6, ' = AD01_UNDEFINED' )
  2040 FORMAT( '      TYPE (', A4, '_REAL) :: ', A6 )
