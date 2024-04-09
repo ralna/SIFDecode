@@ -11574,7 +11574,7 @@
            FIELDI(  4 )( 1 : 6 ), FIELDI( 30 )( 1 : 6 ),                       &
            FIELDI( 18 )( 1 : 6 ), FIELDI( 31 )( 1 : 6 ), pname, TRIM( version )
         ELSE IF ( realpr == 128 ) THEN
-          WRITE( outfn, 3004 ) FIELDI( 1 )( 1 : 5 ),                           &
+          WRITE( outfn, 3005 ) FIELDI( 1 )( 1 : 5 ),                           &
           FIELDI(  3 )( 1 : 6 ), FIELDI(  4 )( 1 : 6 ), FIELDI( 18 )( 1 : 6 ), &
          ( FIELDI(  i )( 1 : 6 ), i = 5, 10 ), FIELDI( 19 )( 1 : 6 ),          &
            FIELDI( 11 )( 1 : 6 ), ( FIELDI(  i )( 1 : 6 ), i = 22, 31 ),       &
