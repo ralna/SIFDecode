@@ -15,22 +15,22 @@ jobs:
           - os: ubuntu-latest
             compiler: gcc
             version: '12'
-            input: '1\n1\nn\n1'
+            input: '1\n1\n1\n'
             arch: 'pc64.lnx.gfo'
           - os: macos-latest
             compiler: gcc
             version: '12'
-            input: '2\nn\n4'
+            input: '2\n1\n'
             arch: 'mac64.osx.gfo'
           - os: ubuntu-latest
             compiler: intel-classic
             version: '2021.10'
-            input: '1\n1\nn\n2\nn\ny'
+            input: '1\n1\n2\n'
             arch: 'pc64.lnx.ifr'
           - os: macos-latest
             compiler: intel-classic
             version: '2021.10'
-            input: '2\nn\n2\nn\ny'
+            input: '2\n2\n'
             arch: 'mac64.osx.ifr'
     runs-on: ${{ matrix.os }}
     env:
