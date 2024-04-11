@@ -40,6 +40,25 @@ jobs:
     steps:
       - name: Check out SIFDecode
         uses: actions/checkout@v4
+      - name: Download ARCHDefs
+        id: download-archdefs
+        uses: robinraju/release-downloader@v1.5
+        with:
+          repository: "ralna/ARCHDefs"
+          latest: true
+          tarBall: true
+          out-file-path: ""
+      - name: Unpack ARCHDefs
+        run: |
+          tar zxf ARCHDefs-${{ steps.download-archdefs.outputs.tag_name }}.tar.gz
+          mv ralna-ARCHDefs-* ARCHDefs
+      - name: Install compilers
+        uses: fortran-lang/setup-fortran@main
+        with:
+          compiler: ${{ matrix.compiler }}
+          version
+      - name: Check out SIFDecode
+        uses: actions/checkout@v4
         id: download-archdefs
         uses: robinraju/release-downloader@v1.5
         with:
@@ -56,6 +75,15 @@ jobs:
         with:
           compiler: ${{ matrix.compiler }}
           version: ${{ matrix.version }}
+      - name: Build
+        run: |
+          cd $SIFDECODE
+          printf "${{ matrix.input }}" > install_config
+          ./install_sifdecode < install_config
+      - name: Test
+        run: |
+          $SIFDECODE/bin/sifdecoder --help
+          $SIFDECO: ${{ matrix.version }}
       - name: Build
         run: |
           cd $SIFDECODE
