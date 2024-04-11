@@ -1,4 +1,4 @@
-name: CI
+name: ARCHDefs
 on:
   push:
     branches:
@@ -23,12 +23,12 @@ jobs:
             input: '2\nn\n4'
             arch: 'mac64.osx.gfo'
           - os: ubuntu-latest
-            compiler: intel
+            compiler: intel-classic
             version: '2021.10'
             input: '1\n1\nn\n2\nn\ny'
             arch: 'pc64.lnx.ifr'
           - os: macos-latest
-            compiler: intel
+            compiler: intel-classic
             version: '2021.10'
             input: '2\nn\n2\nn\ny'
             arch: 'mac64.osx.ifr'
