@@ -3,35 +3,34 @@ on:
   push:
     branches:
       - master
-      - main
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    name: SIFDecode ${{ matrix.os }} ${{ matrix.compiler }}
+    name: SIFDecode/${{ matrix.os }}/${{ matrix.compiler }}-v${{ matrix.version }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
-            compiler: gnu
+            compiler: gcc
+            version: '12'
             input: '1\n1\nn\n1'
             arch: 'pc64.lnx.gfo'
           - os: macos-latest
-            compiler: gnu
+            compiler: gcc
+            version: '12'
             input: '2\nn\n4'
             arch: 'mac64.osx.gfo'
           - os: ubuntu-latest
             compiler: intel
+            version: '2021.10'
             input: '1\n1\nn\n2\nn\ny'
-            hpckit: 'https://registrationcenter-download.intel.com/akdlm/irc_nas/18975/l_HPCKit_p_2022.3.1.16997_offline.sh'
-            script: 'install_linux.sh'
             arch: 'pc64.lnx.ifr'
           - os: macos-latest
             compiler: intel
+            version: '2021.10'
             input: '2\nn\n2\nn\ny'
-            hpckit: 'https://registrationcenter-download.intel.com/akdlm/irc_nas/18977/m_HPCKit_p_2022.3.1.15344_offline.dmg'
-            script: 'install_macos.sh'
             arch: 'mac64.osx.ifr'
     runs-on: ${{ matrix.os }}
     env:
@@ -39,12 +38,8 @@ jobs:
       SIFDECODE: ${{ github.workspace }}
       MASTSIF: ${{ github.workspace }}/sif
     steps:
-      - name: Set up Homebrew
-        if: matrix.compiler == 'gnu'
-        uses: Homebrew/actions/setup-homebrew@master
-      - name: Check out
-        uses: actions/checkout@v3
-      - name: Download ARCHDefs
+      - name: Check out SIFDecode
+        uses: actions/checkout@v4
         id: download-archdefs
         uses: robinraju/release-downloader@v1.5
         with:
@@ -56,25 +51,18 @@ jobs:
         run: |
           tar zxf ARCHDefs-${{ steps.download-archdefs.outputs.tag_name }}.tar.gz
           mv ralna-ARCHDefs-* ARCHDefs
-      - name: Install GNU C and Fortran compilers
-        if: matrix.compiler == 'gnu'
-        run: |
-          brew update
-          eval $(brew shellenv)
-          brew install gcc
-      - name: Install Intel OneAPI C and Fortran compilers
-        if: matrix.compiler == 'intel'
-        run: |
-          .github/scripts/${{ matrix.script }} "${{ matrix.hpckit }}" all
+      - name: Install compilers
+        uses: fortran-lang/setup-fortran@main
+        with:
+          compiler: ${{ matrix.compiler }}
+          version: ${{ matrix.version }}
       - name: Build
         run: |
-          [[ "${{ matrix.compiler }}" == "intel" ]] && source /opt/intel/oneapi/setvars.sh
           cd $SIFDECODE
           printf "${{ matrix.input }}" > install_config
           ./install_sifdecode < install_config
       - name: Test
         run: |
-          [[ "${{ matrix.compiler }}" == "intel" ]] && source /opt/intel/oneapi/setvars.sh
           $SIFDECODE/bin/sifdecoder --help
           $SIFDECODE/bin/sifdecoder -A ${{ matrix.arch }} ROSENBR.SIF
           # check that all output files exist (EXTER.f may not exist)
