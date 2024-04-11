@@ -38,27 +38,9 @@ jobs:
       SIFDECODE: ${{ github.workspace }}
       MASTSIF: ${{ github.workspace }}/sif
     steps:
-      - name: Check out SIFDecode
+      - name: Checkout SIFDecode
         uses: actions/checkout@v4
       - name: Download ARCHDefs
-        id: download-archdefs
-        uses: robinraju/release-downloader@v1.5
-        with:
-          repository: "ralna/ARCHDefs"
-          latest: true
-          tarBall: true
-          out-file-path: ""
-      - name: Unpack ARCHDefs
-        run: |
-          tar zxf ARCHDefs-${{ steps.download-archdefs.outputs.tag_name }}.tar.gz
-          mv ralna-ARCHDefs-* ARCHDefs
-      - name: Install compilers
-        uses: fortran-lang/setup-fortran@main
-        with:
-          compiler: ${{ matrix.compiler }}
-          version
-      - name: Check out SIFDecode
-        uses: actions/checkout@v4
         id: download-archdefs
         uses: robinraju/release-downloader@v1.5
         with:
