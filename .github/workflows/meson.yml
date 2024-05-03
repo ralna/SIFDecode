@@ -18,9 +18,9 @@ jobs:
           - os: ubuntu-latest
             compiler: intel-classic
             version: '2021.10'
-          - os: macos-latest
-            compiler: intel-classic
-            version: '2021.10'
+          #- os: macos-latest
+          #  compiler: intel-classic
+          #  version: '2021.10'
           - os: ubuntu-latest
             compiler: intel
             version: '2023.2'
