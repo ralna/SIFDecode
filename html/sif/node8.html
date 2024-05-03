@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3 The Standard Data Input Format</TITLE>
+<META NAME="description" CONTENT="3 The Standard Data Input Format">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node36.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="sif.html">
+<LINK REL="next" HREF="node9.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html149"
+  HREF="node9.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html147"
+  HREF="sif.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html141"
+  HREF="node7.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html150"
+  HREF="node9.html">3.1 Introduction to the</A>
+<B>Up:</B> <A NAME="tex2html148"
+  HREF="sif.html">The SIF Reference Report</A>
+<B> Previous:</B> <A NAME="tex2html142"
+  HREF="node7.html">2.5 A Final Example</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00030000000000000000"></A><A NAME="S2"></A>
+<BR>
+3 The Standard Data Input Format
+</H1>
+
+<P>
+We now consider how to pass the data  for optimization  problems to
+an  optimization procedure.  In  our  description, we will concentrate  on our
+third example, as presented in Section&nbsp;<A HREF="node7.html#S1.6">2.5</A>;  we will show how the input
+file might be specified for this example to motivate the overall structure
+of such  a file and
+then follow this with the general syntax allowed.
+
+<P>
+The data which defines a particular problem is  written in a file in a
+standard format. It is intended that this data  file is interpreted by
+an appropriate decoding program and converted into a format useful for
+input to an optimization package or program.  The  content of the file
+is specified line by line. As our format is intended to  be compatible
+with the MPS linear programming
+format [<A
+ HREF="node57.html#IBM69">2</A>], we preserve  the  MPS terminology and  call these
+lines <EM>cards.</EM>
+
+<P>
+A SIF comprises one or more files.
+The first of these files is known as the Standard <EM>Data</EM> Input
+Format (SDIF).
+As its name suggests,
+data which describes how the parts of the optimization problem are
+related, together with all fixed constants, are given in this file.
+Indeed, a SIF for linear programming
+problems can be completely specified by an MPS
+file; the  SIF comprises  a single section,  the  SDIF file, and  that
+section is merely the MPS file.
+
+<P>
+<BR> <HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html151"
+  HREF="node9.html">3.1 Introduction to the Standard Data Input Format</A>
+<UL>
+<LI><A NAME="tex2html152"
+  HREF="node10.html">3.1.1 Names</A>
+<LI><A NAME="tex2html153"
+  HREF="node11.html">3.1.2 Fortran Names</A>
+<LI><A NAME="tex2html154"
+  HREF="node12.html">3.1.3 Numerical Values</A>
+<LI><A NAME="tex2html155"
+  HREF="node13.html">3.1.4 An Example</A>
+</UL>
+<LI><A NAME="tex2html156"
+  HREF="node14.html">3.2 Indicator and Data Cards</A>
+<UL>
+<LI><A NAME="tex2html157"
+  HREF="node15.html">3.2.1 The <TT>NAME</TT> Indicator Card</A>
+<LI><A NAME="tex2html158"
+  HREF="node16.html">3.2.2 The <TT>ENDATA</TT> Indicator Card</A>
+<LI><A NAME="tex2html159"
+  HREF="node17.html">3.2.3 Integer and Real Parameters</A>
+<LI><A NAME="tex2html160"
+  HREF="node18.html">3.2.4 Do-loops</A>
+<LI><A NAME="tex2html161"
+  HREF="node19.html">3.2.5 The Definition of Variables and Groups</A>
+<LI><A NAME="tex2html162"
+  HREF="node20.html">3.2.6 The <TT>GROUPS</TT>, <TT>ROWS</TT> or
+<TT>CONSTRAINTS</TT> Data Cards 
+<BR>(variable/column-wise)</A>
+<LI><A NAME="tex2html163"
+  HREF="node21.html">3.2.7 The <TT>VARIABLES</TT> or <TT>COLUMNS</TT> Data Cards
+ (Variable/Column-Wise)</A>
+<LI><A NAME="tex2html164"
+  HREF="node22.html">3.2.8 The <TT>VARIABLES</TT> or <TT>COLUMNS</TT> Data Cards
+ (Group/Row-Wise)</A>
+<LI><A NAME="tex2html165"
+  HREF="node23.html">3.2.9 The <TT>GROUPS</TT>, <TT>ROWS</TT> or <TT>CONSTRAINTS</TT> Data Cards
+ (Group/Row-Wise)</A>
+<LI><A NAME="tex2html166"
+  HREF="node24.html">3.2.10 The <TT>CONSTANTS, RHS</TT> or <TT>RHS'</TT>
+Data Cards</A>
+<LI><A NAME="tex2html167"
+  HREF="node25.html">3.2.11 The <TT>RANGES</TT> Data Cards</A>
+<LI><A NAME="tex2html168"
+  HREF="node26.html">3.2.12 The <TT>BOUNDS</TT> Data Cards</A>
+<LI><A NAME="tex2html169"
+  HREF="node27.html">3.2.13 The <TT>START POINT</TT> Data Cards</A>
+<LI><A NAME="tex2html170"
+  HREF="node28.html">3.2.14 The 
+<TT>QUADRATIC</TT>, <TT>HESSIAN</TT>, <TT>QUADS</TT>, <TT>QUADOBJ</TT> or <TT>QSECTION</TT>
+ Data Cards</A>
+<LI><A NAME="tex2html171"
+  HREF="node29.html">3.2.15 The <TT>ELEMENT TYPE</TT> Data Cards</A>
+<LI><A NAME="tex2html172"
+  HREF="node30.html">3.2.16 The <TT>ELEMENT USES</TT> Data Cards</A>
+<LI><A NAME="tex2html173"
+  HREF="node31.html">3.2.17 The <TT>GROUP TYPE</TT> Data Cards</A>
+<LI><A NAME="tex2html174"
+  HREF="node32.html">3.2.18 The <TT>GROUP USES</TT> Data Cards</A>
+<LI><A NAME="tex2html175"
+  HREF="node33.html">3.2.19 The <TT>OBJECT BOUND</TT> Data Cards</A>
+</UL>
+<LI><A NAME="tex2html176"
+  HREF="node34.html">3.3 Another Example</A>
+<LI><A NAME="tex2html177"
+  HREF="node35.html">3.4 A Further Example</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html149"
+  HREF="node9.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html147"
+  HREF="sif.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html141"
+  HREF="node7.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html150"
+  HREF="node9.html">3.1 Introduction to the</A>
+<B> Up:</B> <A NAME="tex2html148"
+  HREF="sif.html">The SIF Reference Report</A>
+<B> Previous:</B> <A NAME="tex2html142"
+  HREF="node7.html">2.5 A Final Example</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

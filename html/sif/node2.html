@@ -1,0 +1,435 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2 An introduction to nonlinear optimization
+problem structure</TITLE>
+<META NAME="description" CONTENT="2 An introduction to nonlinear optimization
+problem structure">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node8.html">
+<LINK REL="previous" HREF="node1.html">
+<LINK REL="up" HREF="sif.html">
+<LINK REL="next" HREF="node3.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html86"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A>
+<A NAME="tex2html84"
+  HREF="sif.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A>
+<A NAME="tex2html78"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html87"
+  HREF="node3.html">2.1 Problem, Elemental and</A>
+<B>Up:</B> <A NAME="tex2html85"
+  HREF="sif.html">The SIF Reference Report</A>
+<B> Previous:</B> <A NAME="tex2html79"
+  HREF="node1.html">1 Introduction</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00020000000000000000"></A><A NAME="intro_struct"></A>
+<BR>
+2 An introduction to nonlinear
+optimization
+<BR>
+problem structure
+</H1>
+
+<P>
+As we have already mentioned, structure
+is an integral and significant
+aspect   of large-scale problems.   Structure  is  often  equated with
+sparsity; indeed the   two are  closely linked when   the  problem  is
+linear.    However,  sparsity
+is  not the  most  important  phenomenon associated with  a  nonlinear
+function; that role   is played   by invariant  subspaces.   The  <EM>invariant subspace</EM>
+of a  function <IMG
+ WIDTH="30" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$f(x)$"> is the
+set of all vectors <IMG
+ WIDTH="11" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2.png"
+ ALT="$w$"> for which  <!-- MATH
+ $f(x  + w) =  f(x)$
+ -->
+<IMG
+ WIDTH="114" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="$f(x + w) = f(x)$"> for all possible
+vectors  <IMG
+ WIDTH="9" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="$x$">.  This  phenomenon  encompasses  function  sparsity.
+For instance, the function
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+f(x_1 , x_2 ,\cdots,x_{1000}) = x^{2}_{500}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="181" HEIGHT="19" BORDER="0"
+ SRC="img5.png"
+ ALT="\begin{displaymath}f(x_1 , x_2 ,\cdots,x_{1000}) = x^{2}_{500}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+has a gradient
+and Hessian
+matrix  each   with a  single nonzero,   has an  invariant subspace of
+dimension 999, and is, by  almost any  criterion, sparse.  However the
+function
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+f(x_1 , x_2 ,\cdots,x_{1000}) = (x_1 + \cdots + x_{1000})^2
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="281" HEIGHT="18" BORDER="0"
+ SRC="img6.png"
+ ALT="\begin{displaymath}f(x_1 , x_2 ,\cdots,x_{1000}) = (x_1 + \cdots + x_{1000})^2\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+has a  completely   dense Hessian
+matrix  but  still has  an invariant subspace
+of dimension 999,  the set of  all vectors orthogonal to a  vector  of
+ones.   The  importance  of  invariant  subspaces   is that  nonlinear
+information is not  required for a  function in this subspace.  We are
+particularly interested in functions which have large (as a percentage
+of the overall number of variables) invariant subspaces.
+This   allows  for efficient   storage and   calculation of derivative
+information.  The   penalty  is,  of   course, the   need  to  provide
+information about the subspace to an optimization procedure.
+
+<P>
+A  particular objective function
+<IMG
+ WIDTH="33" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$F(x)$"> is  unlikely  to have  a large
+invariant subspace itself.
+However, many  reasonably behaved functions may  be expressed as a sum
+of <EM>element</EM> functions,
+each of which does have a large invariant  subspace.
+This is certainly true  if the function is sufficiently differentiable
+and   has  a sparse  Hessian
+matrix   [<A
+ HREF="node57.html#GrieToin82a">11</A>].    Thus, rather  than   storing a
+function as  itself, it pays  to store it as the  sum of its elements.
+The elemental representation of a particular function  is  by no means
+unique and there  may be  specific reasons for  selecting a particular
+representation.  Specifying Hessian sparsity
+is also supported in the  present proposal, but we  believe that it is
+more efficient and also much easier to specify the invariant subspaces
+directly.
+
+<P>
+<I>LANCELOT</I> considers the problem of minimizing or maximizing
+an objective function
+of the form
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+F( x )
+= \sum_{i \in I_O}w_i g_i \left (
+\sum_{j \in J_i} w_{i,j} f_j (\bar{x}_j) +  a_i^T x  - b_i  \right)
++ {\scriptstyle \frac{1}{2}}\sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k ,
+\;
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="objective"></A><IMG
+ WIDTH="452" HEIGHT="58" BORDER="0"
+ SRC="img8.png"
+ ALT="\begin{displaymath}
+F( x )
+= \sum_{i \in I_O}w_i g_i \left (
+\sum_{j \in J_i} w_{i,j...
+...le \frac{1}{2}}\sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k ,
+\;
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.1)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <!-- MATH
+ $x = (x_1, x_2,\cdots, x_n)$
+ -->
+<IMG
+ WIDTH="135" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$x = (x_1, x_2,\cdots, x_n)$">, within the ``box'' region
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+l_i \leq x_i \leq u_i, \;\;\;\;l \leq i \leq n
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="box"></A><IMG
+ WIDTH="168" HEIGHT="15" BORDER="0"
+ SRC="img10.png"
+ ALT="\begin{displaymath}
+l_i \leq x_i \leq u_i, \;\;\;\;l \leq i \leq n
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.2)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+(where either bound on each variable may be  infinite),  and where the
+variables are required to satisfy the extra conditions
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+g_i \left(
+\sum_{j \in J_{i}} w_{i,j}f_j (\bar{x}_j) + a_i^T x - b_i  \right) = 0
+\; (i \in I_E)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="equality_constraints"></A><IMG
+ WIDTH="307" HEIGHT="58" BORDER="0"
+ SRC="img11.png"
+ ALT="\begin{displaymath}
+w_i g_i \left(
+\sum_{j \in J_{i}} w_{i,j}f_j (\bar{x}_j) + a_i^T x - b_i \right) = 0
+\; (i \in I_E)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.3)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+and
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+0 \left \{ \begin{array}{ll}
+           \leq \\\geq
+           \end{array} \right\}
+w_i g_i \left(
+\sum_{j \in J_{i}} w_{i,j} f_j(\bar{x}_j) + a_i^T x - b_i \right)
+\left\{ \begin{array}{ll}
+\leq \\\geq
+\end{array} \right\}
+ r_i,
+\; (i \in I_I)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="inequality_constraints"></A><IMG
+ WIDTH="417" HEIGHT="58" BORDER="0"
+ SRC="img12.png"
+ ALT="\begin{displaymath}
+0 \left \{ \begin{array}{ll}
+\leq \\ \geq
+\end{array} \rig...
+...ay}{ll}
+\leq \\ \geq
+\end{array} \right\}
+r_i,
+\; (i \in I_I)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.4)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+for some index  sets  <IMG
+ WIDTH="39" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$I_0, I_E$"> and <IMG
+ WIDTH="13" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img14.png"
+ ALT="$I_I$"> and  (possibly infinite)
+values <IMG
+ WIDTH="12" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img15.png"
+ ALT="$r_i$">.  The univariate functions <IMG
+ WIDTH="12" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img16.png"
+ ALT="$g_i$"> are known as  <EM>group
+functions</EM>.
+The argument
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\sum_{j \in J_i} w_{i,j} f_j(\bar{x}_j) + a_i^T x - b_i
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="175" HEIGHT="37" BORDER="0"
+ SRC="img17.png"
+ ALT="\begin{displaymath}\sum_{j \in J_i} w_{i,j} f_j(\bar{x}_j) + a_i^T x - b_i \end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is known as  the  <IMG
+ WIDTH="5" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img18.png"
+ ALT="$i$">-th <EM>group.</EM>
+The functions <!-- MATH
+ $f_j, j=1,\cdots,
+n_e$
+ -->
+<IMG
+ WIDTH="109" HEIGHT="17" ALIGN="MIDDLE" BORDER="0"
+ SRC="img19.png"
+ ALT="$f_j, j=1,\cdots,
+n_e$">, are  called   <EM>nonlinear</EM> element functions.
+ They are  functions of the  problem  variables
+<IMG
+ WIDTH="14" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$\bar{x}_j$">, where  the
+<IMG
+ WIDTH="14" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\bar{x}_j$"> are either small subsets of  <IMG
+ WIDTH="9" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="$x$"> or such  that <IMG
+ WIDTH="13" HEIGHT="17" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$f_j$"> has a
+large invariant   subspace
+for  some other  reason.  The  constants  <IMG
+WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22a.png"
+ ALT="$w_i$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="31" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img24.png"
+ ALT="$w_{i,j}$"></SPAN> are  known
+as group and element <EM>weights</EM>, respectively, while
+the function <!-- MATH
+ $a_i^T  x -  b_i$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="$a_i^T x - b_i$"> is known  as the <EM>linear</EM>
+element for the <IMG
+ WIDTH="5" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="$i$">-th group.
+<IMG HEIGHT="12" ALIGN="BOTTOM" BORDER="0" SRC="new.gif">
+The additional term <!-- MATH
+ ${\scriptstyle \frac{1}{2}}\sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k$
+ -->
+<IMG
+ WIDTH="153" HEIGHT="21" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="${\scriptstyle \frac{1}{2}}\sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k$">
+in the objective function is the <EM>quadratic objective</EM> group; the
+leading <!-- MATH
+ ${\scriptstyle \frac{1}{2}}$
+ -->
+<IMG
+ WIDTH="6" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="${\scriptstyle \frac{1}{2}}$"> is there by convention.
+<IMG HEIGHT="12" ALIGN="BOTTOM" BORDER="0" SRC="new.gif">
+
+<P>
+It    is    more  common    to     call   the   group    functions
+in (<A HREF="node2.html#equality_constraints">2.3</A>)  equality  constraint functions,
+those   in
+(<A HREF="node2.html#inequality_constraints">2.4</A>) inequality constraint functions
+and the sum of those
+in (<A HREF="node2.html#objective">2.1</A>) the objective function.
+
+<P>
+When   stating a  structured  nonlinear optimization  problem    of  the  form
+(<A HREF="node2.html#objective">2.1</A>)-(<A HREF="node2.html#inequality_constraints">2.4</A>), we  need to  specify  the group
+functions,
+linear and nonlinear elements
+and the way that they all fit together.
+
+<P>
+<BR> <HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html88"
+  HREF="node3.html">2.1 Problem, Elemental and Internal Variables</A>
+<LI><A NAME="tex2html89"
+  HREF="node4.html">2.2 Element and Group Types</A>
+<LI><A NAME="tex2html90"
+  HREF="node5.html">2.3 An Example</A>
+<LI><A NAME="tex2html91"
+  HREF="node6.html">2.4 A Second Example</A>
+<LI><A NAME="tex2html92"
+  HREF="node7.html">2.5 A Final Example</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html86"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A>
+<A NAME="tex2html84"
+  HREF="sif.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A>
+<A NAME="tex2html78"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>
+<BR>
+<B> Next:</B> <A NAME="tex2html87"
+  HREF="node3.html">2.1 Problem, Elemental and</A>
+<B> Up:</B> <A NAME="tex2html85"
+  HREF="sif.html">The SIF Reference Report</A>
+<B> Previous:</B> <A NAME="tex2html79"
+  HREF="node1.html">1 Introduction</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

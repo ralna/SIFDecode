@@ -1,0 +1,325 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.2 Element and Group Types</TITLE>
+<META NAME="description" CONTENT="2.2 Element and Group Types">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node5.html">
+<LINK REL="previous" HREF="node3.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node5.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html111"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html109"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html103"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html112"
+  HREF="node5.html">2.3 An Example</A>
+<B>Up:</B> <A NAME="tex2html110"
+  HREF="node2.html">2 An introduction to</A>
+<B> Previous:</B> <A NAME="tex2html104"
+  HREF="node3.html">2.1 Problem, Elemental and</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00022000000000000000"></A><A NAME="S1.3"></A>
+<BR>
+2.2 Element and Group Types
+</H2>
+
+<P>
+It is quite  common  for   large nonlinear programming  problems to be
+defined in terms of many nonlinear elements.
+It is   also  common  that these   elements, although using  different
+problem variables,  are structurally  the  same  as each  other.   For
+instance, the function
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\sum_{i = 1}^{n-1} (x_i x_{i + 1})^i
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.3.1"></A><IMG
+ WIDTH="85" HEIGHT="48" BORDER="0"
+ SRC="img69.png"
+ ALT="\begin{displaymath}
+\sum_{i = 1}^{n-1} (x_i x_{i + 1})^i
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.12)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+naturally decomposes into the sum of <IMG
+ WIDTH="36" HEIGHT="12" ALIGN="MIDDLE" BORDER="0"
+ SRC="img70.png"
+ ALT="$n-1$"> group functions,
+<!-- MATH
+ $\alpha, \alpha^2, \cdots , \alpha^{n-1}$
+ -->
+<IMG
+ WIDTH="105" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img71.png"
+ ALT="$\alpha, \alpha^2, \cdots , \alpha^{n-1}$">.
+Each group
+is a  nonlinear  element  function
+<IMG
+ WIDTH="29" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$v_1 v_2$"> of the  two  elemental variables
+<IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img73.png"
+ ALT="$v_1$"> and <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img74.png"
+ ALT="$v_ 2$"> evaluated for  different pairs of problem
+variables.
+More commonly, the elements  may be arranged  into  a  few
+classes; the  elements  within each class are  structurally  the same.
+For example, the function
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\sum_{i = 1}^{n-1} (x_i x_{i + 1} + x_1/x_i)^i
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.3.2"></A><IMG
+ WIDTH="143" HEIGHT="48" BORDER="0"
+ SRC="img75.png"
+ ALT="\begin{displaymath}
+\sum_{i = 1}^{n-1} (x_i x_{i + 1} + x_1/x_i)^i
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.13)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+naturally decomposes into the sum of the same <IMG
+ WIDTH="36" HEIGHT="12" ALIGN="MIDDLE" BORDER="0"
+ SRC="img76.png"
+ ALT="$n-1$"> group functions.
+Each group is the sum  of two nonlinear elements <IMG
+ WIDTH="29" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="$v_1 v_2$"> (where <IMG
+ WIDTH="50" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img78.png"
+ ALT="$v_1
+= x_i$"> and  <IMG
+ WIDTH="66" HEIGHT="12" ALIGN="MIDDLE" BORDER="0"
+ SRC="img79.png"
+ ALT="$v_2 = x_{i+1}$">) and <IMG
+ WIDTH="37" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img80.png"
+ ALT="$v_1 / v_2$"> (where <IMG
+ WIDTH="52" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img81.png"
+ ALT="$v_1 = x_1$"> and  <IMG
+ WIDTH="50" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img82.png"
+ ALT="$v_2 =
+x_{i}$">).
+A further common occurrence is the presence of elements which have the
+same structure,
+but which differ in using different problem variables
+<EM>and other auxiliary parameters</EM>.
+For instance, the function
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\sum_{i = 1}^{n-1} (ix_i x_{i + 1})^i
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.3.3"></A><IMG
+ WIDTH="91" HEIGHT="48" BORDER="0"
+ SRC="img83.png"
+ ALT="\begin{displaymath}
+\sum_{i = 1}^{n-1} (ix_i x_{i + 1})^i
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.14)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+naturally decomposes into the sum of the same <IMG
+ WIDTH="36" HEIGHT="12" ALIGN="MIDDLE" BORDER="0"
+ SRC="img84.png"
+ ALT="$n-1$"> group functions.
+Each  group is a  nonlinear  element
+<IMG
+ WIDTH="45" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img85.png"
+ ALT="$p_1 v_1 v_2$"> of the   single  parameter
+<IMG
+ WIDTH="15" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img86.png"
+ ALT="$p_1$"> and two elemental variables
+<IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$v_1$"> and  <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="$v_2$"> evaluated  for  different  values of  the
+parameter and pairs of problem variables.
+Any two elements which are structurally the same are said to be of the
+same <EM>type.</EM>
+Thus  examples (<A HREF="node4.html#1.3.1">2.12</A>) and  (<A HREF="node4.html#1.3.3">2.14</A>) use a single element type,
+where  as  (<A HREF="node4.html#1.3.2">2.13</A>) uses two   types.  When  defining the data  for
+problems of the form (<A HREF="node2.html#objective">2.1</A>)-(<A HREF="node2.html#inequality_constraints">2.4</A>), it
+is unnecessary to define each nonlinear element in detail. All that is
+actually needed is to specify the characteristics of the element types
+and then to  identify each <IMG
+ WIDTH="13" HEIGHT="17" ALIGN="MIDDLE" BORDER="0"
+ SRC="img89.png"
+ ALT="$f_j$"> by its  type and the indices  of its
+problem variables and (possibly) auxiliary parameters.
+
+<P>
+The same principal may be applied to group functions.
+For example, the group functions that make up
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\sum_{i = 1}^{n-1} (x_i x_{i + 1})^2
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.3.4"></A><IMG
+ WIDTH="87" HEIGHT="48" BORDER="0"
+ SRC="img90.png"
+ ALT="\begin{displaymath}
+\sum_{i = 1}^{n-1} (x_i x_{i + 1})^2
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.15)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+have different arguments but are structurally all the same, each being
+of the form <!-- MATH
+ $g_i ( \alpha  ) = \alpha^2$
+ -->
+<IMG
+ WIDTH="73" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img91.png"
+ ALT="$g_i ( \alpha ) = \alpha^2$">.  As a  slightly more general
+example, the group functions for
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\sum_{i = 1}^{n-1} i(x_i x_{i + 1})^2
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.3.5"></A><IMG
+ WIDTH="96" HEIGHT="48" BORDER="0"
+ SRC="img92.png"
+ ALT="\begin{displaymath}
+\sum_{i = 1}^{n-1} i(x_i x_{i + 1})^2
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.16)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+have different  arguments and  depend  upon  different  values   of  a
+parameter
+but are  still structurally all  the same, each being of the
+form <!-- MATH
+ $g ( \alpha ) = p_1 \alpha^2$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img93.png"
+ ALT="$g ( \alpha ) = p_1 \alpha^2$"> for some  parameter <IMG
+ WIDTH="15" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img94.png"
+ ALT="$p_1$">.  Any two
+group functions which are structurally the same are  said to be of the
+same  <EM>type;</EM> the  structural function is known  as the <EM>group
+type</EM>
+and its argument is  the <EM>group-type variable.</EM>
+Once  again,  using group types  makes   the   task of  specifying the
+characteristics  of  individual  group functions
+more straightforward.
+The group  type <!-- MATH
+ $g(\alpha ) = \alpha$
+ -->
+<IMG
+ WIDTH="62" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img95.png"
+ ALT="$g(\alpha ) = \alpha$"> is  known as  the <EM>trivial</EM>
+type.
+Trivial groups  occur very frequently and  are considered to be
+the default type.
+It  is then only  necessary to  specify  non-trivial group types.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html111"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html109"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html103"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html112"
+  HREF="node5.html">2.3 An Example</A>
+<B> Up:</B> <A NAME="tex2html110"
+  HREF="node2.html">2 An introduction to</A>
+<B> Previous:</B> <A NAME="tex2html104"
+  HREF="node3.html">2.1 Problem, Elemental and</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

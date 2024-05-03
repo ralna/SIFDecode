@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1 Introduction</TITLE>
+<META NAME="description" CONTENT="1 Introduction">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node2.html">
+<LINK REL="previous" HREF="sif.html">
+<LINK REL="up" HREF="sif.html">
+<LINK REL="next" HREF="node2.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html76"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html74"
+  HREF="sif.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html68"
+  HREF="sif.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html77"
+  HREF="node2.html">2 An introduction to</A>
+<B>Up:</B> <A NAME="tex2html75"
+  HREF="sif.html">The SIF Reference Report</A>
+<B> Previous:</B> <A NAME="tex2html69"
+  HREF="sif.html">The SIF Reference Report</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00010000000000000000"></A><A NAME="S1.1"></A>
+<BR>
+1 Introduction
+</H1>
+
+<P>
+The mathematical   modelling of many real-world  applications involves
+the  minimization or maximization of  a function of unknown parameters
+or   variables.   Frequently   these  parameters   have known  bounds;
+sometimes there are more general relationships between the parameters.
+When the number of variables is  modest,  say up  to ten, the input of
+such  a   problem to  an  optimization procedure  is    usually fairly
+straightforward. Unfortunately many application areas  now require the
+solution of optimization problems with thousands of variables; in this
+case merely the input of the problem data  is extremely time-consuming
+and prone to error. Moreover,  the mathematical programming  community
+is only now designing algorithms for solving problems of this scale.
+
+<P>
+The format described in this report
+was motivated directly by the  difficulties the authors were
+experiencing entering test examples to the <I>LANCELOT</I> large-scale
+nonlinear optimization  package.  It soon    became apparent  that  if
+others  were to  be  encouraged to carry  out similar  tests  and even
+enticed to use our software, the process of specifying problems had to
+be considerably simplified. Thus we were inevitably drawn to provide a
+preliminary   version of what   is described here:
+a standard input format  (SIF) for nonlinear programming
+problems, together with an appropriate translator from the  input file
+to  the form required  by the  authors'  minimization software.  While
+understandably reflecting   our views  and   experience, the   present
+proposal is intended to be broadly applicable.
+
+<P>
+During the subsequent (and successive)  stages of development of these
+preliminary ideas,  various important considerations  were  discussed.
+These strongly influenced the present proposal.
+
+<P>
+
+<UL>
+<LI>There are many  reasons for  proposing  a standard input  format.  The
+most obvious  one  is  the increased consistency    in  coding
+nonlinear programming problems, and the resulting improvement  in code
+reliability. As every problem is treated in a similar and standardized
+way, it is more difficult to  overlook  certain aspects of the problem
+definition.  The  provision of a SIF  file for a given  problem also
+allows some  elementary (and very  often helpful) automatic  error and
+consistency checking.
+
+<P>
+</LI>
+<LI>A  further advantage of   having a standard input format   is the long
+awaited  possibility  of having  a  portable  testbed   of  meaningful
+problems.  Moreover,  such a testbed that  can  be  expected  to grow.  The
+authors  soon experienced  the daunting   difficulties associated with
+specifying large  scale  problems --  not  only the   difficulty  of
+writing down  the specification correctly but also  the  actual coding
+(and frequent  re-coding) of a particular problem  which often results
+in non-trivial differences between the initial and  final data.  These
+differences could be a   major obstacle to  valid comparisons  between
+competing optimization codes.  By contrast, having a SIF file allows
+simple and unambiguous data transfer via  diskette, tape or electronic
+mail. The success of the NETLIB and Harwell/Boeing problem collections
+for linear  programming and sparse linear algebra   [<A
+ HREF="node57.html#Gay85">9</A>,<A
+ HREF="node57.html#DuffGrimLewi89">6</A>]
+  is a  good   recommendation  for  such
+flexibility.   The  formality  required   by  the  SIF   approach may
+admittedly appear formidable  for very simple  problems,  but is  soon
+repaid when dealing with more complex ones.
+
+<P>
+</LI>
+<LI>Of course, the SIF format should cover a large  part of the practical
+optimization  problems  that users  may   want  to specify.   Explicit
+provision should be made not only for unconstrained problems, but also
+for constraints of different types  and complexity: simple  bounds  on
+the variables,
+linear  and/or  nonlinear  equations and  inequalities
+should be handled without trouble. Special structure
+of the problem at
+hand is  also a  mandatory  part of  an  SIF  file. For example,  the
+structure   of  least-squares
+problems must  be   described  in  an
+exploitable   form.   Sparsity
+of  relevant  matrices  and   partial separability
+of involved  nonlinear functions must be  included in the
+standard problem   description   when  they  are known.   Finally, the
+special case of systems of nonlinear equations should also be covered.
+
+<P>
+</LI>
+<LI>The  existence and worldwide success of  the MPS standard input format
+for linear programming  must be considered as  a <EM>de facto</EM> basis
+for any attempt to define an  SIF for  nonlinear problems. The number
+of  problems already  available  in this format   is  large,  and many
+nonlinear problems arise as a refinement of existing linear ones whose
+linear part and sparsity
+structure are expected to be described in the
+MPS
+format. It therefore seems reasonable to require that an  SIF for
+nonlinear programming problems  should conform to  the  MPS format. We
+were thus led to choose a  standard that  corresponds to MPS,
+augmented with  additional  constructs and  structures,  thus allowing
+nonlinearity, and the general features that we wished, to be described
+properly.
+
+<P>
+</LI>
+<LI>The requirement of compatibility with the MPS format  has a  number of
+consequences, not all of which are pleasant. The first one is that the
+new SIF must  be based on  fixed format
+for the SIF file.  Indeed, blanks
+are  significant characters in MPS,
+when they appear in the right data fields,
+and  cannot be used as general  separators for free format
+input in any compatible  system.  The second one  is the <EM>a
+priori</EM>  existence of  a ``style'' for keywords  and overall layout of
+the problem  description, a format which is  not always ideally suited
+to  nonlinear problems.   Our   present proposal  accepts  these
+limitations.
+
+<P>
+</LI>
+<LI>The SIF should not be dependent on  a specific operating system and/or
+manufacturer. In this respect, it must avoid relying on tools that may
+be excellent but are too specific (yacc and lex, for example). This of
+course does not prevent any implementation of an SIF interpreter using
+whatever facilities are locally available.
+
+<P>
+</LI>
+<LI>In principle,  the SIF should  not be dependent on  a particular high
+level programming language. However,   as the intention  is that  SIF
+files may  be converted into  executable programs, restrictions on the
+symbolic  names   allowed  by   different  programming   languages may
+influence the choice of names  within the problem  description itself.
+For  instance, in Fortran,
+symbolic   variables  may only  contain up  to   six characters from a
+restricted set.  We  have chosen  to base the present proposal,  where
+necessary, on Fortran
+as  this appears to  be the most restrictive  of the more popular high
+level languages.   This  dependence has  been isolated  as    much  as
+possible.
+</LI>
+</UL>
+
+<P>
+The   authors are very  well  aware of the  shortcomings  of the  SIF
+approach when compared to more elaborate modelling languages
+(see, for
+example, GAMS [<A
+ HREF="node57.html#GAMS88">1</A>],
+AMPL [<A
+ HREF="node57.html#FourGayKern87">7</A>],
+and OMP [<A
+ HREF="node57.html#OMP87">4</A>].
+These probably remain the best way to allow easy  and error free input
+of large  problems. However, we contend   that there is  at present no
+language  in   the public   domain which   satisfactorily handles  the
+nonlinear aspects  of mathematical  programming  problems.   While the
+advent  of  a  tool of   this   nature  is  very much   hoped  for, it
+nevertheless seems necessary  to provide something like  the SIF now.
+This  (we  hope,  intermediate)  step  is    indeed crucial  for   the
+development   and comparison  of  algorithms for   solving large scale
+nonlinear problems,   without  which a  more   elaborate tool would be
+meaningless   anyway.  The SIF   for nonlinear problems   may also be
+considered as a  first attempt to specify  the minimal structures
+that
+should be present in a true modelling  language
+for such problems. It
+is also of interest to develop a relatively simple input format, given
+that   researchers  developing new  optimization   methods may have to
+implement  their own code  for translating the  SIF file into  a form
+suitable for their algorithms.  At this level, some compromise between
+completeness and simplicity  seems necessary.  Finally,  the existence
+and availability of modelling languages
+for linear programming
+for  a number of years has not yet made the MPS
+format irrelevant.
+
+<P>
+Hence,  the reader  should   be aware   that what  sometimes appear as
+unnecessarily restrictive  ``features'' of  the proposed  standard are
+often direct consequences of the considerations outlined above.
+
+<P>
+In the next section, we explain how we propose to exploit the
+structure in problems of the form
+(<A HREF="node2.html#objective">2.1</A>)-(<A HREF="node2.html#inequality_constraints">2.4</A>) . We do this
+both in  general and for a number of examples. Details of
+the  way such  structure
+may be expressed in  a standard data input
+format  follow  in Section&nbsp;3. The  input of nonlinear  information for
+element  and group  functions
+is  covered  in Section&nbsp;4 and Section&nbsp;5
+respectively.  The formats proposed  in Sections&nbsp;3-5 are quite rigid.
+A  more flexible,  free-form,
+input is considered  in  Section&nbsp;6.  The relationship to existing work
+is presented in Section&nbsp;7 and conclusions drawn in Section&nbsp;7.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html76"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html74"
+  HREF="sif.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html68"
+  HREF="sif.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html77"
+  HREF="node2.html">2 An introduction to</A>
+<B> Up:</B> <A NAME="tex2html75"
+  HREF="sif.html">The SIF Reference Report</A>
+<B> Previous:</B> <A NAME="tex2html69"
+  HREF="sif.html">The SIF Reference Report</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

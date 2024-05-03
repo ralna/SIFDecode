@@ -1,0 +1,517 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.4.3 The INDIVIDUALS Data Cards</TITLE>
+<META NAME="description" CONTENT="4.4.3 The INDIVIDUALS Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="previous" HREF="node43.html">
+<LINK REL="up" HREF="node41.html">
+<LINK REL="next" HREF="node45.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html562"
+  HREF="node45.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html560"
+  HREF="node41.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html556"
+  HREF="node43.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html563"
+  HREF="node45.html">4.5 Two Further Examples</A>
+<B>Up:</B> <A NAME="tex2html561"
+  HREF="node41.html">4.4 Data Cards</A>
+<B> Previous:</B> <A NAME="tex2html557"
+  HREF="node43.html">4.4.2 The GLOBALS Data</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00044300000000000000"></A><A NAME="S3.2.3"></A>
+<BR>
+4.4.3 The <TT>INDIVIDUALS</TT> Data Cards
+</H3>
+
+<P>
+The  <TT>INDIVIDUALS</TT>
+indicator   card   is   used  to  announce the
+definition  of function  and derivative
+values  and the transformation
+between elemental
+and internal variables  for the  types of nonlinear
+element functions required.
+The syntax for data  cards following the
+indicator card is given in Figure&nbsp;<A HREF="node44.html#F3.2.3">4.5</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F3.2.3"></A><A NAME="10208"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4.5:</STRONG>
+Possible data cards for <TT>INDIVIDUALS</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="697" HEIGHT="310" BORDER="0"
+ SRC="img340.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...1}{@{}c@{}}{~~$\,\,${\scriptsize 65}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The one- or two-character string in field&nbsp;1 specifies the type  of data
+contained on the card.
+Possible values for the first character  of the string are:
+<DL>
+<DT><STRONG><TT>T</TT></STRONG></DT>
+<DD>This card
+announces that a new element type
+is to  be considered. The
+string <TT>etype-name</TT> in field&nbsp;2  gives the name of  the element
+type;  the name may be  up to  ten characters long  and must have been
+defined in   the <TT>ELEMENT TYPE</TT>   section  of the SDIF  file  (see
+Section&nbsp;<A HREF="node29.html#S2.2.14">3.2.15</A>).
+</DD>
+<DT><STRONG><TT>R</TT></STRONG></DT>
+<DD>This card   announces that information  concerning the  transformation
+between the elemental and  internal variables for  the element type is
+to be  given. Such information  is appropriate  only for element types
+which have  been  defined with internal  variables in the <TT>ELEMENT
+TYPE</TT>
+section  of   the  SDIF  file   (see   Section&nbsp;<A HREF="node29.html#S2.2.14">3.2.15</A>).     The
+transformation is specified by  the matrix <IMG
+ WIDTH="16" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img341.png"
+ ALT="$W$"> of Section&nbsp;<A HREF="node4.html#S1.3">2.2</A>;
+only nonzero coefficients of <IMG
+ WIDTH="16" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img342.png"
+ ALT="$W$"> need be specified here.
+
+<P>
+The  string <TT>inv-name</TT>  in  field&nbsp;2  contains the  name of  an
+internal variable  (i.e., row  of   <IMG
+ WIDTH="16" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img343.png"
+ ALT="$W$">).   The name  must be  a valid
+Fortran name,
+see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>,  and have been defined on  an <TT>IV</TT>
+data line in the <TT>ELEMENT TYPE</TT>
+section of the SDIF file.  The  strings <TT>iv-nam</TT> in fields&nbsp;3 and
+(optionally) 5  then  give  the names of   elemental  variables (i.e.,
+columns of <IMG
+ WIDTH="16" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img344.png"
+ ALT="$W$">).  The names must be valid Fortran  names and have been
+defined on <TT>EV</TT>
+data  lines in  the  <TT>ELEMENT TYPE</TT>
+section of the SDIF  file. The strings in  fields&nbsp;4 and (optionally) 6
+contain the numerical values of the  coefficients of <IMG
+ WIDTH="16" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img345.png"
+ ALT="$W$"> corresponding
+to the row given in  field&nbsp;2 and the columns  given  in fields&nbsp;3 and 5
+respectively.  These numerical values may each be  up to 12 characters
+long.  The entries of <IMG
+ WIDTH="16" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img346.png"
+ ALT="$W$"> may be defined in any order.
+
+<P>
+As an example, the  transformation (<A HREF="node3.html#1.2.5">2.9</A>) could be   entered with
+three <TT>R</TT>
+data cards.
+On the first,  field&nbsp;2  would hold the name
+given to   the internal variable  <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img347.png"
+ ALT="$u_1$">; field&nbsp;3   would hold the name
+given to  the elemental variable <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img348.png"
+ ALT="$v_1$"> and field&nbsp;4 would contain 1.0.
+Similarly field&nbsp;5 would hold the name given  to the elemental variable
+<IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img349.png"
+ ALT="$v_2$"> and  field&nbsp;6 would also contain 1.0.    On   the second, field&nbsp;2
+would also   hold the name  given  to  the internal variable   <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img350.png"
+ ALT="$u_ 1$">;
+field&nbsp;3 would now hold the name given  to the elemental variable <IMG
+ WIDTH="14" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img351.png"
+ ALT="$v_3$">
+and field&nbsp;4 would contain -2.0.  On the third card, field&nbsp;2 would hold
+the name given to the internal  variable <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img352.png"
+ ALT="$u_2$">; field&nbsp;3 would hold the
+name given to the elemental  variable <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img353.png"
+ ALT="$v_1$"> and field&nbsp;4  would contain
+1.0. Field&nbsp;5 would now hold  the name  given to the elemental variable
+<IMG
+ WIDTH="14" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$v_3$"> and field&nbsp;6 would contain -1.0.
+
+<P>
+</DD>
+<DT><STRONG><TT>A</TT></STRONG></DT>
+<DD>This  card
+announces that  an  auxiliary  parameter, specific   to the
+current element type,
+is to be assigned  a  value.   The string <TT>p-name</TT> in field&nbsp;2 gives the name of the auxiliary parameter that is
+to  be  defined;   this name   must  be  a valid Fortran   name,   see
+Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>,  and have been  previously  defined in the  <TT>TEMPORARIES</TT>
+section.    The  string in  field&nbsp;7  is   an  arithmetic
+expression.  The assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable named in field~2} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img355.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~2} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is made,  where again <IMG
+ WIDTH="15" HEIGHT="7" ALIGN="BOTTOM" BORDER="0"
+ SRC="img356.png"
+ ALT="$\leftarrow$"> means ``is  given the value''; any
+variable  mentioned  in   the arithmetic  expression  must  either  be
+reserved (see Section&nbsp;<A HREF="node42.html#S3.2.1">4.4.1</A>), or  have been defined in the <TT>TEMPORARIES</TT>
+section. If in this latter  case, the variable is integer
+or real,  it  must have  been allocated a   value itself either   on a
+previous <TT>GLOBALS</TT>
+data card
+or on a previous <TT>A</TT>, <TT>E</TT> or
+<TT>I</TT>  card  for the   current element type
+in the   <TT>ELEMENTS</TT>
+section.
+
+<P>
+</DD>
+<DT><STRONG><TT>I</TT></STRONG></DT>
+<DD>This card   announces that an   auxiliary parameter,  specific  to the
+current element type,
+is  to be  assigned  a  value whenever  a second
+logical auxiliary
+parameter has  the  value <TT>.TRUE.</TT> The  string,
+<TT>p-name</TT>, in field&nbsp;3 gives  the name of  the  auxiliary parameter
+that is to  be defined; this  name must be  a valid Fortran  name,
+see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>, and have been previously defined in the <TT>TEMPORARIES</TT>
+section.  The string  in field&nbsp;7  is  an  arithmetic expression.   The
+assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable  named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img357.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+will  be made if  and only  if the logical  auxiliary parameter,
+<TT>l-name</TT>, specified in field&nbsp;2 has the value <TT>.TRUE.</TT>;  the logical
+parameter must have been previously defined in the <TT>TEMPORARIES</TT>
+section   and  allocated  a  value  in the   <TT>GLOBALS</TT>
+or  <TT>INDIVIDUALS</TT>
+section.  The arithmetic expression must obey the rules set out in the
+<TT>A</TT>
+section above.
+
+<P>
+</DD>
+<DT><STRONG><TT>E</TT></STRONG></DT>
+<DD>This card
+announces  that  an auxiliary  parameter,  specific to  the
+current element type,
+is  to be  assigned a  value  whenever a  second
+logical  auxiliary
+parameter has the value  <TT>.FALSE.</TT> The  string,
+<TT>p-name</TT>,  in field&nbsp;3 gives  the name of  the auxiliary parameter
+that is to be defined; this  name must  be  a  valid Fortran name, see
+Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>, and have been  previously defined  in  the  <TT>TEMPORARIES</TT>
+section.   The  string   in  field&nbsp;7 is   an arithmetic
+expression.  The assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img358.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+will be made  if and only if  the   logical auxiliary parameter,
+<TT>l-name</TT>, specified in field&nbsp;2 has the value <TT>.FALSE.</TT>; the logical
+parameter must have  been previously defined  in the <TT>TEMPORARIES</TT>
+section   and   allocated  a value  in   the   <TT>GLOBALS</TT>
+or <TT>INDIVIDUALS</TT>
+section.  The arithmetic expression must obey the rules set out in the
+<TT>A</TT>
+section above.
+
+<P>
+</DD>
+<DT><STRONG><TT>F</TT></STRONG></DT>
+<DD>This card
+specifies the value of the nonlinear element.
+The string in field&nbsp;7 is an arithmetic expression; the assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{nonlinear element function} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="253" HEIGHT="13" BORDER="0"
+ SRC="img359.png"
+ ALT="\begin{displaymath}
+\mbox{nonlinear element function} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is made; any variable mentioned in the  expression must obey the rules
+set out in the <TT>A</TT>
+section above.
+
+<P>
+</DD>
+<DT><STRONG><TT>G</TT></STRONG></DT>
+<DD>This card
+specifies the value of  a component of the  gradient
+of  the  nonlinear element.  The  string,   <TT>iv-nam</TT>, in  field&nbsp;2
+contains  the name of  an  internal  variable.   The  component of the
+gradient specified  on  the card
+will  be taken  with respect  to this
+variable.  The string must be a valid Fortran name,
+see  Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>, and have been  defined on  an <TT>IV</TT>
+data line, for a nonlinear element
+defined with internal variables,
+or an <TT>EV</TT>
+data  line,  for  an   element  without explicit   internal
+variables,  in the <TT>ELEMENT TYPE</TT>
+section of  the SDIF file.  The  string in  field&nbsp;7  is  an arithmetic
+expression; the assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{derivative of element w.r.t. variable in field~2} \leftarrow
+\mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="382" HEIGHT="13" BORDER="0"
+ SRC="img360.png"
+ ALT="\begin{displaymath}
+\mbox{derivative of element w.r.t. variable in field~2} \leftarrow
+\mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is made; any variable mentioned in the arithmetic expression must obey
+the rules set out in the <TT>A</TT>
+section  above.
+<TT>G</TT>
+cards
+are  optional.  However, once
+the  user starts to   form the  gradient for an
+element type,
+any component  not explicitly  specified will be assumed
+to have the value zero.
+
+<P>
+</DD>
+<DT><STRONG><TT>H</TT></STRONG></DT>
+<DD>This card
+specifies the value of a  component of the Hessian matrix of
+the nonlinear element.  The  strings <TT>iv-nam</TT> in fields&nbsp;2  and 3
+contain the names of internal variables.  The component of the Hessian
+specified on the  card will be taken with  respect to these variables.
+Either string must be a valid Fortran  name, see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>,
+and have been  defined  on an  <TT>IV</TT>
+data  line, for  a  nonlinear element
+defined with internal variables,
+or an <TT>EV</TT>
+data line, for
+an element without explicit  internal variables, in  the  <TT>ELEMENT
+TYPE</TT>
+section of the  SDIF  file.   The string in  field&nbsp;7  is an arithmetic
+expression; the assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{second derivative  of element w.r.t. variables in fields~2 and 3}
+\leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="490" HEIGHT="13" BORDER="0"
+ SRC="img361.png"
+ ALT="\begin{displaymath}
+\mbox{second derivative of element w.r.t. variables in fields~2 and 3}
+\leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is made; any variable mentioned in the arithmetic expression must obey
+the rules set  out in the  <TT>A</TT>
+section  above.   <TT>H</TT>
+cards
+are  optional.  However, once  the  user starts to  specify  the
+Hessian matrix  for an element type,  any component not specified will
+be assumed to have  the value  zero.  The   matrix  is  assumed  to be
+symmetric and so the user needs only supply values for one of
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\frac{\partial^2f}{\partial u_i \partial u_j}
+\;\; \mbox{or} \;\;
+\frac{\partial^2f}{\partial u_j \partial u_i}
+\;\;\;\;(i \neq j)
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="199" HEIGHT="41" BORDER="0"
+ SRC="img362.png"
+ ALT="\begin{displaymath}
+\frac{\partial^2f}{\partial u_i \partial u_j}
+\;\; \mbox{or}...
+...rac{\partial^2f}{\partial u_j \partial u_i}
+\;\;\;\;(i \neq j)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+it does not matter which.  Observe  that defaulting Hessian components
+to zero gives a very simple way of  inputing sparse matrices;
+however,  as  we stressed in  the  introduction,   we do not generally
+recommend this method of specifying invariant subspaces.
+</DD>
+</DL>
+
+<P>
+The data started on an <TT>A</TT>, <TT>I</TT>, <TT>E</TT>, <TT>F</TT>,  <TT>G</TT> and
+<TT>H</TT> card
+may be  continued on a card whose  first field contains an
+<TT>A+</TT>,  <TT>I+</TT>,  <TT>E+</TT>,   <TT>F+</TT>, <TT>G+</TT>  or  <TT>H+</TT>
+respectively.
+Such cards  contain an arithmetic expression in field&nbsp;7
+and no further data; the arithmetic expression must obey the rules set
+out in the <TT>A</TT> section above.  At most nineteen continuations of a
+single assignment are allowed.
+
+<P>
+The data for a single element type
+must occur on consecutive cards and
+in the order given  in Figure&nbsp;<A HREF="node44.html#F3.2.3">4.5</A>,  excepting that  <TT>A</TT>,
+<TT>I</TT> and <TT>E</TT>
+cards
+may be intermixed.  A new element type
+is deemed to have started  whenever a <TT>T</TT>
+card is  encountered.  The <TT>F</TT>
+card is  compulsory for  all   element   types;
+elements  with  useful
+transformations from elemental to internal  variables must  also  have
+<TT>R</TT>
+cards.
+The data for a particular card type is considered to have been
+completed whenever another card type is encountered.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html562"
+  HREF="node45.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html560"
+  HREF="node41.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html556"
+  HREF="node43.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html563"
+  HREF="node45.html">4.5 Two Further Examples</A>
+<B> Up:</B> <A NAME="tex2html561"
+  HREF="node41.html">4.4 Data Cards</A>
+<B> Previous:</B> <A NAME="tex2html557"
+  HREF="node43.html">4.4.2 The GLOBALS Data</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

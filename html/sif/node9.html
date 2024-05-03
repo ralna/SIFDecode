@@ -1,0 +1,345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.1 Introduction to the Standard Data Input Format</TITLE>
+<META NAME="description" CONTENT="3.1 Introduction to the Standard Data Input Format">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node14.html">
+<LINK REL="previous" HREF="node8.html">
+<LINK REL="up" HREF="node8.html">
+<LINK REL="next" HREF="node10.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html186"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html184"
+  HREF="node8.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html178"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html187"
+  HREF="node10.html">3.1.1 Names</A>
+<B>Up:</B> <A NAME="tex2html185"
+  HREF="node8.html">3 The Standard Data</A>
+<B> Previous:</B> <A NAME="tex2html179"
+  HREF="node8.html">3 The Standard Data</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00031000000000000000"></A><A NAME="S2.1"></A>
+<BR>
+3.1 Introduction to the Standard Data Input Format
+</H2>
+
+<P>
+As we have just said,  the data  format  is designed to be  compatible
+with the MPS
+linear programming
+format. There  are, however, extensions   to allow the  user to  input
+nonlinear problems.  The user must prepare an input file consisting of
+three types of cards:
+
+<UL>
+<LI>Indicator cards, which specify the type of data to follow.
+</LI>
+<LI>Data cards, which contain the actual data.
+</LI>
+<LI>Comment cards.
+</LI>
+</UL>
+
+<P>
+Indicator cards
+contain  a simple keyword  to specify the type of data
+that follows. The first character of  such  cards must be in column&nbsp;1;
+indicator  cards are the   only cards, with   the exception of comment
+cards,
+which start in column&nbsp;1.  Possible indicator cards are given in
+Table&nbsp;<A HREF="#Fig1">3.1</A>.
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="9537"></A>
+<TABLE>
+<CAPTION><STRONG>Table 3.1:</STRONG>
+Possible indicator card</CAPTION>
+<TR><TD>                         <DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Keyword</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Comments</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Presence</TD>
+<TD ALIGN="CENTER">Described in &#167;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>NAME</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">mandatory</TD>
+<TD ALIGN="CENTER"><A HREF="node15.html#S2.2.1">3.2.1</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=1>either</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>GROUPS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">mandatory</TD>
+<TD ALIGN="CENTER"><A HREF="node20.html#S2.2.6">3.2.6</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ROWS</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>GROUPS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node20.html#S2.2.6">3.2.6</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>CONSTRAINTS</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>GROUPS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node20.html#S2.2.6">3.2.6</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>VARIABLES</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">mandatory</TD>
+<TD ALIGN="CENTER"><A HREF="node21.html#S2.2.7">3.2.7</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>COLUMNS</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>VARIABLES</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node21.html#S2.2.7">3.2.7</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=1>or</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>VARIABLES</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">mandatory</TD>
+<TD ALIGN="CENTER"><A HREF="node22.html#S2.2.8">3.2.8</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>COLUMNS</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>VARIABLES</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node22.html#S2.2.8">3.2.8</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>GROUPS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">mandatory</TD>
+<TD ALIGN="CENTER"><A HREF="node23.html#S2.2.9">3.2.9</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ROWS</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>GROUPS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node23.html#S2.2.9">3.2.9</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>CONSTRAINTS</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>GROUPS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node23.html#S2.2.9">3.2.9</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>CONSTANTS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node24.html#S2.2.10">3.2.10</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>RHS</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>CONSTANTS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node24.html#S2.2.10">3.2.10</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>RHS'</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>CONSTANTS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node24.html#S2.2.10">3.2.10</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>RANGES</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node25.html#S2.2.11">3.2.11</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>BOUNDS</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node26.html#S2.2.12">3.2.12</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>START POINT</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node27.html#S2.2.13">3.2.13</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>QUADRATIC</TT></TD>
+<TD ALIGN="LEFT"><IMG HEIGHT="12" ALIGN="BOTTOM" BORDER="0" SRC="new.gif"></TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node28.html#S2.2.13a">3.2.14</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>HESSIAN</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>QUADRATIC</TT> </TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node28.html#S2.2.13a">3.2.14</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>QUADS</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>QUADRATIC</TT> </TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node28.html#S2.2.13a">3.2.14</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>QUADOBJ</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>QUADRATIC</TT> </TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node28.html#S2.2.13a">3.2.14</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>QSECTION</TT></TD>
+<TD ALIGN="LEFT">synonym for <TT>QUADRATIC</TT> </TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><A HREF="node28.html#S2.2.13a">3.2.14</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ELEMENT TYPE</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node29.html#S2.2.14">3.2.15</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ELEMENT USES</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node30.html#S2.2.15">3.2.16</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>GROUP TYPE</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node31.html#S2.2.16">3.2.17</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>GROUP USES</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node32.html#S2.2.17">3.2.18</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>OBJECT BOUND</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">optional</TD>
+<TD ALIGN="CENTER"><A HREF="node33.html#S2.2.18">3.2.19</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ENDATA</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">mandatory</TD>
+<TD ALIGN="CENTER"><A HREF="node16.html#S2.2.2">3.2.2</A></TD>
+</TR>
+</TABLE>
+                         
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+Indicator cards
+must appear in the  order shown,  except that the <TT>GROUPS</TT> and  <TT>VARIABLES</TT>  sections  may be   interchanged to  allow
+specification of the linear  terms by rows or  columns.
+The cards <TT>CONSTANTS</TT>, <TT>RHS'</TT>, <TT>RHS</TT>,  <TT>RANGES</TT>, <TT>BOUNDS</TT>, <TT>START  POINT</TT>, 
+<TT>QUADRATIC</TT>, <TT>HESSIAN</TT>, <TT>QUADS</TT>, <TT>QUADOBJ</TT>, <TT>QSECTION</TT>,
+<TT>ELEMENT  TYPE</TT>, <TT>ELEMENT USES</TT>,
+<TT>GROUP  TYPE</TT>,   <TT>GROUP  USES</TT>   and <TT>OBJECT  BOUND</TT> are
+optional.
+
+<P>
+The data cards are divided into six fields.
+The content of each field varies with each type of data card
+as
+described in Section&nbsp;<A HREF="node14.html#S2.2">3.2</A>.  Those in fields&nbsp;1, 2, 3 and 5 must
+always be left justified within the field.  Field 1, which appears in
+columns 2 and 3, may contain a <EM>code</EM>
+(that is, a one or two
+character string which defines the expected contents of the remaining
+fields on the card),
+fields 2, 3 and 5 may hold <EM>names</EM>
+and fields
+4 and 6 might store <EM>numerical values</EM>.
+The numerical values are
+defined by up to 12 characters which may include a decimal point and
+an optional sign (a positive number is assumed unless a - is given).
+The value may be followed by a decimal exponent, written as an <TT>E</TT>
+or <TT>D</TT>,
+followed by a signed or unsigned one or two digit integer;
+the first blank
+after the <TT>E</TT> or <TT>D</TT> terminates the field.
+The names of variables, nonlinear elements
+or groups
+may be  up to ten characters  long.  These names may include
+integer indices
+(see Section&nbsp;<A HREF="node10.html#S2.1.1">3.1.1</A>).
+
+<P>
+Any card with  the  character * in  column   1 is a comment card;
+the remaining contents of the card are ignored. Such a  card may appear
+anywhere  in the data  file.  In addition,  completely blank
+cards are
+ignored when scanning the input file and may thus be used to space the
+data.  Finally, the presence of a $
+as the first character in fields 3 or 5 of  a data card
+indicates  that the  content  of  the remaining part  of the card is a
+comment and will be ignored.
+
+<P>
+<BR> <HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html188"
+  HREF="node10.html">3.1.1 Names</A>
+<LI><A NAME="tex2html189"
+  HREF="node11.html">3.1.2 Fortran Names</A>
+<LI><A NAME="tex2html190"
+  HREF="node12.html">3.1.3 Numerical Values</A>
+<LI><A NAME="tex2html191"
+  HREF="node13.html">3.1.4 An Example</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html186"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html184"
+  HREF="node8.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html178"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html187"
+  HREF="node10.html">3.1.1 Names</A>
+<B> Up:</B> <A NAME="tex2html185"
+  HREF="node8.html">3 The Standard Data</A>
+<B> Previous:</B> <A NAME="tex2html179"
+  HREF="node8.html">3 The Standard Data</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

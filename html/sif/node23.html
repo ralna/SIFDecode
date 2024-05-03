@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.9 The GROUPS, ROWS or CONSTRAINTS Data Cards (Group/Row-Wise)</TITLE>
+<META NAME="description" CONTENT="3.2.9 The GROUPS, ROWS or CONSTRAINTS Data Cards (Group/Row-Wise)">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node24.html">
+<LINK REL="previous" HREF="node22.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node24.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html347"
+  HREF="node24.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A>
+<A NAME="tex2html345"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A>
+<A NAME="tex2html339"
+  HREF="node22.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html348"
+  HREF="node24.html">3.2.10 The CONSTANTS, RHS</A>
+<B>Up:</B> <A NAME="tex2html346"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html340"
+  HREF="node22.html">3.2.8 The VARIABLES or</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00032900000000000000"></A><A NAME="S2.2.9"></A>
+<BR>
+3.2.9 The <TT>GROUPS</TT>, <TT>ROWS</TT> or <TT>CONSTRAINTS</TT> Data Cards
+<BR>(Group/Row-Wise)
+</H3>
+
+<P>
+The <TT>GROUPS</TT>, <TT>ROWS</TT> and <TT>CONSTRAINTS</TT> indicator cards
+are used interchangeably to announce the names of the groups
+which make up
+the objective function
+and, for constrained
+problems, the names of the
+constraints (or rows,  as  they are often  known  in linear programming
+applications).
+In  addition, the entries  for the linear  elements
+are input here.  The user may give a scaling factor  for the groups or
+constraints.
+Furthermore, groups  which  are linear  combinations  of
+previous groups may be specified. The syntax  for the data cards
+which follow these indicator cards
+is given in Figure&nbsp;<A HREF="node23.html#F2.2.9">3.10</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.9"></A><A NAME="9797"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.10:</STRONG>
+Possible data cards for <TT>GROUPS</TT>, <TT>ROWS</TT>,
+or <TT>CONSTRAINTS</TT>
+<BR>(row-wise)</CAPTION>
+<TR><TD><IMG
+ WIDTH="454" HEIGHT="371" BORDER="0"
+ SRC="img273.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...iptsize 50}~~~~~~~~~{\scriptsize 61}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The one- or two-character string in data field&nbsp;1  specifies the type of
+group, row  or constraint
+to  be   input.  Possible values  for the  first  character and  their
+interpretations are exactly as in Section&nbsp;<A HREF="node20.html#S2.2.6">3.2.6</A>.
+
+<P>
+The  string <TT>group-name</TT>  in data field&nbsp;2  gives the name of  the
+group (or row or constraint)
+under consideration.  This name   may be up   to ten  characters  long
+excepting that the name <TT>`SCALE'</TT>
+is not allowed.  For <TT>X</TT> and
+<TT>Z</TT> data  cards,
+the expanded array name
+must  be valid and  the  integer indices must have  been defined  in a
+parameter  assignment (see  Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).  The kind  of group
+(<TT>N</TT>, <TT>L</TT>, <TT>G</TT> or <TT>E</TT>)
+will  be  taken  to be that   which  is defined  on the    <EM>first</EM>
+occurrence of  a data  card
+for that group.
+Subsequent contradictory information will be ignored.
+
+<P>
+The string <TT>$$$$$$$$$$</TT>  in  data  field&nbsp;3 is  used  for
+three purposes.
+
+<UL>
+<LI>It may be used to specify  that  the group  mentioned in field&nbsp;2 has a
+linear element
+involving the variable given in field&nbsp;3.  In this case,
+the string in field&nbsp;3 must  have been defined  in the <TT>VARIABLES</TT>
+section.  If an array definition is being made, the string  in field&nbsp;3
+must be an array name.
+The numerical  value of the coefficient of the
+linear term corresponding  to the variable must  now be specified.  On
+<TT>Z</TT> cards,
+the value  is that previously  associated with the real
+parameter
+<TT>r-p-a-name</TT>  given in field&nbsp;5.   On other cards, the
+actual numerical  value <TT>numerical-vl</TT>  may occupy  up   to   12
+characters in data field&nbsp;4.
+
+<P>
+</LI>
+<LI>It may be used to announce that the  group function
+  under consideration is to  be scaled; in this
+case field&nbsp;3  will contain the   string  <TT>`SCALE'</TT>.
+The numerical value of the scale factor,  that is the  factor by which
+the group is to be divided, is now specified exactly as above.
+
+<P>
+In these first two cases, fields 5 and 6 may be used to define further
+coefficients or a scale factor for non <TT>Z</TT> cards.
+
+<P>
+</LI>
+<LI>If the first character in field&nbsp;1 is a D,  the current  group is to be
+formed as a linear combination of the groups mentioned in fields 3 and
+5;  the multiplication  factors are  then recorded in  fields  4 and 6
+respectively. Thus we will have
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{group in field~2} = \mbox{group in field~3} * \mbox{field~4} +
+                          \mbox{group in field~5} * \mbox{field~6}.
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="478" HEIGHT="16" BORDER="0"
+ SRC="img274.png"
+ ALT="\begin{displaymath}
+\mbox{group in field~2} = \mbox{group in field~3} * \mbox{field~4} +
+\mbox{group in field~5} * \mbox{field~6}.
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+In this case,  the names of the groups  in  fields&nbsp;3  and 5  must have
+already been defined.  The multiplication factors may occupy up  to 12
+locations in fields&nbsp;4 and 6.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html347"
+  HREF="node24.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A>
+<A NAME="tex2html345"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A>
+<A NAME="tex2html339"
+  HREF="node22.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>
+<BR>
+<B> Next:</B> <A NAME="tex2html348"
+  HREF="node24.html">3.2.10 The CONSTANTS, RHS</A>
+<B> Up:</B> <A NAME="tex2html346"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html340"
+  HREF="node22.html">3.2.8 The VARIABLES or</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

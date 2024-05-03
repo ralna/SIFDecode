@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.8 The VARIABLES or COLUMNS Data Cards (Group/Row-Wise)</TITLE>
+<META NAME="description" CONTENT="3.2.8 The VARIABLES or COLUMNS Data Cards (Group/Row-Wise)">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node23.html">
+<LINK REL="previous" HREF="node21.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node23.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html337"
+  HREF="node23.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html335"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html329"
+  HREF="node21.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html338"
+  HREF="node23.html">3.2.9 The GROUPS, ROWS</A>
+<B>Up:</B> <A NAME="tex2html336"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html330"
+  HREF="node21.html">3.2.7 The VARIABLES or</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00032800000000000000"></A><A NAME="S2.2.8"></A>
+<BR>
+3.2.8 The <TT>VARIABLES</TT> or <TT>COLUMNS</TT> Data Cards
+ 
+<BR>(Group/Row-Wise)
+</H3>
+
+<P>
+The   <TT>VARIABLES</TT> or  <TT>COLUMNS</TT>  indicator cards
+are used interchangeably to announce the (problem) variables
+for the minimization.  The user may also give a scaling factor for the
+entries in the column.
+The  syntax for  data  following  this  indicator  card is  given   in
+Figure&nbsp;<A HREF="node22.html#F2.2.8">3.9</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.8"></A><A NAME="9772"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.9:</STRONG>
+Possible data cards for <TT>VARIABLES</TT> or
+<TT>COLUMNS</TT> (row-wise)</CAPTION>
+<TR><TD><IMG
+ WIDTH="442" HEIGHT="141" BORDER="0"
+ SRC="img272.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...iptsize 50}~~~~~~~~~{\scriptsize 61}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The string <TT>varbl-name</TT> in  data  field&nbsp;2 gives the name of the
+variable (or column)
+under consideration.  This name  may be up to ten
+characters long excepting that the name  <TT>`SCALE'</TT>
+is not allowed.
+If  data field&nbsp;1  holds  the character <TT>X</TT>  or <TT>Z</TT>, an array
+definition is to be made. In this case, the expanded array name
+of the variables (or columns) must  be  valid  and the integer indices
+must    have  been  defined    in   a     parameter   assignment  (see
+Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).
+
+<P>
+The string <TT>$$$$$$$$$$</TT> in  data field&nbsp;3 is used for four
+purposes.
+
+<UL>
+<LI>If  the string is  empty,  the card is  just  defining  the  name
+of a problem variable.
+Such  a card
+must be inserted  for all  variables that only  appear in
+nonlinear elements.
+
+<P>
+</LI>
+<LI>It may be used to announce that all the entries in the linear elements
+for the variable  under consideration are  to be  scaled.
+On <TT>Z</TT> cards,
+the numerical value of this scale factor, the amount
+by  which each entry is to  be divided, is  that previously associated
+with the real parameter <TT>r-p-a-name</TT>  given in field&nbsp;5.   On other
+cards,
+the actual scale factor <TT>numerical-vl</TT>  occupies up to 12
+characters in data field&nbsp;4.
+</LI>
+<LI>It may be  used  to specify  that  the  variable(s) mentioned  in field&nbsp;2
+is(are) only allowed to take integer values. In this case field&nbsp;3 will
+contain the string <TT>'INTEGER'</TT>.
+</LI>
+<LI>It may be  used  to specify  that  the  variable(s) mentioned  in field&nbsp;2
+is(are) only allowed to take the values 0 or 1. In this case field&nbsp;3 will
+contain the string <TT>'ZERO-ONE'</TT>.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html337"
+  HREF="node23.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html335"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html329"
+  HREF="node21.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html338"
+  HREF="node23.html">3.2.9 The GROUPS, ROWS</A>
+<B> Up:</B> <A NAME="tex2html336"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html330"
+  HREF="node21.html">3.2.7 The VARIABLES or</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

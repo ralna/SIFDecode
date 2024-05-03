@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.11 The RANGES Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.11 The RANGES Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node26.html">
+<LINK REL="previous" HREF="node24.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html367"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html365"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html359"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html368"
+  HREF="node26.html">3.2.12 The BOUNDS Data</A>
+<B>Up:</B> <A NAME="tex2html366"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html360"
+  HREF="node24.html">3.2.10 The CONSTANTS, RHS</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321100000000000000"></A><A NAME="S2.2.11"></A>
+<BR>
+3.2.11 The <TT>RANGES</TT> Data Cards
+</H3>
+
+<P>
+The <TT>RANGES</TT> indicator card
+is used to announce the definition of a vector of additional bounds
+on  the artificial variables introduced
+in the <TT>GROUPS</TT>
+section (in the constrained case, this corresponds
+to saying that  specified inequality  constraints/rows
+have both lower and upper bounds).  The syntax for data following this
+indicator card
+is given in Figure&nbsp;<A HREF="node25.html#F2.2.11">3.12</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.11"></A><A NAME="9848"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.12:</STRONG>
+Possible data cards for <TT>RANGES</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="454" HEIGHT="125" BORDER="0"
+ SRC="img277.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 50}~~~~~~~~~$\,${\scriptsize 61}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The string <TT>range-name</TT> in data  field&nbsp;2 gives the  name of  the
+vector of range values.
+This name may be  up to ten characters long.
+More than one vector of range values may be defined.
+
+<P>
+The string <TT>$$$$$$$$$$</TT> is used for two purposes.
+
+<UL>
+<LI>It may be used to assign a default value to all the  range values
+in a
+particular vector. In this case field&nbsp;3 will contain  the  string <TT>'DEFAULT'</TT>.
+
+<P>
+</LI>
+<LI>It may contain the name of a group/row/constraint
+for  which the range
+value is to be specified.  Such a string must have been defined in the
+<TT>GROUPS</TT>
+section.
+</LI>
+</UL>
+
+<P>
+In addition, the  (optional) string <TT>group-name</TT> in data field&nbsp;5
+may also define the name of a group/row/constraint
+for which the range value is to be specified.
+
+<P>
+The string <TT>numerical-vl</TT> in  data field&nbsp;4 and (optionally) 6 now
+contains the  numerical  value of the  relevant   range value and  may
+occupy up to 12 locations.
+Only groups initially specified with a <TT>G</TT> or <TT>L</TT> in columns&nbsp;1
+or 2 of  field&nbsp;1 in  the <TT>GROUPS</TT>
+section  use range  values
+and therefore   only  these groups may  be specified.
+
+<P>
+Range values for an array
+of groups may  also be  defined on cards
+on which field&nbsp;1 is the character <TT>X</TT> or <TT>Z</TT>.  On such cards,
+the expanded array name
+in field&nbsp;3 and (as an option  on  <TT>X</TT> cards) 5
+must be  valid  and the integer indices  must  have been defined  in a
+parameter assignment (see Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).   On <TT>Z</TT>  cards,
+the range value
+is that previously associated with the real parameter,
+<TT>r-p-a-name</TT>, given in field&nbsp;5.   On <TT>X</TT> cards, the actual
+numerical value <TT>numerical-vl</TT> may occupy up to 12  characters in
+data    fields&nbsp;4 and (optionally)     6.  Using  the    terminology of
+Section&nbsp;<A HREF="node20.html#S2.2.6">3.2.6</A>, the extra bound
+is taken to imply the inequality
+<!-- MATH
+ $0 \leq  y_k  \leq |\mbox{field~4 or  6}|$
+ -->
+<IMG
+ WIDTH="149" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img278.png"
+ ALT="$0 \leq y_k \leq \vert\mbox{field~4 or 6}\vert$"> on the  artificial variable
+<IMG
+ WIDTH="14" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img279.png"
+ ALT="$y_k$">.
+
+<P>
+Any component in  a range vector  not specified takes a default value.
+The default   value for the components  of  each vector   is initially
+infinite. This default may be changed  using  a card
+whose third field
+contains the string  <TT>'DEFAULT'</TT> as mentioned above.   On  such  a
+card, the default value for the vector in field&nbsp;2  is given in field&nbsp;4
+whenever field&nbsp;1  is blank
+or contains the   character <TT>X</TT>.  If
+field&nbsp;1  contains the  character  <TT>Z</TT>, the default
+value  is that
+associated with the   real  parameter,
+<TT>rl-p-name</TT>, named  in
+field&nbsp;5.  The default value applies to each range value
+not explicitly
+specified.  If the default is to be  changed, the  change must be made
+on the first card
+naming a particular vector of range values.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html367"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html365"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html359"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html368"
+  HREF="node26.html">3.2.12 The BOUNDS Data</A>
+<B> Up:</B> <A NAME="tex2html366"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html360"
+  HREF="node24.html">3.2.10 The CONSTANTS, RHS</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

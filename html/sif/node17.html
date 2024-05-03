@@ -1,0 +1,432 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.3 Integer and Real Parameters</TITLE>
+<META NAME="description" CONTENT="3.2.3 Integer and Real Parameters">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node18.html">
+<LINK REL="previous" HREF="node16.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node18.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html287"
+  HREF="node18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html285"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html279"
+  HREF="node16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html288"
+  HREF="node18.html">3.2.4 Do-loops</A>
+<B>Up:</B> <A NAME="tex2html286"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html280"
+  HREF="node16.html">3.2.2 The ENDATA Indicator</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00032300000000000000"></A><A NAME="S2.2.3"></A>
+<BR>
+3.2.3 Integer and Real Parameters
+</H3>
+
+<P>
+We shall use the  word <EM>parameter</EM>  to mean the name given  to any
+quantity  which is associated with a  specified   numerical value. The
+numerical value will be known  as the <EM>parameter</EM> value.  Integer
+and  real values may  be associated  with parameters  in two ways. The
+easiest  way  is simply to set  a  parameter to a  specified parameter
+value, or to obtain a parameter from a previously defined parameter by
+simple  arithmetic   operations (addition, subtraction, multiplication
+and division).  The second way is  to have a parameter value specified
+in a do-loop,
+or to obtain a parameter from one specified in a do-loop
+(see Section&nbsp;<A HREF="node18.html#S2.2.4">3.2.4</A> below).
+
+<P>
+The syntax for associating a parameter
+with a specific value is given in Figure&nbsp;<A HREF="node17.html#Fig4.3">3.5</A>.
+
+<P>
+The two character  string in data  field&nbsp;1 (F.1) specifies  the way in
+which  the parameter value is  to be assigned.  If  the first of these
+characters   is a <TT>I</TT>, the  assigned  value  is  an integer; the
+parameter will be referred  to as an  <EM>integer parameter</EM>  or <EM>integer index.</EM> Alternatively, if the first of  these characters is an
+<TT>R</TT> or an <TT>A</TT>, the assigned value  is a real and the parameter
+will be called a <EM>real parameter</EM>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="Fig4.3"></A><A NAME="9674"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.5:</STRONG>
+Possible cards for specifying parameter values</CAPTION>
+<TR><TD><IMG
+ WIDTH="422" HEIGHT="644" BORDER="0"
+ SRC="img242.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 49}}&amp;
+\multicolumn{1}{@{}c@{}}{~}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+If  the string is <TT>IE</TT>,
+the integer parameter
+<TT>int-p-name</TT>
+named   in field&nbsp;2  is   to be  given the  integer  value specified in
+field&nbsp;4.  The parameter  may  be  up to  ten characters long,  and the
+integer value can occupy up to twelve positions.
+
+<P>
+If the string  is  <TT>IR</TT>,
+the  integer parameter
+value  named  in
+field&nbsp;2 is to be assigned the value of the nearest  integer (closer to
+zero) to the value of the real parameter <TT>rl-p-name</TT> specified
+in field&nbsp;3.  The parameter appearing in field&nbsp;3 must have already been
+assigned a value.
+
+<P>
+If the string is  <TT>IA</TT>,
+the integer parameter  named in field&nbsp;2 is
+to be formed by adding the value  of  the parameter <TT>int-p-name</TT>
+referred to in field&nbsp;3 to the integer value  specified in field&nbsp;4. The
+parameter appearing  in   field&nbsp;3 must have  already   been assigned a
+value.
+
+<P>
+If the string is <TT>IS</TT>,
+the  integer parameter named in field&nbsp;2 is
+to  be formed    by subtracting  the value    of    the parameter <TT>int-p-name</TT> referred to in field&nbsp;3 from  the integer value specified
+in field&nbsp;4. The parameter appearing in field&nbsp;3 must  have already been
+assigned a value.
+
+<P>
+If the string is <TT>IM</TT>,
+the value of the integer parameter named in
+field&nbsp;2  is to be obtained  by multiplying the value already specified
+for  the   parameter  in  field&nbsp;3 by   the integer  value specified in
+field&nbsp;4. Once  again, the parameter appearing  in  field&nbsp;3  must have
+already been assigned a value.
+
+<P>
+If the string is <TT>ID</TT>,
+the value of the integer parameter named in
+field&nbsp;2 is to be obtained  by dividing the  integer value specified in
+field&nbsp;4 by the value already specified  for the  parameter in field&nbsp;3.
+Once again, the parameter appearing in field&nbsp;3  must have already been
+assigned a value.
+
+<P>
+If the string is <TT>I=</TT>,
+the value of the integer parameter named in
+field&nbsp;2 is to be set to the  integer value specified for the parameter
+in field&nbsp;3.  The parameter appearing in field&nbsp;3 must have already been
+assigned a value.
+
+<P>
+If the string is <TT>I+</TT>,
+the value of the integer parameter named in
+field&nbsp;2  is  to be  calculated by  adding   the values of the  integer
+parameters  <TT>int-p-name</TT>  referred  to in  fields&nbsp;3 and  5. The
+parameters appearing in fields&nbsp;3 and 5 must have already been assigned
+values.
+
+<P>
+If the string is <TT>I-</TT>,
+the value of the integer parameter named in
+field&nbsp;2 is to  be calculated by  subtracting the value  of the integer
+parameters <TT>int-p-name</TT>  referred  to in field&nbsp;5  from   that in
+field&nbsp;3. The parameters appearing in fields&nbsp;3 and 5 must  have already
+been assigned values.
+
+<P>
+If the string is <TT>I*</TT>,
+the value of the integer parameter named in
+field&nbsp;2 is to be formed as the product of the values already specified
+for the integer parameters in fields&nbsp;3 and 5. The parameters appearing
+in fields&nbsp;3 and 5 must have already been assigned values.
+
+<P>
+Finally, if the string is <TT>I/</TT>,
+the value of the integer parameter
+named in field&nbsp;2 is  to be formed by dividing  the value specified for
+the  integer parameters in field&nbsp;3  by that specified for the  integer
+parameters   in field&nbsp;5.  Once    again, the  parameters  appearing in
+fields&nbsp;3 and 5 must have already been assigned values.
+
+<P>
+Note that, as an array  name
+can only  be a  maximum of 10  characters
+long, any integer parameter which is to be the  index of an  array can
+only  be at most seven  characters  in   length.  Furthermore, such  a
+parameter name may not include the characters ``<TT>(</TT>'', ``<TT>)</TT>''
+or ``<TT>,</TT>''.
+
+<P>
+If the string is <TT>RE</TT>,
+the real parameter <TT>rl-p-name</TT> named
+in field&nbsp;2  is to be  given the real value  specified  in field&nbsp;4. The
+parameter  may be up  to ten characters long, and  the real  value can
+occupy up to twelve positions.
+
+<P>
+If the string is <TT>RI</TT>,
+the real  parameter value named  in field&nbsp;2
+is to be assigned the equivalent floating point  value of  the integer
+parameter  <TT>int-p-name</TT> specified    in field&nbsp;3.  The  parameter
+appearing in field&nbsp;3 must have already been assigned a value.
+
+<P>
+If the string is <TT>RA</TT>,
+the value  of  the real parameter named in
+field&nbsp;2 is to be formed by adding the value of the real parameter <TT>rl-p-name</TT> referred to in field&nbsp;3 to  the real  value specified in
+field&nbsp;4. The parameter  appearing in field&nbsp;3  must  have  already been
+assigned a value.
+
+<P>
+If the string is  <TT>RS</TT>,
+the value  of the  real parameter named in
+field&nbsp;2 is to be formed by subtracting the value of the real parameter
+<TT>rl-p-name</TT>  referred  to  in  field&nbsp;3   from the real   value
+specified in field&nbsp;4. The  parameter  appearing in field&nbsp;3  must  have
+already been assigned a value.
+
+<P>
+If the string is <TT>RM</TT>,
+the value of the parameter named in field&nbsp;2
+is to  be formed  by multiplying   the  value specified  for  the real
+parameter in  field&nbsp;3  by the real  value  specified in field&nbsp;4.  Once
+again, the  parameter  appearing in field&nbsp;3   must  have already  been
+assigned a value.
+
+<P>
+If the string is <TT>RD</TT>,
+the value of the parameter named in field&nbsp;2
+is to be formed by dividing the real value specified in field&nbsp;4 by the
+value  specified  for  the real parameter   in  field&nbsp;3. The parameter
+appearing in field 3 must have already been assigned a value.
+
+<P>
+If the string is <TT>RF</TT>,
+the value of the parameter named in field&nbsp;2
+is  to be  formed  by evaluating the function named  in field&nbsp;3 at the
+real value specified in field&nbsp;4.   The  function <TT>funct-name</TT> --
+and its mathematical  equivalent  <IMG
+ WIDTH="30" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img243.png"
+ ALT="$f(x)$"> -- may  be one of: <TT>ABS</TT>
+(<IMG
+ WIDTH="69" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img244.png"
+ ALT="$f(x) = \vert x\vert$">), <TT>SQRT</TT> (<!-- MATH
+ $f(x) = \sqrt{x}$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="17" ALIGN="MIDDLE" BORDER="0"
+ SRC="img245.png"
+ ALT="$f(x) = \sqrt{x}$">),  <TT>EXP</TT>  (<IMG
+ WIDTH="67" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img246.png"
+ ALT="$f(x) =
+e^x$">), <TT>LOG</TT> (<!-- MATH
+ $f(x) = \log_{e} x$
+ -->
+<IMG
+ WIDTH="92" HEIGHT="17" ALIGN="MIDDLE" BORDER="0"
+ SRC="img247.png"
+ ALT="$f(x) = \log_{e} x$">), <TT>LOG10</TT> (<!-- MATH
+ $f(x) = \log_{10}
+x$
+ -->
+<IMG
+ WIDTH="98" HEIGHT="17" ALIGN="MIDDLE" BORDER="0"
+ SRC="img248.png"
+ ALT="$f(x) = \log_{10}
+x$">), <TT>SIN</TT> (<IMG
+ WIDTH="84" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img249.png"
+ ALT="$f(x) = \sin x$">),  <TT>COS</TT>  (<!-- MATH
+ $f(x) = \cos  x$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img250.png"
+ ALT="$f(x) = \cos x$">), <TT>TAN</TT> (<!-- MATH
+ $f(x) =  \tan x$
+ -->
+<IMG
+ WIDTH="87" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img251.png"
+ ALT="$f(x) = \tan x$">),  <TT>ARCSIN</TT> (<!-- MATH
+ $f(x) = \sin^{-1}  x$
+ -->
+<IMG
+ WIDTH="101" HEIGHT="19" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$f(x) = \sin^{-1} x$">),  <TT>ARCCOS</TT> (<!-- MATH
+ $f(x) = \cos^{-1} x$
+ -->
+<IMG
+ WIDTH="103" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img253.png"
+ ALT="$f(x) = \cos^{-1} x$">), <TT>ARCTAN</TT> (<!-- MATH
+ $f(x)  =  \tan^{-1} x$
+ -->
+<IMG
+ WIDTH="104" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img254.png"
+ ALT="$f(x) = \tan^{-1} x$">),
+<TT>HYPSIN</TT> (<!-- MATH
+ $f(x) = \sinh  x$
+ -->
+<IMG
+ WIDTH="93" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img255.png"
+ ALT="$f(x) = \sinh x$">), <TT>HYPCOS</TT>  (<!-- MATH
+ $f(x) = \cosh x$
+ -->
+<IMG
+ WIDTH="94" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img256.png"
+ ALT="$f(x) = \cosh x$">) or
+<TT>HYPTAN</TT> (<!-- MATH
+ $f(x) = \tanh x$
+ -->
+<IMG
+ WIDTH="96" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img257.png"
+ ALT="$f(x) = \tanh x$">).
+Certain of the functions may only be
+evaluated for arguments  lying within restricted ranges.  The argument
+for <TT>SQRT</TT>  must be  non-negative, those for   <TT>LOG</TT> and  <TT>LOG10</TT> must be strictly positive, and those for <TT>ARCSIN</TT>  and <TT>ARCCOS</TT> must be no larger than one in absolute value.
+
+<P>
+If the string is <TT>R=</TT>,
+the parameter
+value named  in field&nbsp;2 is to
+be  assigned the  value of   the  real parameter  <TT>rl-p-name</TT>
+referred to in field&nbsp;3. The parameter appearing  in field 3  must have
+already been assigned a value.
+
+<P>
+If the string is <TT>R+</TT>,
+the parameter  value named in field&nbsp;2 is to
+be  formed as the   sum of the   values  of the  real  parameters <TT>rl-p-name</TT> referred to in fields&nbsp;3 and 5. The parameters appearing
+in fields&nbsp;3 and 5 must have already been assigned values.
+
+<P>
+If the string is <TT>R-</TT>,
+the parameter value named in field&nbsp;2  is to
+be    formed by subtracting    the value of  the real   parameter <TT>rl-p-name</TT> referred to in field&nbsp;5 from the value of that referred
+to in  field&nbsp;3. The parameters appearing  in fields&nbsp;3 and  5 must have
+already been assigned values.
+
+<P>
+If the string is  <TT>R*</TT>,
+the value  of the real parameter named in
+field&nbsp;2 is to be formed as the product of the values already specified
+for the real parameters in fields&nbsp;3  and 5. Once again, the parameters
+appearing in fields&nbsp;3 and 5 must have already been assigned values.
+
+<P>
+If the string is <TT>R/</TT>,
+the parameter value named  in field&nbsp;2 is to
+be   formed  by dividing  the    value  of  the   real parameter  <TT>rl-p-name</TT> referred to in field&nbsp;3  by the value of that  referred
+to  in field&nbsp;5. The parameters appearing  in fields&nbsp;3 and 5 must  have
+already been assigned values.
+
+<P>
+Finally, if the string is <TT>R(</TT>,
+the value of the  parameter named
+in field&nbsp;2 is to be formed by evaluating the function named in field&nbsp;3
+at the value of  the real parameter  <TT>rl-p-name</TT> specified in
+field&nbsp;5. The function (and its mathematical equivalent)  may be any of
+those named  in the <TT>RF</TT> paragraph and  the  restrictions on  the
+allowed argument ranges given above still apply.
+
+<P>
+If the first  character  in field&nbsp;1 is  an  <TT>A</TT>, an array
+of real
+parameters is to be defined. The  particular type of definition is as
+for the <TT>R</TT> cards,
+excepting that any name,  <TT>r-p-a-name</TT>,
+referred  to  in  fields&nbsp;2,  3  or  5, with  the  exception of integer
+parameters named in field&nbsp;3 of <TT>AI</TT> cards and functions  named in
+the  same  field   of <TT>AF</TT>  and  <TT>A(</TT>  cards, must   be a real
+parameter array name
+with a valid index.
+
+<P>
+Parameter assignments may  be made at any  point  within the SDIF file
+between the  <TT>NAME</TT>
+and <TT>ENDATA</TT>
+indicator cards.   It is anticipated that  parameters
+will be used to store values such as the total number of variables and
+groups, which are used later in array
+definitions, and to allow a user
+to enter regular and repetitious data in a straightforward and compact
+way.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html287"
+  HREF="node18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html285"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html279"
+  HREF="node16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html288"
+  HREF="node18.html">3.2.4 Do-loops</A>
+<B> Up:</B> <A NAME="tex2html286"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html280"
+  HREF="node16.html">3.2.2 The ENDATA Indicator</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.5 Two Further Examples</TITLE>
+<META NAME="description" CONTENT="4.5 Two Further Examples">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="previous" HREF="node41.html">
+<LINK REL="up" HREF="node36.html">
+<LINK REL="next" HREF="node46.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html570"
+  HREF="node46.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html568"
+  HREF="node36.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html564"
+  HREF="node44.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html571"
+  HREF="node46.html">5 The SIF for</A>
+<B>Up:</B> <A NAME="tex2html569"
+  HREF="node36.html">4 The SIF for</A>
+<B> Previous:</B> <A NAME="tex2html565"
+  HREF="node44.html">4.4.3 The INDIVIDUALS Data</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00045000000000000000"></A><A NAME="S3.3"></A>
+<BR>
+4.5 Two Further Examples
+</H2>
+
+<P>
+In Section&nbsp;<A HREF="node5.html#S1.4">2.3</A>,   we gave an example. An   SEIF   file for this
+example is given  in Figure&nbsp;|refF3.3.1.  The  problem is again given
+the name <TT>DOC</TT>.  The two types of nonlinear  element were assigned
+the names <TT>ELEMENT1/2</TT>  by the previous SDIF  file.  The elemental
+variables were  given names beginning  with <TT>V</TT>  and the  internal
+variables for the second nonlinear element
+started with <TT>U</TT>.  The constant 0.0 occurs in the derivatives
+of  both elements,   so  an
+auxiliary variable is assigned  to hold its  value (although, we could
+have just not specified these particular components,  which would then
+have taken  their  default  zero  value).  The function    value   and
+derivatives of the second element type
+use  both sines and  cosines of
+<IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img363.png"
+ ALT="$u_2$"> and again auxiliary variables are assigned to hold these values,
+this  time  as    variables local  to  <TT>ELEMENT2</TT>.    The  second
+derivatives  are  sufficiently   straightforward   to  compute that we
+provide them.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F3.3.1"></A><A NAME="10250"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4.6:</STRONG>
+SEIF file for the element types for the example
+<BR>
+of Section&nbsp;<A HREF="node5.html#S1.4">2.3</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="468" HEIGHT="530" BORDER="0"
+ SRC="img364.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...olumn{1}{@{}c@{}}{~~{\scriptsize 65}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F3.3.2"></A><A NAME="10276"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4.7:</STRONG>
+SEIF file for the element types for the example
+<BR>
+of Section&nbsp;<A HREF="node6.html#S1.5">2.4</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="454" HEIGHT="186" BORDER="0"
+ SRC="img365.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...olumn{1}{@{}c@{}}{~~{\scriptsize 65}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+We gave a second example in Section&nbsp;<A HREF="node6.html#S1.5">2.4</A>. An SEIF file for this example
+is given in Figure&nbsp;<A HREF="node45.html#F3.3.2">4.7</A> on page <A HREF="node45.html#F3.3.2"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="file:/usr/local/lib/latex2html/icons/crossref.png"></A>.
+The problem is again given the name <TT>DOC2</TT>.
+The only type of nonlinear element
+was assigned  the name <TT>SQUARE</TT>  in the previous  SDIF   file, its
+elemental variable
+was called  <TT>V</TT>  and there was no  useful range
+transformation.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html570"
+  HREF="node46.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html568"
+  HREF="node36.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html564"
+  HREF="node44.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html571"
+  HREF="node46.html">5 The SIF for</A>
+<B> Up:</B> <A NAME="tex2html569"
+  HREF="node36.html">4 The SIF for</A>
+<B> Previous:</B> <A NAME="tex2html565"
+  HREF="node44.html">4.4.3 The INDIVIDUALS Data</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.18 The GROUP USES Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.18 The GROUP USES Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node33.html">
+<LINK REL="previous" HREF="node31.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node33.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html437"
+  HREF="node33.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html435"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html429"
+  HREF="node31.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html438"
+  HREF="node33.html">3.2.19 The OBJECT BOUND</A>
+<B>Up:</B> <A NAME="tex2html436"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html430"
+  HREF="node31.html">3.2.17 The GROUP TYPE</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321800000000000000"></A><A NAME="S2.2.17"></A>
+<BR>
+3.2.18 The <TT>GROUP USES</TT> Data Cards
+</H3>
+
+<P>
+The <TT>GROUP USES</TT>
+indicator card
+is  used to announce which  of  the nonlinear  elements
+appear in each  group and the type   of group function  involved.  The
+group types may be selected from among those defined in the <TT>GROUP
+TYPE</TT>
+section of the data while the elements
+may be  selected from among the
+types defined in the <TT>ELEMENT USES</TT>
+section.  In addition, group    parameter
+values are   assigned.   The
+syntax for   data  following this indicator  card
+is  given  in Figure&nbsp;<A HREF="node32.html#F2.2.17">3.19</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.17"></A><A NAME="10024"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.19:</STRONG>
+Possible data cards for <TT>GROUP USES</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="462" HEIGHT="202" BORDER="0"
+ SRC="img299.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 50}~~~~~~~~~$\,${\scriptsize 61}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+There are three sorts of data  cards
+in the  <TT>GROUP USES</TT>
+section.  For  cards of the second  and  third  kinds, the string <TT>group-name</TT> in data field&nbsp;2 gives the  name, or an  array
+of names, of the group(s) (or row(s) or constraint(s))
+under  consideration.  The name
+may be up
+to ten  characters  long   and  must   have been defined   in the <TT>GROUPS/ROWS/CONSTRAINTS</TT> section.
+
+<P>
+On array
+cards
+(those prefixed by  <TT>X</TT> or <TT>Z</TT>), the expanded element array name
+in field&nbsp;2  must be  valid and the integer indices
+must  have   been     defined  in    a   parameter  assignment    (see
+Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).
+
+<P>
+The first kind of cards,
+identified by the  characters <TT>T</TT> or <TT>XT</TT>
+in  field&nbsp;1,  give the name,  or  an array
+of   names, of a  group
+function  and   its   type.
+On   such cards,   the    string  <TT>$$$$$$$$$$</TT> in field&nbsp;2 is used for two purposes.
+
+<UL>
+<LI>It may contain  the name,  or an array of names,  of a  group function
+whose type is to be defined.   The name  may be  up  to ten characters
+long and  must have been  defined in the <TT>GROUPS/ROWS/CONSTRAINTS</TT>
+section.  On <TT>XT</TT>
+cards
+the expanded element array name
+in field&nbsp;2
+must  be valid and  the integer  indices  must have been  defined in a
+parameter assignment (see Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).
+
+<P>
+</LI>
+<LI>It may be used  to assign a  default type  to all the group functions.
+In this case field&nbsp;2 must contain the string  <TT>`DEFAULT'</TT>.  Such a
+card
+may only appear before the first <TT>T</TT> or <TT>XT</TT> card in the
+<TT>GROUP USES</TT>
+section.  Any  group not explicitly typed  is assumed
+to belong to a default type.
+The initial default type  is trivial but
+the  default may be changed.   The string <TT>gtype-name</TT>  in data
+field&nbsp;3 gives the name of the group type to be used.  This name may be
+up to ten characters  long and  must have appeared  in the  <TT>GROUP
+TYPE</TT> section.
+</LI>
+</UL>
+
+<P>
+The second kind  of data card,
+identified by the characters <TT>E</TT>,
+<TT>XE</TT> or   <TT>ZE</TT>
+in  field&nbsp;1, is  an indication that particular
+nonlinear elements a
+re to be included in a given group. Optionally the
+given elements may be multiplied by specified weights.
+On these data cards,
+the string <TT>elmnt-name</TT> in data fields 3 (and optionally 5
+on <TT>E</TT> and  <TT>XE</TT> cards) hold  the names of nonlinear  elements
+to be used.   The names in both  fields  may  be up to ten
+characters long and  must have been defined  in the <TT>ELEMENT</TT> <TT>USES</TT> section.  On  <TT>XE</TT>  and <TT>ZE</TT>  cards, the  names  of the
+nonlinear  elements must  be   components  of an   array
+of nonlinear
+elements, with a valid name
+and index.  The elements are multiplied by
+given weights. By  default,
+each  weight takes  the  value 1.0.  Only
+non-unit weights need to be specified explicitly.  On <TT>E</TT> and <TT>XE</TT> cards,
+the weights are assigned the  numerical values specified in
+data fields  4  (and optionally 6). These  values may occupy up  to 12
+locations of their specified field.  The default value of 1.0
+is taken
+whenever these fields are empty.   On <TT>ZE</TT>  cards, the string <TT>r-p-a-name</TT> in  data field&nbsp;5 gives  a real parameter   array name.
+This name  must have been previously defined  and its associated value
+then gives the numerical value of  the weight.  Any  group that is not
+named  on an <TT>E</TT> or  <TT>XE</TT> card
+is taken  to have no nonlinear elements.
+
+<P>
+The last kind of data card,
+identified by the characters <TT>P</TT>, <TT>XP</TT> or <TT>ZP</TT>
+in field&nbsp;1, is used to  assign numerical values to the
+parameters  for  the group
+functions (<TT>P</TT>)  or  array
+of  group
+functions (<TT>XP</TT> and <TT>ZP</TT>). On this data card,
+the strings <TT>gp-nam</TT> in data  fields&nbsp;3 (and, for <TT>P</TT>  and <TT>XP</TT>  cards, optionally 5)  give the names  of  parameters.
+These names
+must have been set in the <TT>GROUP TYPE</TT>
+section and be valid Fortran  name,
+see
+Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>.  On <TT>P</TT> and <TT>XP</TT> cards, the strings <TT>numerical-vl</TT> in  data   fields 4 and  (optionally)  6  contain the
+numerical value of the parameter.  These values may  each occupy up to
+12  locations  of their  field.  On <TT>ZP</TT> cards, the  string  <TT>r-p-a-name</TT> in data field&nbsp;5 gives   a  real  parameter
+array  name.
+This name must have been  previously defined  and its associated value
+then gives the numerical value of the parameter.
+
+<P>
+The <TT>T</TT> or <TT>XT</TT> card
+for a particular group
+must appear before its <TT>E</TT>, <TT>XE</TT>, <TT>ZE</TT>, <TT>P</TT>, <TT>XP</TT>
+or <TT>ZP</TT> cards.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html437"
+  HREF="node33.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html435"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html429"
+  HREF="node31.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html438"
+  HREF="node33.html">3.2.19 The OBJECT BOUND</A>
+<B> Up:</B> <A NAME="tex2html436"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html430"
+  HREF="node31.html">3.2.17 The GROUP TYPE</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

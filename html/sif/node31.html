@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.17 The GROUP TYPE Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.17 The GROUP TYPE Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node32.html">
+<LINK REL="previous" HREF="node30.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node32.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html427"
+  HREF="node32.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html425"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html419"
+  HREF="node30.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html428"
+  HREF="node32.html">3.2.18 The GROUP USES</A>
+<B>Up:</B> <A NAME="tex2html426"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html420"
+  HREF="node30.html">3.2.16 The ELEMENT USES</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321700000000000000"></A><A NAME="S2.2.16"></A>
+<BR>
+3.2.17 The <TT>GROUP TYPE</TT> Data Cards
+</H3>
+
+<P>
+The <TT>GROUP TYPE</TT>
+indicator card
+is used to announce  the data for
+the different types of nontrivial  groups which are to  be used.   The
+names of the group-type variable and, optionally, of  group parameters
+for each group type  are  specified in this  section.  The  syntax for
+data   cards
+following    the   indicator    card
+is given in Figure&nbsp;<A HREF="node31.html#S2.2.16">3.2.17</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.16"></A><A NAME="10000"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.18:</STRONG>
+Possible data cards for <TT>GROUP TYPE</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="374" HEIGHT="107" BORDER="0"
+ SRC="img298.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 45}}&amp;
+\multicolumn{1}{@{}c@{}}{~}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The  string  in field&nbsp;1 may  be either <TT>GV</TT>   or <TT>GP</TT>.
+This indicates whether the name of a group-type variable (<TT>GV</TT>) or
+one or more group parameters
+(<TT>GP</TT>)  are to  be specified on  the
+given data   card.
+The  data  for a particular  group type  must be
+specified on consecutive data  cards.  The string <TT>gtype-name</TT> in
+data field&nbsp;2 gives the name  of a nontrivial group type  and may be up
+to  ten characters long.  If data  field&nbsp;1 holds <TT>GV</TT>, the string
+<TT>gv-nam</TT> in  data field&nbsp;3  then gives the  name of the  group-type
+variable for this group type.  This string  may be  up to 6 characters
+long.   This   string    must    be a valid    Fortran
+name (see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>).    The  names of  the   variables for
+different group types may be the same.  Alternatively, if data field&nbsp;1
+holds <TT>GP</TT>,
+the strings  <TT>gp-nam</TT> in  data  fields  3   and
+(optionally) 5 give the names of parameters
+for the group type.  These
+strings must again  be valid Fortran
+names.  The  names of parameters
+for different group types
+may be the same; the names of the group-type
+variable and  parameters
+(if the latter appear)  for a specific group type must all be different.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html427"
+  HREF="node32.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html425"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html419"
+  HREF="node30.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html428"
+  HREF="node32.html">3.2.18 The GROUP USES</A>
+<B> Up:</B> <A NAME="tex2html426"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html420"
+  HREF="node30.html">3.2.16 The ELEMENT USES</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

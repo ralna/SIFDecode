@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.14 The QUADRATIC, HESSIAN, QUADS, QUADOBJ or QSECTION Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.14 The QUADRATIC, HESSIAN, QUADS, QUADOBJ or QSECTION Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node29.html">
+<LINK REL="previous" HREF="node27.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node29.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html397"
+  HREF="node29.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html395"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html389"
+  HREF="node27.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html398"
+  HREF="node29.html">3.2.15 The ELEMENT TYPE</A>
+<B>Up:</B> <A NAME="tex2html396"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html390"
+  HREF="node27.html">3.2.13 The START POINT</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321400000000000000"></A><A NAME="S2.2.13a"></A>
+<BR>
+3.2.14 <IMG ALIGN="BOTTOM" BORDER="0" SRC="new.gif"> The 
+<TT>QUADRATIC</TT>, <TT>HESSIAN</TT>, <TT>QUADS</TT>, <TT>QUADOBJ</TT> or <TT>QSECTION</TT>
+ Data Cards <IMG ALIGN="BOTTOM" BORDER="0" SRC="new.gif"> 
+</H3>
+
+<P>
+The <TT>QUADRACTIC</TT>, <TT>HESSIAN</TT>, 
+<TT>QUADS</TT><A NAME="tex2html16"
+  HREF="footnode.html#foot8330"><SUP>1</SUP></A>,
+<TT>QUADOBJ</TT><A NAME="tex2html17"
+  HREF="footnode.html#foot8331"><SUP>2</SUP></A>and
+<TT>QSECTION</TT><A NAME="tex2html18"
+  HREF="footnode.html#foot8332"><SUP>3</SUP></A>indicator  cards are used interchangeably
+to announce any nonzero coefficients <IMG
+ WIDTH="25" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img284.png"
+ ALT="${h_{j,k}}$"> in the quadratic 
+objective group <!-- MATH
+ ${{\scriptstyle \frac{1}{2}}\sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k }$
+ -->
+<IMG
+ WIDTH="153" HEIGHT="21" ALIGN="BOTTOM" BORDER="0"
+ SRC="img285.png"
+ ALT="${{\scriptstyle \frac{1}{2}}\sum_{j=1}^n \sum_{k=1}^n h_{j,k} x_j x_k }$">.
+Only one of each pair <!-- MATH
+ ${(h_{j,k}, h_{k,j})}$
+ -->
+<IMG
+ WIDTH="70" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img286.png"
+ ALT="${(h_{j,k}, h_{k,j})}$">, <IMG
+ WIDTH="48" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img287.png"
+ ALT="${(j \neq k)}$">,
+of ``off-diagonal'' terms should be given, 
+but which is unimportant. Any repeated coefficients will be summed.
+The  syntax  for  data  following   these indicator cards
+is  given in Figure&nbsp;<A HREF="node28.html#F2.2.13a">3.15</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.13a"></A><A NAME="9925"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.15:</STRONG>
+Possible data cards for 
+<TT>HESSIAN</TT>, <TT>QUADS</TT>, <TT>QUADOBJ</TT> or <TT>QSECTION</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="444" HEIGHT="185" BORDER="0"
+ SRC="img288.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 50}~~~~~~~~~$\,${\scriptsize 61}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The strings <TT>varbl-name</TT> in data fields 2 and 3 (and optionally 2 and 5
+for those cards whose field 1 does not contain <TT>Z</TT>)
+give the names of pairs of problem variables <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img289.png"
+ ALT="${x_j}$"> and 
+<IMG
+ WIDTH="15" HEIGHT="11" ALIGN="BOTTOM" BORDER="0"
+ SRC="img290.png"
+ ALT="${x_k}$"> for which <IMG
+ WIDTH="25" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img291.png"
+ ALT="${h_{j,k}}$"> is nonzero. 
+All problem variables must have been previously set in the 
+<TT>VARIABLES/COLUMNS</TT> section. Additionally, on a <TT>Z</TT> card,
+the name of the variable  must be  an element  of an   array
+of variables, with a valid name and index, while on a <TT>X</TT> card,
+the name may be either a scalar or an array name.
+
+<P>
+On cards whose field 1 is either empty or contains the character 
+<TT>X</TT>, the strings <TT>numerical-vl</TT> in data fields&nbsp;4 and (optionally) 6
+contain the associated numerical values of the coefficients
+<IMG
+ WIDTH="25" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="${h_{j,k}}$">. On cards for which field 1 contains the character
+<TT>Z</TT>, the string <TT>r-p-a-name</TT> in data field&nbsp;5 gives a real
+parameter array name.  This name must have been previously defined and
+its associated value then gives the numerical value of the parameter.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html397"
+  HREF="node29.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html395"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html389"
+  HREF="node27.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html398"
+  HREF="node29.html">3.2.15 The ELEMENT TYPE</A>
+<B> Up:</B> <A NAME="tex2html396"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html390"
+  HREF="node27.html">3.2.13 The START POINT</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

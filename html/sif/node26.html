@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.12 The BOUNDS Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.12 The BOUNDS Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node27.html">
+<LINK REL="previous" HREF="node25.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node27.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html377"
+  HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html375"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html369"
+  HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html378"
+  HREF="node27.html">3.2.13 The START POINT</A>
+<B>Up:</B> <A NAME="tex2html376"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html370"
+  HREF="node25.html">3.2.11 The RANGES Data</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321200000000000000"></A><A NAME="S2.2.12"></A>
+<BR>
+3.2.12 The <TT>BOUNDS</TT> Data Cards
+</H3>
+
+<P>
+The <TT>BOUNDS</TT>
+indicator card is  used to announce  a vector of data
+giving  lower and upper bounds on  the  unknown variables.
+The syntax   for  data following  this  indicator   card  is given  in
+Figure&nbsp;<A HREF="node26.html#F2.2.12">3.13</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.12"></A><A NAME="9872"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.13:</STRONG>
+Possible data cards for <TT>BOUNDS</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="452" HEIGHT="323" BORDER="0"
+ SRC="img280.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 49}}&amp;
+\multicolumn{1}{@{}c@{}}{~}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The two-character string in data  field&nbsp;1 specifies  the type of bound
+to  be input.   Possible values are: <TT>LO</TT>,  <TT>XL</TT> or <TT>ZL</TT>,
+in the case of a lower bound,
+<TT>UP</TT>, <TT>XU</TT>, <TT>ZU</TT>,in the case of an upper  bound,
+<TT>FX</TT>, <TT>XX</TT>, <TT>ZX</TT>,in the case of a fixed variable,
+i.e., the lower and  upper bounds are equal,  <TT>FR</TT> or <TT>XR</TT> if the
+variable is free,
+i.e., the lower and upper bounds are infinite, <TT>MI</TT>
+or <TT>XM</TT>, if there is no lower  bound, and <TT>PL</TT> or  <TT>XP</TT>, if there
+is no  upper bound.
+The  string  <TT>bound-name</TT> in  data  field&nbsp;2 gives  the name of the
+bound vector   under consideration.    This  name may  be up   to  ten
+characters long.   Several different bound  vectors may be  defined in
+the <TT>BOUNDS</TT> section.
+
+<P>
+The string <TT>$$$$$$$$$$</TT> is used for two purposes.
+
+<UL>
+<LI>It may contain the name of a variable/column for  which  a bound is to
+be  specified.  This name may be  up to ten   characters long and must
+refer to a variable defined in the <TT>VARIABLE</TT> data.
+
+<P>
+If the card  is of type  <TT>LO</TT>, <TT>UP</TT>,  <TT>FX</TT>, <TT>FR</TT>, <TT>MI</TT>, or <TT>PL,</TT>
+the string in data field&nbsp;3 specifies  to which variable
+the bound is applied.  If the card is of type <TT>XL</TT>, <TT>ZL</TT>, <TT>XU</TT>, <TT>ZU</TT>,  <TT>XX</TT>, <TT>ZX</TT>, <TT>XR</TT>, <TT>XM</TT> or  <TT>XP</TT>,
+this string specifies an array
+of variables which  are to be bounded.
+On such cards,
+the expanded array  name
+of this string must  be valid
+and the  integer  indices  must  have  been  defined   in  a parameter
+assignment (see Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).
+
+<P>
+For bounds of type <TT>LO</TT>, <TT>UP</TT>, <TT>FX</TT>, <TT>XL</TT>, <TT>XU</TT> or
+<TT>XX</TT>,
+the numerical value of the bound or array
+of bounds is given
+as the string <TT>numerical-vl</TT>, using at most 12 characters, in data
+field&nbsp;4.  For  bounds of  type <TT>ZL</TT>,  <TT>ZU</TT>  or  <TT>ZX</TT>, the
+numerical value of the  array
+of bounds is that previously associated
+with the real  parameter array <TT>r-p-a-name</TT> specified in field&nbsp;5.
+When both lower and upper bounds
+on a variable are required, they must
+be  specified  on separate   cards.
+Possible combinations    are <TT>LO</TT>-<TT>UP</TT>, <TT>LO</TT>-<TT>PL</TT>,  <TT>MI</TT>-<TT>UP</TT>, <TT>XL</TT>-<TT>XU</TT>, <TT>XL</TT>-<TT>XP</TT>, <TT>XM</TT>-<TT>XU</TT>,  <TT>ZL</TT>-<TT>XU</TT>, <TT>XL</TT>-<TT>ZU</TT>,   <TT>ZL</TT>-<TT>ZU</TT>,  <TT>ZL</TT>-<TT>XP</TT>  and <TT>XM</TT>-<TT>ZU</TT>.
+
+<P>
+</LI>
+<LI>It may be used to assign a default value to all the lower and/or upper
+bounds
+in a particular vector.  In this case  field&nbsp;3 will contain the
+string <TT>'DEFAULT'</TT>.
+Each bound  vector is  given default lower  and upper  bounds on every
+variable.  The value of the default lower bound is  initially zero and
+the upper bound is initially  infinite.  These default values may  be
+changed.  A new default value for the  vector in field&nbsp;2 is then given
+in field&nbsp;4 whenever field&nbsp;1 is <TT>LO</TT>, <TT>UP</TT>, <TT>FX</TT>, <TT>FR</TT>,
+<TT>MI</TT>,  <TT>PL</TT>
+or starts with  the  character <TT>X</TT>.  If  field&nbsp;1  starts with  the
+character <TT>Z</TT>, the default value is that associated with  the real
+parameter,
+<TT>rl-p-name</TT>,  named   in field&nbsp;5.  The   appropriate
+default value applies to each bound
+not explicitly specified.  If the
+default is to be changed, the change must  be  made on  the first card
+naming a particular vector of bounds.
+
+<P>
+If default lower and  upper bounds
+of zero and  infinity, respectively,
+are in effect and a   card
+with  <TT>MI</TT> or   <TT>XM</TT>
+in field&nbsp;1  is
+encountered, the  relevant lower bound
+is  changed to  minus  infinity
+<EM>and</EM> the upper bound becomes zero.  If  the  same defaults are in
+effect and an upper bound
+of zero is specified on a <TT>UP</TT>, <TT>XU</TT>
+or <TT>ZU</TT>
+card,
+the relevant  lower  bound becomes minus  infinity.
+These two features are necessary for MPS compatibility.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html377"
+  HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html375"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html369"
+  HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html378"
+  HREF="node27.html">3.2.13 The START POINT</A>
+<B> Up:</B> <A NAME="tex2html376"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html370"
+  HREF="node25.html">3.2.11 The RANGES Data</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

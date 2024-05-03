@@ -1,0 +1,700 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.1.4 An Example</TITLE>
+<META NAME="description" CONTENT="3.1.4 An Example">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="previous" HREF="node12.html">
+<LINK REL="up" HREF="node9.html">
+<LINK REL="next" HREF="node14.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html228"
+  HREF="node14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A>
+<A NAME="tex2html226"
+  HREF="node9.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A>
+<A NAME="tex2html222"
+  HREF="node12.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html229"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B>Up:</B> <A NAME="tex2html227"
+  HREF="node9.html">3.1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html223"
+  HREF="node12.html">3.1.3 Numerical Values</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00031400000000000000"></A><A NAME="S2.1.4"></A>
+<BR>
+3.1.4 An Example
+</H3>
+
+<P>
+Before we  give the complete  syntax for   an  SDIF file,  we give  an
+illustrative  example. In  order   to exhibit as  many constructs   as
+possible,   we consider    how  we  might    encode  the example    in
+Section&nbsp;<A HREF="node7.html#S1.6">2.5</A>.   We   urge the reader to   study this section  in
+detail.   As  always, there  are  many possible  ways of specifying  a
+particular problem; we give one  in Figures&nbsp;<A HREF="node13.html#Fig2">3.1</A> and <A HREF="node13.html#Fig3">3.2</A>,
+pages&nbsp;<A HREF="node13.html#Fig2"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="file:/usr/local/lib/latex2html/icons/crossref.png"></A> and <A HREF="node13.html#Fig3"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="file:/usr/local/lib/latex2html/icons/crossref.png"></A>.
+The horizontal and vertical lines  are merely included to indicate the
+extent of data fields. The  actual  widths of the fields
+are given at the top  of the figure,  and the  column numbers given at
+its foot.
+
+<P>
+The SDIF file naturally  divides into two  parts.   In the first part,
+lines 2  to 39 of the figure, we specify  information regarding linear
+functions used in the example.
+In the second part,  lines 40 to 93, we specify nonlinear  information.
+The first part  is merely an extension  of  the MPS
+input format; the second part is new.
+
+<P>
+The file must always start with a <TT>NAME</TT>
+card, on which a name (in this case <TT>EG3</TT>) for the example  may be
+given (line 1), and must end with an <TT>ENDATA</TT>
+card (line  93).
+A comment is inserted  at the end  of line 1  as to the  source of the
+example.  The character <TT>$</TT> identifies  the remainder of the line
+as a comment; the comment is ignored when interpreting the input file.
+
+<P>
+We next specify  names of parameters
+which will occur   frequently in
+specifying the example  (lines 2 to 5).  In our case the integer and
+real parameters
+<TT>1</TT> and <TT>ONE</TT> are given along with  <TT>N</TT>, a
+problem dimension  -- here  <TT>N</TT> is set to  100,  but it would  be
+trivial to change  the example  in  6  to allow  variables   <!-- MATH
+ $x_1
+,\ldots, x_n$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img187.png"
+ ALT="$ x_1
+,\ldots, x_n$"> for any <IMG
+ WIDTH="9" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img188.png"
+ ALT="$n$">.  We make a comment  to this effect on
+line 4; any card with the character <TT>*</TT> in column  1  is a  comment card
+and its content is ignored when interpreting the input file.
+
+<P>
+We now name the problem variables
+and groups
+(in our example objective function and constraints)
+used. The groups may  be specified before or
+after  the variables. We  choose here to name  the   groups first.
+The  objective  function
+will  be known as   <TT>OBJ</TT> (line  7); the
+character <TT>N</TT> in  field 1 specifies  that  this is  an  objective
+function    group.
+The  inequality constraints    (<A HREF="node7.html#1.6.2">2.19</A>)
+and (<A HREF="node7.html#1.6.3">2.20</A>) are  named <!-- MATH
+ ${\tt CONLE1},\ldots,  {\tt CONLE99}$
+ -->
+<IMG
+ WIDTH="145" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img189.png"
+ ALT="${\tt CONLE1},\ldots, {\tt CONLE99}$"> and
+<!-- MATH
+ ${\tt CONGE1},\ldots,  {\tt CONGE100}$
+ -->
+<IMG
+ WIDTH="153" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="${\tt CONGE1},\ldots, {\tt CONGE100}$"> respectively.  Rather   than
+specify them individually, a do-loop
+is used to make an array
+definition.  Thus the constraints
+<!-- MATH
+ ${\tt CONLE1,\ldots, CONLE99}$
+ -->
+<IMG
+ WIDTH="145" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="${\tt CONLE1,\ldots, CONLE99}$"> are defined <EM>en masse</EM>
+on lines 9  to  11 with  the do-loop  index  <TT>I</TT>  running from the
+previously defined  value <IMG
+ WIDTH="6" HEIGHT="11" ALIGN="BOTTOM" BORDER="0"
+ SRC="img192.png"
+ ALT="$1$"> to the  value  <TT>NM1</TT>.   The integer
+parameter, <TT>NM1</TT>,
+is defined on line 8 to be the sum of <TT>N</TT> and the value
+<IMG
+ WIDTH="20" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img193.png"
+ ALT="${\tt -1}$"> and in our case will  be 99.   The characters  <TT>XL</TT>
+in field 1 of line 10 indicate that an  array
+definition is being made
+(the  <IMG
+ WIDTH="8" HEIGHT="10" ALIGN="BOTTOM" BORDER="0"
+ SRC="img194.png"
+ ALT="${\tt X}$">)    and  that the   groups
+are less-than-or-equal-to
+constraints
+(the <TT>L</TT>).  The do-loop introduced on  line 9 with the
+characters <TT>DO</TT>
+in  field 1 is  terminated on  line 11  with  the
+characters <TT>ND</TT>
+in   its    first field.  In  a   similar  way,  the constraints <!-- MATH
+ ${\tt CONGE1,\ldots, CONGE99}$
+ -->
+<IMG
+ WIDTH="145" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="${\tt CONGE1,\ldots, CONGE99}$"> are defined all  together on lines 12 to  14;
+that these constraints involve  bounds
+on  both sides is taken care of
+by considering  them to  be greater-than-or-equal-to constraints
+(<TT>XG</TT>)
+on  line  13 and later  specifying the additional upper bounds in
+the <TT>RANGES</TT>
+section  (lines 26 to  29).  Finally,
+the equality constraint (<A HREF="node7.html#1.6.4">2.21</A>)
+is to be  called <TT>CONEQ</TT> (line 15); the character   <TT>E</TT>
+in   field  1 specifies that this  is  an equality constraint group.
+
+<P>
+Having named the groups,
+we  next name the  problem variables.
+At the
+same time,  we include the  coefficients  of  all  the linear elements
+used.  The variables are named  <!-- MATH
+ ${\tt X1},\ldots, {\tt X100}$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="${\tt X1},\ldots, {\tt X100}$"> and <TT>Y</TT>; an array
+declaration is made for the former set on  lines 17 to 19
+and <TT>Y</TT> is defined on line 20. The character <TT>X</TT> in field 1 of
+line 18 indicates that an array definition is used. Only the objective
+function
+(<A HREF="node7.html#1.6.1">2.18</A>), inequality  constraint
+(<A HREF="node7.html#1.6.2">2.19</A>) and equality
+constraint  groups
+(<A HREF="node7.html#1.6.4">2.21</A>)  contain  linear  elements.
+As well as
+introducing  <TT>Y</TT>, line  20 also specifies  that the linear element
+associated with group <TT>OBJ</TT> (field  3) involves variable  <TT>Y</TT>,
+and that <TT>Y</TT> 's coefficient in the linear element
+is  1.0 (field 4).  A do-loop
+is now used in lines 21 to 23  to  show that the linear
+elements  for constraints (<A HREF="node7.html#1.6.2">2.19</A>) also use  the  variable <TT>Y</TT>.
+It is assumed  that unless a variable is  explicitly identified with a
+linear element,  the element is  independent of that variable.   Thus,
+although  (<A HREF="node7.html#1.6.4">2.21</A>) uses  a linear element,  the element is constant
+and need not be specified in the <TT>VARIABLES</TT>
+section.
+
+<P>
+The only remaining part of the linear elements
+which must be specified
+is the constant term. Again, only nonzero constants need be given. For
+our  example, only  the  equality constraint
+group
+(<A HREF="node7.html#1.6.4">2.21</A>) has a
+nonzero constant term and  this data is specified on  lines 24 and 25.
+The string  <TT>C1</TT> in  field 2 of  line 25 is  the   name given to a
+specific set of constants. In general,  more  than one set of constants
+may be specified in  the SDIF file and the  relevant one selected in a
+postprocessing stage. Here, of course, we only have one set.
+
+<P>
+As   we have seen, the  inequality   constraint groups (<A HREF="node7.html#1.6.3">2.20</A>) are
+bounded from above as well as from  below. In the <TT>RANGES</TT>
+section (lines 26 to  30)  we  specify  these  upper bounds (or  range
+constraints  as  they are  sometimes  known).
+The  numerical  values
+<!-- MATH
+ ${\scriptstyle \frac{1}{2}}$
+ -->
+<IMG
+ WIDTH="6" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img197.png"
+ ALT="${\scriptstyle \frac{1}{2}}$"> are specified for each bound  for the relevant groups
+in an array
+definition on line 28; the string <TT>R1</TT> in field 2 is once
+again a name
+given to a specific set of range values as it is possible
+to define more than one set in the <TT>RANGES</TT> section.
+
+<P>
+We now turn to the simple  bounds
+(<A HREF="node7.html#1.6.5">2.22</A>) which are  specified in
+lines 30 to 36 of the example.   All problem variables  are assumed to
+have  lower  bounds  of zero and   no upper  bounds  unless  otherwise
+specified.  All but one  of the variables  for our  example have lower
+bounds of <IMG
+ WIDTH="19" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img198.png"
+ ALT="$-1$">. We  thus change the default
+value for the value of the lower bound on line 31 - the set of bounds
+is named <TT>BND1</TT>.  The  character <TT>L</TT>
+specifies that  it is the lower  bound
+default that  is to be changed.
+The string <TT>'DEFAULT'</TT>
+in field 3 indicates that the default is  being changed.  The variable
+<IMG
+ WIDTH="13" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$x_i$"> is given an upper bound
+of <IMG
+ WIDTH="5" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img200.png"
+ ALT="$i$">. We encode  that in a do-loop on
+lines  32 to  35 of  the figure.  The  do-loop  index <TT>I</TT>   is  an
+integer.  We change its current value to a real on line 33  and assign
+that value  as the upper bound
+on  line 34.  The  character <TT>Z</TT> in
+field 1 of this line indicates that an  array
+definition is being made
+and that the data is taken from a parameter in field 5 (as  opposed to
+a specified numerical   value in field   4) and the character  <TT>U</TT>
+specifies that the upper bound
+value is to  be assigned.  The variable
+<TT>y</TT> is unbounded  or,  as   it  is   often known,  free.
+This  is specified on line 36, the  string <TT>FR</TT>
+in field  1 indicating that <TT>Y</TT> is free.
+
+<P>
+The final ``linear'' piece of information given is an estimate  of the
+solution to the problem (if known) or  at  least a set of  values from
+which to start a minimization  algorithm. This information is given on
+lines  37  to  39. For  our problem,   we  choose  the  values  <!-- MATH
+ $x_i =
+{\scriptstyle \frac{1}{2}},  1  \leq  i  \leq  100$
+ -->
+<IMG
+ WIDTH="132" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img201.png"
+ ALT="$x_i =
+{\scriptstyle \frac{1}{2}}, 1 \leq i \leq 100$"> and  <IMG
+ WIDTH="38" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img202.png"
+ ALT="$y = 0$">.  Unless otherwise
+specified, all starting values take a default of zero.
+We change that
+default on line 38 to <!-- MATH
+ ${\scriptstyle \frac{1}{2}}$
+ -->
+<IMG
+ WIDTH="6" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img203.png"
+ ALT="${\scriptstyle \frac{1}{2}}$"> -- the set of starting values are
+named  <TT>START1</TT> --  and then specify the individual  value for the
+variable <TT>Y</TT> on line 39.
+
+<P>
+We now specify the nonlinear information.
+<IMG HEIGHT="12" ALIGN="BOTTOM" BORDER="0" SRC="new.gif">
+Firstly, we recall that
+there is a quadratic objective group,
+<!-- MATH
+ $x_1^2 + 2 x_1^{ } x_{100}^{ } \equiv {\scriptstyle \frac{1}{2}}( 4 x_1 x_1 +
+ 2 x_1 x_{100} + 2 x_{100} x_1 )$
+ -->
+<IMG
+ WIDTH="316" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img204.png"
+ ALT="$x_1^2 + 2 x_1^{ } x_{100}^{ } \equiv {\scriptstyle \frac{1}{2}}( 4 x_1 x_1 +
+2 x_1 x_{100} + 2 x_{100} x_1 )$">. We need to specify the nonzero coefficients
+of the terms <IMG
+ WIDTH="31" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img205.png"
+ ALT="$x_j x_k$">, and in our cases these are
+<IMG
+ WIDTH="56" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img206.png"
+ ALT="$h_{1,1} = 4$"> and <!-- MATH
+ $h_{1,100} = h_{100,1} = 2$
+ -->
+<IMG
+ WIDTH="129" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img207.png"
+ ALT="$h_{1,100} = h_{100,1} = 2$">.
+The rule that we adopt is
+that there is no need to supply both nonzeros
+<IMG
+ WIDTH="25" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img208.png"
+ ALT="$h_{j,k}$"> and <IMG
+ WIDTH="25" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img209.png"
+ ALT="$h_{k,j}$"> since they are the same, and
+that one (whichever is unimportant) suffices. Thus <IMG
+ WIDTH="56" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img210.png"
+ ALT="$h_{1,1} = 4$">
+and we (arbitrarily) choose to give <IMG
+ WIDTH="69" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img211.png"
+ ALT="$h_{1,100} = 2$">.
+In the <TT>QUADRATIC</TT> section on lines 39a to 39b, we indicate that
+the quadratic objective has two terms involving
+<IMG
+ WIDTH="15" HEIGHT="10" ALIGN="BOTTOM" BORDER="0"
+ SRC="img212.png"
+ ALT="${x_1}$">; the coefficient 4 is given for the
+<!-- MATH
+ ${x_1^2 \equiv x_1^{ } x_1^{ }}$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="${x_1^2 \equiv x_1^{ } x_1^{ }}$"> term, while that for
+the <IMG
+ WIDTH="44" HEIGHT="11" ALIGN="BOTTOM" BORDER="0"
+ SRC="img214.png"
+ ALT="${x_1 x_{100}}$"> term is assigned the value 2.
+<IMG HEIGHT="12" ALIGN="BOTTOM" BORDER="0" SRC="new.gif">
+
+<P>
+Next, we saw in Section&nbsp;<A HREF="node7.html#S1.6">2.5</A>
+that there are four element types
+for  the problem, being of  the form
+(i) <!-- MATH
+ $(v_1 - v_2 ) v_3$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img215.png"
+ ALT="$(v_1 - v_2 ) v_3$">, (ii) <IMG
+ WIDTH="45" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img216.png"
+ ALT="$p_1 v_1 v_2$">, (iii) <IMG
+ WIDTH="36" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img217.png"
+ ALT="$\sin v_1$"> and (iv)
+<!-- MATH
+ $(v_1 + v_2  )^2$
+ -->
+<IMG
+ WIDTH="67" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$(v_1 + v_2 )^2$">.  In  the <TT>ELEMENT  TYPE</TT>
+section on lines 40 to 48, we record details  of these types.  We name
+the four  types (i)-(iv) <TT>3PROD,  2PROD, SINE</TT>  and  <TT>SQUARE</TT>
+respectively.   For  <TT>3PROD</TT>,  we define  the elemental  variables
+(lines 41  and 42) to be <TT>V1, V2</TT>  and <TT>V3</TT>  and the internal
+variables (line 43) to be <TT>U1</TT> and  <TT>U2</TT>.  Elemental variables
+may be defined, two to a line, on lines for which field 1 is <TT>EV</TT>.
+Internal variables,
+on the other hand, are defined on lines  with <TT>IV</TT>  in field 1.  Similar definitions  are  made for <TT>2PROD</TT> (line
+44), <TT>SINE</TT> (line 46)  and <TT>SQUARE</TT> (line  47). The type <TT>2PROD</TT> also makes use of a parameter <IMG
+ WIDTH="15" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img219.png"
+ ALT="$p_1$">. This is named <TT>P1</TT>
+on line 45 for which field 1 reads <TT>EP</TT>.
+
+<P>
+Having   specified the  element  types,
+we  next   specify individual
+nonlinear elements
+in the <TT>ELEMENT USES</TT>
+section.  As we have seen, the objective function
+group uses  a single
+nonlinear element of type
+<TT>3PROD</TT>. We name this particular element
+<TT>OBJ1</TT>.  On line 50,  the character <TT>T</TT>  in field 1 indicates
+that the <TT>OBJ1</TT> is of type  <TT>3PROD</TT>. The assignment of problem
+to  elemental variables
+is made on  lines  51 to 53. Problem variables
+<TT>X1</TT> and <TT>X2</TT> are assigned to elemental variables <TT>V1</TT> and
+<TT>V3</TT>; the assignment  is  indicated by the   character <TT>V</TT>  in
+field 1.  In order to assign <IMG
+ WIDTH="28" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img220.png"
+ ALT="$x_{100}$"> (or in general <IMG
+ WIDTH="17" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img221.png"
+ ALT="$x_n$">) to <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img222.png"
+ ALT="$v_2$">,
+we assign the array
+entry <TT>X(N)</TT>  to <TT>V2</TT>. Notice  that as an
+array element is being used, this must be specially flagged  (<TT>ZV</TT>
+in field 1) as otherwise the wrong variable (called <TT>X(N)</TT> rather
+than <TT>X100</TT>, which is  the expanded form of  <TT>X(N)</TT>) would be
+assigned.   There are two   nonlinear  elements
+for   each inequality
+constraint group
+(<A HREF="node7.html#1.6.2">2.19</A>), each being of  the same type  <TT>2PROD</TT>. We  name these
+elements
+<!-- MATH
+ ${\tt CLEA1,\ldots,  CLEA99}$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img223.png"
+ ALT="${\tt CLEA1,\ldots, CLEA99}$"> and    <!-- MATH
+ ${\tt CLEB1,\ldots,
+CLEB99}$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img224.png"
+ ALT="${\tt CLEB1,\ldots,
+CLEB99}$">. The assignments are made on lines 54 to 67 within a do-loop.
+On lines 56 and 60  the elements are named
+and their  types assigned.
+
+<P>
+As array
+assignments are being used,  field 1 for  both lines contains
+the string <TT>XT</TT>.
+The elemental variables
+are then associated with
+problem variables
+on lines 57-58 and 61-62 respectively. Again array
+assignments are used and field 1 contains the string <TT>ZV</TT>.
+Notice  that   on  line 58 <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img225.png"
+ ALT="$v_2$"> is  assigned  the  problem variable
+<IMG
+ WIDTH="30" HEIGHT="12" ALIGN="MIDDLE" BORDER="0"
+ SRC="img226.png"
+ ALT="$x_{i+1}$">, where the  index <TT>IP1</TT> is   defined as  the sum of  the
+index <TT>I</TT>  and  the integer  value 1  on line  55.  It remains  to
+assign values    for the parameter <IMG
+ WIDTH="15" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img227.png"
+ ALT="$p_1$"> for   each element.
+This is
+straightforward for the elements  <!-- MATH
+ ${\tt CLEA1,\ldots, CLEA99}$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img228.png"
+ ALT="${\tt CLEA1,\ldots, CLEA99}$"> as the
+required value is always 1 and the assignment is made on  line 59 on a
+card
+with first field <TT>XP</TT>.
+The  remaining elements  have varying parameter
+values <IMG
+ WIDTH="48" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img229.png"
+ ALT="${1 + 2/i}$">.
+This value is  calculated on lines  63 to 65 and  assigned on line 66.
+Line 63 assigns  <TT>REALI</TT> to have  the  floating point value of the
+index <TT>I</TT>.  This  new value is then divided  into the value  2  on
+line 64 and the value assigned to <TT>ONE</TT>  is added to the resulting
+value on  the final line.  Thus  the parameter
+<TT>2OVAI+1</TT> holds the
+required value of <IMG
+ WIDTH="15" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img230.png"
+ ALT="$p_1$"> and the  array
+assignment is  made on line 66.
+On this line the string <TT>ZP</TT> indicates that an array
+assignment is
+being made, taking its value from the parameter  <TT>2OVAI+1</TT> in field
+4 (the <TT>Z</TT>) and that the elemental parameter
+<TT>P1</TT> in field 3
+is to  be assigned (the  <TT>P</TT>).  The  definition of the  nonlinear
+elements for the remaining constraint
+groups is straightforward. The inequality constraints
+(<A HREF="node7.html#1.6.3">2.20</A>) each
+use a single element, named
+<!-- MATH
+ ${\tt CGE1,\ldots,  CGE100}$
+ -->
+<IMG
+ WIDTH="119" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img231.png"
+ ALT="${\tt CGE1,\ldots, CGE100}$">, of type <TT>SINE</TT>  and the appropriate  array
+assignments are made on  lines 68 to
+70.  Finally, the equality constraint
+(<A HREF="node7.html#1.6.4">2.21</A>) is  named <TT>CEQ1</TT>
+and typed <TT>SQUARE</TT> with appropriate elemental variable
+assignments on lines 72 to 74.
+
+<P>
+We next need to specify  the nontrivial group  types.
+This is done in
+the  <TT>GROUP   TYPE</TT>
+section  on   lines   75   to 77.  We  saw in
+Section&nbsp;<A HREF="node7.html#S1.6">2.5</A>    that  a    single nontrivial   group,  <IMG
+ WIDTH="33" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img232.png"
+ ALT="$p_1
+\alpha^2$">, is required. On  line 76, the  name <TT>PSQUARE</TT> is given
+for the type and the group type variable <IMG
+ WIDTH="10" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img233.png"
+ ALT="${\tt\alpha}$"> is named <IMG
+ WIDTH="47" HEIGHT="10" ALIGN="BOTTOM" BORDER="0"
+ SRC="img234.png"
+ ALT="${\tt ALPHA.}$"> The string <TT>GV</TT>
+pin field 1 indicates that a type  and its
+variable are to be defined. On the following line field 1  is <TT>GP</TT>
+and this is used to announce that the group type parameter
+<IMG
+ WIDTH="15" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img235.png"
+ ALT="$p_1$"> is named <TT>P1</TT>.
+
+<P>
+Finally, we need to allocate nonlinear elements
+to groups
+and specify
+what type the resulting groups are to  be. This takes place within the
+<TT>GROUP USES</TT>
+section which runs from line 78 to 90.  The objective
+function group is nontrivial and its type is announced on line 79. The
+group uses  the single nonlinear element
+<TT>OBJ1</TT> specified on line
+80    and the  group-type   parameter
+<IMG
+ WIDTH="15" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img236.png"
+ ALT="$p_1$"> is   set   to the  value
+<!-- MATH
+ ${\scriptstyle \frac{1}{2}}$
+ -->
+<IMG
+ WIDTH="6" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img237.png"
+ ALT="${\scriptstyle \frac{1}{2}}$"> on  the next line. The  characters <TT>T</TT>,  <TT>E</TT> and
+<TT>P</TT>
+in the  first  fields  of these three  cards
+announce their
+purposes.  The inequality groups  (<A HREF="node7.html#1.6.2">2.19</A>) each use   two nonlinear
+elements,
+but the groups themselves are trivial
+(and  thus their types
+do not have to be made  explicit). The assignment of  the  elements to
+each group is made in an  array
+definition on lines 82  to 84; line 83
+is flagged  as assigning elements to a  group with the string <TT>XE</TT>
+in field 1. The  second set of  inequality constraints
+(<A HREF="node7.html#1.6.3">2.20</A>) use
+the nontrivial group type <TT>PSQUARE</TT> with parameter  value 1.
+Each group  uses a  single  nonlinear  element
+and  the   appropriate array
+assignments  are contained   on lines 85    to 89. Lastly  the trivial
+equality  constraint   group  (<A HREF="node7.html#1.6.4">2.21</A>)  is assigned the   nonlinear
+element <TT>CEQ1</TT> on line 90.
+
+<P>
+The definition of the problem is now complete. However, it often helps
+the intended minimization program if known  lower and  upper bounds on
+the possible values  of the objective function
+can  be given.   For  our example,  the objective function (<A HREF="node7.html#1.6.1">2.18</A>)
+cannot be smaller than zero. This  data is  specified on lines  91 and
+92.  The string <TT>LO</TT>
+in field  1 of line 92 indicates  that a lower bound
+is known for the
+value of (<A HREF="node7.html#1.6.1">2.18</A>).  The string <TT>OBOUND</TT> in field&nbsp;2 of this line
+is a name given to this known bound. The value of  the lower bound now
+follows in field&nbsp;4.  No upper bound need be specified as  the function
+is initially assumed to lie between plus and minus infinity.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="Fig2"></A><A NAME="9596"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.1:</STRONG>
+SDIF file (part 1) for the example of
+Section&nbsp;<A HREF="node7.html#S1.6">2.5</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="495" HEIGHT="840" BORDER="0"
+ SRC="img238.png"
+ ALT="\begin{figure}
+% latex2html id marker 9575
+\begin{center}
+\begin{tabular}{r\ve...
+...iptsize 50}~~~~~~~~~{\scriptsize 61}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="Fig3"></A><A NAME="9622"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.2:</STRONG>
+SDIF file (part 2) for the example
+         of Section&nbsp;<A HREF="node7.html#S1.6">2.5</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="486" HEIGHT="771" BORDER="0"
+ SRC="img239c.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{r\vert@{}c@{}\vert@{}l@{}\vert@{}l...
+...iptsize 50}~~~~~~~~~{\scriptsize 61}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html228"
+  HREF="node14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A>
+<A NAME="tex2html226"
+  HREF="node9.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A>
+<A NAME="tex2html222"
+  HREF="node12.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>
+<BR>
+<B> Next:</B> <A NAME="tex2html229"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Up:</B> <A NAME="tex2html227"
+  HREF="node9.html">3.1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html223"
+  HREF="node12.html">3.1.3 Numerical Values</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

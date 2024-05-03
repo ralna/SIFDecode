@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.13 The START POINT Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.13 The START POINT Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node28.html">
+<LINK REL="previous" HREF="node26.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node28.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html387"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html385"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html379"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html388"
+  HREF="node28.html">3.2.14 The QUADRATIC, HESSIAN,</A>
+<B>Up:</B> <A NAME="tex2html386"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html380"
+  HREF="node26.html">3.2.12 The BOUNDS Data</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321300000000000000"></A><A NAME="S2.2.13"></A>
+<BR>
+3.2.13 The <TT>START POINT</TT> Data Cards
+</H3>
+
+<P>
+The <TT>START POINT</TT>
+indicator  card
+is used to announce a vector of initial estimates of the values of the
+unknown variables and, in the case of problems with general
+constraints, Lagrange multipliers.
+The   Lagrangian
+function     associated    with
+(<A HREF="node2.html#objective">2.1</A>)-(<A HREF="node2.html#inequality_constraints">2.4</A>) is the function
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+l(x,\lambda) & = &
+\sum_{i \in I_{0}}
+        g_i\left(  \sum_{j \in J_i} w_{i,j} f_j (x_j) + a_i^T x - b_i \right)\\
+& & \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;+ \sum_{i \in I_E \cup I_I}
+\lambda_i g_i\left( \sum_{j \in J_i} w_{i,j} f_j (x_j) + a_i^T x - b_i \right)
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="455" HEIGHT="122" BORDER="0"
+ SRC="img281.png"
+ ALT="\begin{eqnarray*}
+l(x,\lambda) &amp; = &amp;
+\sum_{i \in I_{0}}
+g_i\left( \sum_{j \in J...
+...left( \sum_{j \in J_i} w_{i,j} f_j (x_j) + a_i^T x - b_i \right)
+\end{eqnarray*}">
+<BR CLEAR="ALL"></DIV><P></P>
+<BR CLEAR="ALL"><P></P>
+<BR CLEAR="ALL"><P></P>
+where the scalars <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img282.png"
+ ALT="$\lambda_i$"> are known as Lagrange multipliers.
+Good  estimates  of these  parameters  can   sometimes be  useful  for
+optimization procedures  (see, for example,    [<A
+ HREF="node57.html#GillMurrWrig81">10</A>]).
+The  syntax  for  data  following   this  indicator card
+is  given in Figure&nbsp;<A HREF="node27.html#F2.2.13">3.14</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.13"></A><A NAME="9898"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.14:</STRONG>
+Possible data cards for <TT>START POINT</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="452" HEIGHT="257" BORDER="0"
+ SRC="img283.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 50}~~~~~~~~~{\scriptsize 61}$\,$}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The <TT>V</TT>, <TT>XV</TT>  and  <TT>ZV</TT> cards
+are used to  define the
+starting value for variables.  In any  of these cards, the string <TT>start-name</TT> in data field&nbsp;2 gives the  name of a  starting  vector and
+may be up to ten characters long.  Several different  starting vectors
+may be defined in the <TT>START POINT</TT>
+section.  The string <TT>$$$$$$$$$$</TT> in field&nbsp;3 is used for
+two purposes.
+
+<P>
+
+<UL>
+<LI>It must contain the name of a variable defined in the  <TT>VARIABLES</TT>
+section, when a starting value is to be assigned to that variable.  If
+field&nbsp;1 does  not   contain  <TT>ZV</TT>, the  optional string    <TT>varbl-name</TT>  in data field 5  may also  contain the  name  of  such a
+variable whose starting value is to be assigned.
+
+<P>
+</LI>
+<LI>It may be used  to assign a default  value to all  the starting values
+for variables   in a  particular vector.  In  this  case  field&nbsp;3 must
+contain the string <TT>'DEFAULT'</TT>.
+
+<P>
+Each starting point   vector    is  given a  default
+value  for  every
+variable.  This value is initially  zero, but it may  be changed.  The
+appropriate  default value applies  to each variable   not  explicitly
+specified.
+</LI>
+</UL>
+
+<P>
+The   <TT>M</TT>, <TT>XM</TT>  and <TT>ZM</TT>   cards
+are used  to define the starting value for Lagrange multipliers.
+In any of those  cards, the
+string <TT>start-name</TT> in data field&nbsp;2 gives the name of  a starting
+vector  and  may be  up  to ten  characters  long.  Several  different
+starting vectors may be defined in the <TT>START POINT</TT> section.  The
+string <TT>$$$$$$$$$$</TT> in field&nbsp;3 is used for two purposes.
+
+<UL>
+<LI>It must contain the name of a group defined in the  <TT>GROUPS</TT> section
+which is not an objective function group,
+when a starting  value is to
+be assigned to the corresponding Lagrange multiplier.  If field&nbsp;1 does
+not contain <TT>ZV</TT>,  the optional string  <TT>multp-name</TT> in  data
+field&nbsp;5 may also contain the name of such a multiplier  whose starting
+value is to be assigned.
+
+<P>
+</LI>
+<LI>It may be  used to assign  a default value to all  the starting values
+for Lagrange multipliers in a particular vector.  In this case field&nbsp;3
+must contain the string <TT>'DEFAULT'</TT>.
+
+<P>
+Each starting point vector is given a default value for every Lagrange
+multiplier.  This value is initially zero, but it may be changed.  The
+appropriate default value applies  to  each multiplier not  explicitly
+specified.
+</LI>
+</UL>
+
+<P>
+The effect of a card
+whose field&nbsp;1  is blank
+or contains  <TT>X</TT> or
+<TT>Z</TT> is similar to that of <TT>V</TT>, <TT>XV</TT>, <TT>ZV</TT>, <TT>M</TT>,
+<TT>XM</TT> and <TT>ZM</TT> cards, except that
+
+<UL>
+<LI>variables and Lagrange multipliers  may be mixed up  on   cards  whose
+field&nbsp;3 does not contain <TT>`DEFAULT'</TT>,
+</LI>
+<LI>default values
+are assigned to both variables and Lagrange multipliers on card
+whose field&nbsp;3 contains <TT>`DEFAULT'</TT>.  The default value for
+both variables and multipliers is initially zero.
+</LI>
+</UL>
+
+<P>
+If  the defaults
+are  to be  changed, the change  must be  made on the
+first card naming a particular starting point vector.
+
+<P>
+Starting values for an array
+of  variables or Lagrange multipliers may
+only be defined on cards whose field&nbsp;1 begins with  the character <TT>X</TT> or <TT>Z</TT>; on <TT>X</TT> cards two arrays may be  defined on a single
+card.  On such cards, the expanded array  name
+in field&nbsp;3 (and field&nbsp;5
+for <TT>X</TT> cards)
+must be  valid  and the integer indices  must have
+been defined in a parameter assignment (see Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).
+
+<P>
+It remains to specify the numerical value of the default or individual
+starting point  as appropriate.
+On cards   whose field&nbsp;1  starts with
+<TT>Z</TT>,  the value  is that   previously  associated  with the  real
+parameter
+<TT>rl-p-name</TT>  or   array
+of real  parameters  <TT>rl-p-name</TT> (respectively)  given in field&nbsp;5.   On other cards, the
+numerical value   is  (or values  are) specified using  up   to twelve
+characters  in the string(s)  <TT>numerical-vl</TT> in data field&nbsp;4 (and
+if required field&nbsp;6).
+
+<P>
+<B>New</B>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html387"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html385"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html379"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html388"
+  HREF="node28.html">3.2.14 The QUADRATIC, HESSIAN,</A>
+<B> Up:</B> <A NAME="tex2html386"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html380"
+  HREF="node26.html">3.2.12 The BOUNDS Data</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

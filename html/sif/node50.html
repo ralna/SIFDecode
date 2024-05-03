@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.1.3 An Example</TITLE>
+<META NAME="description" CONTENT="5.1.3 An Example">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="previous" HREF="node49.html">
+<LINK REL="up" HREF="node47.html">
+<LINK REL="next" HREF="node51.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html628"
+  HREF="node51.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html626"
+  HREF="node47.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html622"
+  HREF="node49.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html629"
+  HREF="node51.html">5.2 Data Cards</A>
+<B>Up:</B> <A NAME="tex2html627"
+  HREF="node47.html">5.1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html623"
+  HREF="node49.html">5.1.2 Indicator Cards</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00051300000000000000"></A><A NAME="S4.1.3"></A>
+<BR>
+5.1.3  An Example
+</H3>
+
+<P>
+Before we give  the complete syntax for  an  SGIF  file, we finish the
+illustrative    example that we   started in  Section&nbsp;<A HREF="node13.html#S2.1.4">3.1.4</A> and
+Section&nbsp;<A HREF="node40.html#S3.1.3">4.3</A> and show how to specify an input file appropriate
+for the  problem of Section&nbsp;<A HREF="node7.html#S1.6">2.5</A>.  The  format is fairly similar
+to that for the SEIF file of Section&nbsp;<A HREF="node36.html#S3">4</A>.  Once again,  there are
+many possible ways of specifying a particular problem;  we give one in
+Figure&nbsp;<A HREF="node50.html#F4.1.3">5.2</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F4.1.3"></A><A NAME="10305"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5.2:</STRONG>
+SGIF file for the element types for the example
+<BR>
+of Section&nbsp;<A HREF="node7.html#S1.6">2.5</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="458" HEIGHT="216" BORDER="0"
+ SRC="img367.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{r\vert@{}c@{}\vert@{}l@{}\vert@{}l...
+...~~~~~~~~~~~~~~~~~~~~{\scriptsize 65}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The file must always start with a <TT>GROUPS</TT>
+card,
+on  which a name
+(in this case <TT>EG3</TT>) for  the example may  be given (line 1), and
+must end with an <TT>ENDATA</TT>
+card (line 10).
+
+<P>
+We  next need to specify the   names and  attributes of  any auxiliary
+quantities  and functions that  we intend  to use   in  our high level
+description  of the group  functions.
+These are  needed to   allow for consistency checks
+in the subsequent high-level  language statements
+and must always occur  in the <TT>TEMPORARIES</TT>
+section of the input  file.  Line&nbsp;3 indicates  that we shall  be using
+temporary quantities <TT>TWOP1</TT> and the character <TT>R</TT>
+in the first field  of this lines  states  that the  quantity  will be
+associated with a floating point (real) value.
+
+<P>
+We now make the actual definitions of the function and derivative
+values for the nontrivial  group type
+used; we recall  that there is a
+single nontrivial group type   <TT>PSQUARE</TT> and that its  attributes
+(name of group-type variable
+and parameter) have been  described in the
+SDIF file set up in Section&nbsp;<A HREF="node13.html#S2.1.4">3.1.4</A>.  This definition takes place
+within the <TT>INDIVIDUALS</TT>
+section.  The presence of the character <TT>T</TT>
+in field&nbsp;1  of line&nbsp;5 announces  that the data for the  group
+type <TT>PSQUARE</TT> is to follow. All  the  data for this group must be
+specified before another group type
+is considered.   We note  that the
+quantity <IMG
+ WIDTH="22" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img368.png"
+ ALT="$2 p_1$"> occurs  in both  first  and second derivatives
+of the
+group type function  and so the  auxiliary quantity <TT>TWOP1</TT> is set
+on line&nbsp;6 to hold this value.  The first field of a line on which such
+an assignment  is  made  contains the character   <TT>A</TT>.
+The  value  (line&nbsp;7),   its  first  derivative  (line&nbsp;8)    and second
+derivative (line&nbsp;9) with  respect to  the group-type
+variable are now given.  A Fortran
+expression for  these values  occurs in field&nbsp;7 on
+each of these lines; the lines contain the  characters <TT>F</TT>, <TT>G</TT>
+and <TT>H</TT>
+respectively in field&nbsp;1 for such assignments.
+
+<P>
+If there had  been more than  a single group  type
+with  one or  more expressions  in common, these  expressions
+could have been assigned to
+previously   attributed quantities in  a <TT>GLOBALS</TT>
+section.  This  section   would then  have  appeared between the  <TT>TEMPORARIES</TT>
+and <TT>INDIVIDUALS</TT>
+sections.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html628"
+  HREF="node51.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html626"
+  HREF="node47.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html622"
+  HREF="node49.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html629"
+  HREF="node51.html">5.2 Data Cards</A>
+<B> Up:</B> <A NAME="tex2html627"
+  HREF="node47.html">5.1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html623"
+  HREF="node49.html">5.1.2 Indicator Cards</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

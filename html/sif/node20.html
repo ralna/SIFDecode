@@ -1,0 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.6 The GROUPS, ROWS or
+CONSTRAINTS Data Cards (variable/column-wise)</TITLE>
+<META NAME="description" CONTENT="3.2.6 The GROUPS, ROWS or
+CONSTRAINTS Data Cards (variable/column-wise)">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node21.html">
+<LINK REL="previous" HREF="node19.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node21.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html317"
+  HREF="node21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A>
+<A NAME="tex2html315"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A>
+<A NAME="tex2html309"
+  HREF="node19.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html318"
+  HREF="node21.html">3.2.7 The VARIABLES or</A>
+<B>Up:</B> <A NAME="tex2html316"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html310"
+  HREF="node19.html">3.2.5 The Definition of</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00032600000000000000"></A><A NAME="S2.2.6"></A>
+<BR>
+3.2.6 The <TT>GROUPS</TT>, <TT>ROWS</TT> or
+<TT>CONSTRAINTS</TT> Data Cards
+<BR>(variable/column-wise)
+</H3>
+The <TT>GROUPS</TT>, <TT>ROWS</TT> and <TT>CONSTRAINTS</TT>
+indicator cards
+are used interchangeably to  announce the names of the groups
+which  make up   the  objective  function
+or, for  constrained
+problems, the  names  of the  constraints
+(or rows, as  they  are often known in linear programming
+applications).  The user may give a  scaling factor for the  groups or
+constraints.
+In addition,   groups which  are  linear combinations   of
+previous groups may be specified. The  syntax for the data cards
+which follow these indicator cards
+is given in Figure&nbsp;<A HREF="node20.html#F2.2.6">3.7</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.6"></A><A NAME="9722"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.7:</STRONG>
+Possible data cards for <TT>GROUPS, ROWS</TT> or
+<TT>CONSTRAINTS</TT>
+<BR>(column-wise)</CAPTION>
+<TR><TD><IMG
+ WIDTH="454" HEIGHT="371" BORDER="0"
+ SRC="img261.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...iptsize 50}~~~~~~~~~{\scriptsize 61}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The one- or two-character string in data field&nbsp;1  specifies the type of
+group, row or constraint
+to  be input.  Possible values for the first
+character are:
+<DL>
+<DT><STRONG><TT>N :</TT></STRONG></DT>
+<DD>the  group is  to be specially marked   (for constrained problems, the
+group/row is an objective function group/row).
+</DD>
+<DT><STRONG><TT>G :</TT></STRONG></DT>
+<DD>the group  is to use  an extra  ``artificial'' variable; this variable
+will only occur in this particular group, will be non-negative and its
+value will be subtracted   from  the group function.  For  constrained
+problems,  this is  equivalent  to   requiring   the constraint/row be
+non-negative; the  extra   variable is then  a   surplus variable  and
+whether it is used  explicitly (considered as  a  problem variable) or
+implicitly will  depend  upon  the optimization technique  to be used.
+Thus, if the  problem variables are <IMG
+ WIDTH="9" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img262.png"
+ ALT="$x$">,  and the  <IMG
+ WIDTH="8" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img263.png"
+ ALT="$k$">-th group has  a
+linear element
+<IMG
+ WIDTH="60" HEIGHT="19" ALIGN="MIDDLE" BORDER="0"
+ SRC="img264.png"
+ ALT="$a_k^T x - b_k$">, the linear element that will be passed
+to the optimization procedure could be <!-- MATH
+ $a_k^T x - y_k - b_k$
+ -->
+<IMG
+ WIDTH="95" HEIGHT="19" ALIGN="MIDDLE" BORDER="0"
+ SRC="img265.png"
+ ALT="$a_k^T x - y_k - b_k$">, for some
+non-negative variable <IMG
+ WIDTH="14" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img266.png"
+ ALT="$y_k$">.
+</DD>
+<DT><STRONG><TT>L :</TT></STRONG></DT>
+<DD>the  group is to use an  extra ``artificial''  variable; this variable
+will only occur in this particular group, will be non-negative and its
+value will be added to the group  function.  For constrained problems,
+this is  equivalent to requiring  the constraint/row
+be non-positive; the extra variable is then a slack
+variable and may be used explicitly or  implicitly by the optimization
+procedure.   Thus, if the  linear element
+is  as  specified above, the
+linear element that will be passed to the optimization procedure could
+be <!-- MATH
+ $a_k^T x + y_k - b_k$
+ -->
+<IMG
+ WIDTH="95" HEIGHT="19" ALIGN="MIDDLE" BORDER="0"
+ SRC="img267.png"
+ ALT="$a_k^T x + y_k - b_k$">, for some non-negative variable <IMG
+ WIDTH="14" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img268.png"
+ ALT="$y_k$">.
+</DD>
+<DT><STRONG><TT>E :</TT></STRONG></DT>
+<DD>the    group   is   a  normal   one  (for   constrained problems,  the
+row/constraint is an equality),
+</DD>
+<DT><STRONG><TT>X</TT> and <TT>Z</TT> :</STRONG></DT>
+<DD>an  array
+of  groups  are  to  be  defined at   once.  When the  first
+character is an <TT>X</TT> or <TT>Z</TT>, the second character may be one of
+<TT>N</TT>, <TT>G</TT>, <TT>L</TT> or <TT>E</TT>.   The  resulting array
+of groups
+then each has the  characteristics of an <TT>N</TT>,  <TT>G</TT>, <TT>L</TT> or
+<TT>E</TT> group as just described.
+</DD>
+<DT><STRONG><TT>D :</TT></STRONG></DT>
+<DD>the group  is to be  formed as  a linear   combination of two previous
+groups. When  the  first character is  a <TT>D</TT>, the second character
+may be one of <TT>N</TT>, <TT>G</TT>,  <TT>L</TT> or  <TT>E</TT>.  The resulting
+group then has the characteristics of an <TT>N</TT>, <TT>G</TT>, <TT>L</TT> or
+<TT>E</TT> group as just described.
+</DD>
+</DL>
+
+<P>
+The string <TT>group-name</TT>
+in data  field&nbsp;2 gives the  name of  the group (or row or constraint)
+under consideration.  This name may be up
+to ten characters long, excepting  that the name  <TT>`SCALE'</TT>
+is not
+allowed.  For  <TT>X</TT> data  cards,
+the expanded  array
+name must be valid  and the integer  indices must have been defined in
+a parameter assignment (see Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).
+
+<P>
+The string  <!-- MATH
+ $\$\$\$\$\$\$\$\$\$$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img269.png"
+ ALT="$\$\$\$\$\$\$\$\$\$$"> in  data field&nbsp;3  may be blank;
+this
+happens when field 2 is  merely announcing the name of  a group. If it
+is not blank, it is used for two purposes.
+
+<UL>
+<LI>It may be used to announce that the
+group  function under  consideration is to be scaled,  that is
+<EM>divided</EM>  by a constant  scale factor;  in this case field&nbsp;3 will
+contain the string <TT>`SCALE'</TT>.
+If the first  character  in field&nbsp;1 is a <TT>Z</TT>, the  string in data
+field&nbsp;5 gives the name of a previously defined  real parameter
+and the
+numerical value associated with this parameter gives the scale factor.
+Otherwise, the string <TT>numerical-vl</TT>, occupying up to 12 locations
+in data  field&nbsp;4, contains the scale factor.   Fields 5 and 6  are not
+then used.
+</LI>
+<LI>If the first character in field&nbsp;1 is a  <TT>D</TT>, the  current group is
+to be formed as a linear combination of the groups mentioned in fields
+3 and 5; the multiplication factors are then recorded  in fields 4 and
+6 respectively. Thus we will have
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{group in field~2} = \mbox{group in field~3} * \mbox{field~4} +
+                          \mbox{group in field~5} * \mbox{field~6}.
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="478" HEIGHT="16" BORDER="0"
+ SRC="img270.png"
+ ALT="\begin{displaymath}
+\mbox{group in field~2} = \mbox{group in field~3} * \mbox{field~4} +
+\mbox{group in field~5} * \mbox{field~6}.
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+In this  case, the names of the  groups  in  fields&nbsp;3 and 5  must have
+already been defined.  The multiplication factors may occupy  up to 12
+locations in fields&nbsp;4 and 6.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html317"
+  HREF="node21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A>
+<A NAME="tex2html315"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A>
+<A NAME="tex2html309"
+  HREF="node19.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>
+<BR>
+<B> Next:</B> <A NAME="tex2html318"
+  HREF="node21.html">3.2.7 The VARIABLES or</A>
+<B> Up:</B> <A NAME="tex2html316"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html310"
+  HREF="node19.html">3.2.5 The Definition of</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.3 An Example</TITLE>
+<META NAME="description" CONTENT="4.3 An Example">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node41.html">
+<LINK REL="previous" HREF="node39.html">
+<LINK REL="up" HREF="node36.html">
+<LINK REL="next" HREF="node41.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html521"
+  HREF="node41.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html519"
+  HREF="node36.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html513"
+  HREF="node39.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html522"
+  HREF="node41.html">4.4 Data Cards</A>
+<B>Up:</B> <A NAME="tex2html520"
+  HREF="node36.html">4 The SIF for</A>
+<B> Previous:</B> <A NAME="tex2html514"
+  HREF="node39.html">4.2 Indicator Cards</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00043000000000000000"></A><A NAME="S3.1.3"></A>
+<BR>
+4.3 An Example
+</H2>
+
+<P>
+Before we give the complete  syntax for an SEIF  file, we continue the
+illustrative example that we started in Section&nbsp;<A HREF="node13.html#S2.1.4">3.1.4</A>  and show
+how to  specify  an input   file   appropriate  for   the problem   of
+Section&nbsp;<A HREF="node7.html#S1.6">2.5</A>.   Once again, there  are   many  possible ways  of
+specifying a particular problem;  we give one  in Figure&nbsp;<A HREF="node40.html#F3.1.3">4.2</A>.
+The arithmetic expressions given are written in Fortran.
+
+<P>
+The file  must always start  with an  <TT>ELEMENTS</TT>
+card,
+on which a name (in this case <TT>EG3</TT>) for  the example may be
+given (line 1), and must end with an <TT>ENDATA</TT>
+card (line 40).
+
+<P>
+We  next need to specify the   names and  attributes of  any auxiliary
+quantities  and functions that  we intend  to use   in  our high level
+description  of the element  functions.
+These are needed to  allow for consistency
+checks  in  the subsequent high-level language statements
+and must always occur in the  <TT>TEMPORARIES</TT>
+section of the input  file.  Lines&nbsp;3  to  6 indicate that  we shall be
+using temporary quantities <TT>SINV1</TT>, <TT>ZERO</TT>, <TT>ONE</TT> and <TT>TWOP1</TT>, and the character <TT>R</TT> in the  first field for  these lines
+states that  these quantities will  be  associated with floating point
+(real)  values. The character  <TT>M</TT>   in field&nbsp;1 of  Lines&nbsp;7  and 8
+indicates that we may  use the intrinsic (machine)
+functions  <TT>SIN</TT>
+and <TT>COS</TT>.  These are   of   course Fortran
+intrinsic functions appropriate for the high-level language used here.
+
+<P>
+We now  specify any numerical  values which are to  be used in one  or
+more element
+descriptions within  the <TT>GLOBALS</TT>
+section.  On lines 10  and 11, we  allocate the values 0  and 1 to the
+previously defined quantities <TT>ZERO</TT> and <TT>ONE</TT>. Note that such
+cards
+require the character <TT>A</TT> in field&nbsp;1 - if an assignment were
+to take more than 41 characters  (the width  of  field&nbsp;7), it could be
+continued  on  subsequent lines  for  which the  string   <TT>A+</TT> is
+required in field&nbsp;1.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F3.1.3"></A><A NAME="10138"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4.2:</STRONG>
+SEIF file for the example of
+Section&nbsp;<A HREF="node7.html#S1.6">2.5</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="500" HEIGHT="699" BORDER="0"
+ SRC="img319.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{r\vert@{}c@{}\vert@{}l@{}\vert@{}l...
+...lumn{1}{@{}c@{}}{~~~{\scriptsize 65}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+Finally we need to  make  the actual definitions  of the  function and
+derivative
+values for the element  types  and specify  the  transformations
+from elemental to internal variables
+if they are used.  Such specifications
+occur in the <TT>INDIVIDUALS</TT>
+section from lines 12 to 39 of the example.  We  recall that there are
+four  element types
+<TT>3PROD</TT>,  <TT>2PROD</TT>,  <TT>SINE</TT> and  <TT>SQUARE</TT> and  that  their attributes (names of elemental   and internal
+variables and parameters)
+have been described  in the SDIF file set up
+in  Section&nbsp;<A HREF="node13.html#S2.1.4">3.1.4</A>.  Two  of the element types (<TT>3PROD</TT> and
+<TT>SQUARE</TT>  ) use internal   variables so  we need to   describe the
+relevant transformation for those.
+
+<P>
+On line 13, the presence of the character <TT>T</TT> in field&nbsp;1 announces
+that the data for the  element type
+<TT>3PROD</TT> is to follow. All the
+data for this element must be specified before another element type is
+considered. On  lines&nbsp;14 and 15 we  describe  the  transformation from
+elemental to internal  variables that is used  for <TT>3PROD</TT>. Recall
+that the  transformation  is  <!-- MATH
+ $u_1  = v_1   - v_2$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$u_1 = v_1 - v_2$"> and  <IMG
+ WIDTH="51" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img321.png"
+ ALT="$u_2= v_3$">. On
+line&nbsp;14, the first of these transformations is given, namely that <TT>U1</TT> is to be formed by adding  1.0 times <TT>V1</TT> to -1.0  times <TT>V2</TT>.  The second transformation
+is given on the following line, namely
+that <TT>U2</TT> is formed by  taking 1.0 times <TT>V3</TT>. Both lines are
+marked as defining transformations by the character <TT>R</TT>
+in field&nbsp;1 --  continuation lines
+are   possible  for transformations
+involving more than two elemental variables on lines  in which the
+string <TT>R+</TT>
+appears in the same field.
+
+<P>
+We now specify the function and derivative values
+of the element type
+<IMG
+ WIDTH="32" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img322.png"
+ ALT="$u_1 u_2$"> with respect to its internal variables.
+On line&nbsp;16, the code
+<TT>F</TT>
+in field&nbsp;1 indicates that we are setting the value of the element type
+to <TT>U1*U2</TT>, the Fortran
+expression for multiplying  <TT>U1</TT>  and
+<TT>U2</TT>.  On lines&nbsp;17 and 18, we specify the first derivatives of the
+element type
+with  respect to its two  internal variables
+<TT>U1</TT> and
+<TT>U2</TT> - the character <TT>G</TT>
+in field&nbsp;1 indicates that gradient
+values are  to be set.  On line&nbsp;17,
+the derivative
+with respect to  the variable  <TT>U1</TT>, specified in
+field&nbsp;2, is taken and expressed as <TT>U2</TT>  in field&nbsp;7. Similarly, on
+line 18, the  derivative with  respect to  the  variable <TT>U2</TT>  (in
+field&nbsp;2), <TT>U1</TT>, is given in field&nbsp;7.  Finally, on lines&nbsp;19  to 21,
+the second partial derivatives
+with respect to both internal variables
+are  given.  These  derivatives appear   on  cards
+whose  first  field
+contains the character <TT>H</TT>.
+On line&nbsp;19,  the second derivative
+with respect  to the variables <TT>U1</TT> (in field&nbsp;2) and <TT>U1</TT> (in field&nbsp;3), 0.0, is given  in field&nbsp;7.
+Similarly the second derivative with respect to the variables <TT>U1</TT>
+(in  field&nbsp;2) and <TT>U2</TT> (in  field&nbsp;3), 1.0,  occurs  in  field&nbsp;7 of
+line&nbsp;20 and that with respect  to  <TT>U2</TT> (in  field&nbsp;2) and <TT>U2</TT>
+(in field&nbsp;3), 0.0, is given in field&nbsp;7 of the following line.
+
+<P>
+The same principle   is applied     to  the specification   of   range
+transformations,
+values   and derivatives
+for  the  remaining element
+types. The type <TT>2PROD</TT> does not use a transformation  to internal
+variables, so derivatives
+are  taken  with respect to the   elemental variables
+<TT>V1</TT> and  <TT>V2</TT> (or  one  might think of the internal
+variables
+ being <TT>V1</TT>   and <TT>V2</TT>,  related to  the  elemental
+variables through the   identity  transformation).
+The values    and
+derivatives for  this element type
+are given  on lines&nbsp;22  to  28. The
+type <TT>SINE</TT> again does not use special internal  variables and the
+required value and  derivatives are given  on lines&nbsp;29 to  33.   Note,
+however, that  the value and   its second derivative with  respect  to
+<IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img323.png"
+ ALT="$v_1$"> both use  the quantity <IMG
+ WIDTH="36" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img324.png"
+ ALT="$\sin v_1$">; for  efficiency, we set  the
+auxiliary quantity <TT>SINV1</TT> to the Fortran
+value  <TT>SIN(V1)</TT> on
+line&nbsp;30  and  thereafter refer  to <TT>SINV1</TT>   on lines&nbsp;31  and  33.
+Notice that this  definition of auxiliary  quantities occurs on a line
+whose first field contains  the  character <TT>A</TT>.
+Finally,  the type  <TT>SQUARE</TT>,  which  uses a transformation from
+elemental  to internal  variables  <!-- MATH
+ $u_1 =  v_1  + v_2$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img325.png"
+ ALT="$u_1 = v_1 + v_2$">,  is defined on
+lines&nbsp;34 to 39. Again notice that the value 2.0 occurs in both first
+and second derivatives,
+so the auxiliary quantity <TT>TWO</TT> is  set on
+line&nbsp;36 to hold this value.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html521"
+  HREF="node41.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html519"
+  HREF="node36.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html513"
+  HREF="node39.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html522"
+  HREF="node41.html">4.4 Data Cards</A>
+<B> Up:</B> <A NAME="tex2html520"
+  HREF="node36.html">4 The SIF for</A>
+<B> Previous:</B> <A NAME="tex2html514"
+  HREF="node39.html">4.2 Indicator Cards</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

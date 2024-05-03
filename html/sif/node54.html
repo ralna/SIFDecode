@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6 Free Form Input</TITLE>
+<META NAME="description" CONTENT="6 Free Form Input">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node55.html">
+<LINK REL="previous" HREF="node46.html">
+<LINK REL="up" HREF="sif.html">
+<LINK REL="next" HREF="node55.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html665"
+  HREF="node55.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html663"
+  HREF="sif.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html657"
+  HREF="node53.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html666"
+  HREF="node55.html">7 Other Standards and</A>
+<B>Up:</B> <A NAME="tex2html664"
+  HREF="sif.html">The SIF Reference Report</A>
+<B> Previous:</B> <A NAME="tex2html658"
+  HREF="node53.html">5.3 Two Further Examples</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00060000000000000000"></A><A NAME="S5"></A>
+<BR>
+6  Free Form Input
+</H1>
+
+<P>
+So far, we have been  quite  specific in the  format that we allow. In
+this section,  we  consider  a  second  format   which, though closely
+connected to the first, allows one  to input problems  in a less rigid
+fashion. Although we refer to this second format as <EM>free format</EM>,
+the freedom really lies in how the  data can be  laid  out in an input
+file, not in any extra enhancements to the content of a file.
+
+<P>
+The input style discussed  in Sections&nbsp;<A HREF="node8.html#S2">3</A>-<A HREF="node46.html#S4">5</A> is  known as
+fixed format.
+Each  SDIF/SEIF/SGIF file  is  assumed to be in  fixed  format  unless
+otherwise   specified.   A  fixed  format  file  has data  arranged in
+specified fields
+of given length and normally does not allow for  much data on a single
+card.
+A free form
+file,   on the  other hand,  is  one  where  considerable data may  be
+conveyed  on   a single  line.   The  data   does not   have to lie in
+prespecified fields.
+However, we  shall   insist  that  <EM>any   free  form file  can  be
+translated to fixed format  and interpreted correctly, in this format,
+in a single sequential pass through the file</EM>.
+
+<P>
+We allow a further pair of indicator cards
+in any SDIF/SEIF/SGIF file.
+These   cards,     like   those  described     in  Section&nbsp;<A HREF="node9.html#S2.1">3.1</A>,
+Section&nbsp;<A HREF="node39.html#S3.1.2">4.2</A> and Section&nbsp;<A HREF="node49.html#S4.1.2">5.1.2</A>,     contain  a   single
+keyword   starting in   column&nbsp;1.    The new keywords   are given   in
+Figure&nbsp;<A HREF="node54.html#F5.1">6.1</A>.
+
+<P>
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F5.1"></A><A NAME="10387"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6.1:</STRONG>
+Additional indicator cards</CAPTION>
+<TR><TD><IMG
+ WIDTH="199" HEIGHT="47" BORDER="0"
+ SRC="img381.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{ll}
+\multicolumn{1}{c}{Keyword} &amp;...
+...al \\
+{\tt FIXED FORMAT} &amp; optional \\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+<P>
+Any data that lies between a <TT>FREE</TT> <TT>FORMAT</TT>
+card  and  the  next <TT>FIXED</TT> <TT>FORMAT</TT>
+or  <TT>ENDATA</TT>
+card is considered to be in free format.
+Likewise, any data that lies between a <TT>FIXED FORMAT</TT> card
+and the next <TT>FREE FORMAT</TT>
+or
+<TT>ENDATA</TT>
+card is considered  to be in fixed format.
+The file is considered to be in fixed format when the <TT>NAME</TT>
+(SDIF file), <TT>ELEMENTS</TT>
+(SEIF  file)  or <TT>GROUPS</TT>
+(SGIF file) card
+is first encountered and  thus no initial <TT>FIXED
+FORMAT</TT>
+card is required.
+
+<P>
+Fixed    format      data     is   exactly     as         described in
+Sections&nbsp;<A HREF="node8.html#S2">3</A>-<A HREF="node46.html#S4">5</A>.   The  data  on a free   format data card
+consists of  a number of <EM>strings</EM> separated by <EM>separators</EM>.
+The characters  ``<TT>-</TT>'',  ``<TT>;</TT>'', ``<TT>$</TT>'' and  ``&nbsp;''
+(blank)
+are separators and should not therefore be used as significant
+characters  within strings.  For example,  in  free format, <TT>X1;2</TT>
+will be interpreted   as two  strings <TT>X1</TT>    and   <TT>2</TT>.   The
+separators have the following meanings:
+<DL>
+<DT><STRONG><TT>&nbsp;</TT></STRONG></DT>
+<DD>(blank) indicates that the previous string has finished and that a new
+string will follow. One or  more blanks  is interpreted   as a  single
+blank.
+
+<P>
+</DD>
+<DT><STRONG><TT>;</TT></STRONG></DT>
+<DD>indicates that the previous string has finished and  that a new string
+will follow. Moreover, if the  file is translated  into  fixed format,
+the new string will appear on a new card.
+
+<P>
+</DD>
+<DT><STRONG><TT>_</TT></STRONG></DT>
+<DD>indicates that the  previous string  has finished  and  that the  next
+string is empty.  Each <TT>-</TT>  indicates a separate empty string so
+that <TT>___</TT> indicates three empty strings.
+
+<P>
+</DD>
+<DT><STRONG><TT>$</TT></STRONG></DT>
+<DD>indicates that the previous string has finished and that the remainder
+of the card is  to be considered as  a comment (and thus  ignored when
+the file is interpreted).
+</DD>
+</DL>
+
+<P>
+A free format
+card
+may contain  up to 160  characters.  On translation  into  fixed
+format,
+a free format card will be divided into one or more fixed format
+cards depending on  how many  card  separators ``<TT>;</TT>''
+are encountered.  Each fixed format card may  hold up  to six strings;
+these strings are numbered 1 to 6.
+
+<P>
+String&nbsp;1  is examined to  see if the first 12  characters identify the
+card as an indicator. If so, these characters are  placed in columns&nbsp;1
+to 12 on the card and the remaining  strings discarded. Otherwise, the
+card is a data card and the first two-characters of string&nbsp;1, together
+with the most recently identified indicator card are used to determine
+the structure
+of the remainder of  the card;
+two  character  code
+must   occur   as    field&nbsp;1   in  the  indicated section    of
+Sections&nbsp;<A HREF="node8.html#S2">3</A>-<A HREF="node46.html#S4">5</A> of this  report.  The first&nbsp;2, 10, 10,  12
+(41 on some SEIF/SGIF cards), 10, and  12 characters of  strings 1-6,
+respectively, are extracted and placed on a single data  card starting
+in columns&nbsp;2, 5, 15, 25, 40, and 50, respectively.  Left-over parts of
+strings are discarded. The assembled card is now in fixed format
+and may be interpreted as such.  Thus although  a free format card may
+appear to allow more flexibility, the  requirement that the translated
+card
+conforms  to  the  fixed  input   format
+places considerable responsibility on  the user to specify the content
+of strings correctly.
+
+<P>
+As an example, a free format
+variant of the SDIF file given in Figure&nbsp;<A HREF="node35.html#F2.3.1">3.21</A> might be:
+ <PRE>
+NAME          DOC
+FREE FORMAT
+GROUPS;E GROUP1;E GROUP2;E GROUP3
+VARIABLES;_X1 GROUP1 1.0;_X2 GROUP3 1.0;_X3
+BOUNDS;FR BN1 X1;LO BN1 X2 -1.0;LO BN1 X3 1.0
+       UP BN1 X2 1.0;UP BN1 X3 2.0
+ELEMENT TYPE
+EV ETYPE1 V1;EV ETYPE1 V2
+EV ETYPE2 V1;EV ETYPE2 V2;EV ETYPE2 V3
+IV ETYPE2 U1;IV ETYPE2 U2
+ELEMENT USES
+T G2E1 ETYPE1;V G2E1 V1_X2;V G2E1 V2_X3
+T G3E1 ETYPE2;V G3E1 V1_X2;V G3E1 V2_X1;V G3E1 V3_X3
+T G3E2 ETYPE1;V G2E1 V1_X1;V G2E1 V2_X3
+GROUP TYPE;GV GTYPE1 ALPHA;GV GTYPE2 ALPHA
+GROUP USES
+T GROUP1 GTYPE1; GROUP2 GTYPE2
+E GROUP2 G2E1;E GROUP3 G3E1;E GROUP3 G2E2
+ENDATA
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html665"
+  HREF="node55.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html663"
+  HREF="sif.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html657"
+  HREF="node53.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html666"
+  HREF="node55.html">7 Other Standards and</A>
+<B> Up:</B> <A NAME="tex2html664"
+  HREF="sif.html">The SIF Reference Report</A>
+<B> Previous:</B> <A NAME="tex2html658"
+  HREF="node53.html">5.3 Two Further Examples</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

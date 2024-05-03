@@ -1,0 +1,359 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.2.1 The INDIVIDUALS Data Cards</TITLE>
+<META NAME="description" CONTENT="5.2.1 The INDIVIDUALS Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="previous" HREF="node51.html">
+<LINK REL="up" HREF="node51.html">
+<LINK REL="next" HREF="node53.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html647"
+  HREF="node53.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html645"
+  HREF="node51.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html641"
+  HREF="node51.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html648"
+  HREF="node53.html">5.3 Two Further Examples</A>
+<B>Up:</B> <A NAME="tex2html646"
+  HREF="node51.html">5.2 Data Cards</A>
+<B> Previous:</B> <A NAME="tex2html642"
+  HREF="node51.html">5.2 Data Cards</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00052100000000000000"></A><A NAME="S4.2.1"></A>
+<BR>
+5.2.1  The <TT>INDIVIDUALS</TT> Data Cards
+</H3>
+
+<P>
+The <TT>INDIVIDUALS</TT>
+indicator card   is used to announce  the  definition of  function and
+derivative
+values for   the   types of
+nontrivial   group  functions
+required. The  syntax  for  data cards
+following the indicator card is given in Figure&nbsp;<A HREF="node52.html#S4.2.1">5.2.1</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F4.2.1"></A><A NAME="10325"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5.3:</STRONG>
+Possible data cards for <TT>INDIVIDUALS</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="698" HEIGHT="262" BORDER="0"
+ SRC="img369.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...~~~~~~~~~~~~~~{\scriptsize 65}$\,$}
+\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The one- or two-character string in field&nbsp;1 specifies  the type of data
+contained on the card.
+Possible values for the  first character of the string are:
+<DL>
+<DT><STRONG><TT>T</TT></STRONG></DT>
+<DD>This card announces that  a new group  type
+is  to be considered.  The
+string <TT>gtype-name</TT> in field&nbsp;2 gives the name of the group type;
+the name may be up  to ten characters  long and must have been defined
+in  the  <TT>GROUP  TYPE</TT>
+section    of   the SDIF    file   (see Section&nbsp;<A HREF="node30.html#S2.2.15">3.2.16</A>).
+
+<P>
+</DD>
+<DT><STRONG><TT>A</TT></STRONG></DT>
+<DD>This card  announces that an  auxiliary   parameter, specific  to  the
+current  group type,
+is   to be assigned   a  value.  The string <TT>p-name</TT> in field&nbsp;2 gives the name of the auxiliary parameter that is
+to  be  defined;  this  name  must be  a  valid  Fortran   name,
+see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>, and have been previously defined in the <TT>TEMPORARIES</TT>
+section.   The   string in field&nbsp;7   is an  arithmetic expression. The
+assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable named in field~2} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img370.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~2} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is  made; any variable  mentioned in  the   arithmetic expression must
+either be reserved (see  Section&nbsp;<A HREF="node51.html#S4.2">5.2</A>), or  have been defined in
+the <TT>TEMPORARIES</TT>
+section. If, in this  latter case,  the variable
+is integer or real, it must have been allocated  a value itself either
+on a previous <TT>GLOBALS</TT>
+data card
+or on a previous <TT>A</TT>
+card  for the current  element type
+in the <TT>INDIVIDUALS</TT>
+section.
+
+<P>
+</DD>
+<DT><STRONG><TT>I</TT></STRONG></DT>
+<DD>This  card announces  that  an  auxiliary parameter,   specific to the
+current  group type,
+is to be  assigned  a value whenever  a  second
+logical  auxiliary parameter has the value   <TT>.TRUE.</TT> The string,
+<TT>p-name</TT>, in field&nbsp;3 gives the  name  of the  auxiliary parameter
+that is to be defined; this  name  must be a  valid Fortran  name,
+see
+Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>, and  have  been previously  defined in  the <TT>TEMPORARIES</TT>
+section.   The string in  field&nbsp;7   is  an arithmetic expression.  The
+assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img371.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+will  be made  if and only if the  logical auxiliary  parameter,
+<TT>l-name</TT>, specified in field 2 has the value  <TT>.TRUE.</TT>; the logical
+parameter must have been previously  defined in  the <TT>TEMPORARIES</TT>
+section   and   allocated  a value  in    the  <TT>GLOBALS</TT>
+or <TT>INDIVIDUALS</TT>
+section.  The  arithmetic expression must  obey the rules
+set out in the <TT>A</TT>
+section above.
+
+<P>
+</DD>
+<DT><STRONG><TT>E</TT></STRONG></DT>
+<DD>This  card
+announces  that an auxiliary   parameter,  specific to the
+current  group type,
+is to be  assigned a  value   whenever   a second
+logical auxiliary  parameter
+has the  value  <TT>.FALSE.</TT> The string,
+<TT>p-name</TT>, in field&nbsp;3 gives  the name  of the auxiliary  parameter
+that is  to be defined;  this name  must be a  valid Fortran name,
+see
+Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>, and  have  been previously  defined  in the <TT>TEMPORARIES</TT>
+section.  The string  in   field&nbsp;7  is an arithmetic   expression. The
+assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img372.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+will  be made if  and only if  the logical auxiliary  parameter,
+<TT>l-name</TT>, specified in field 2 has the value <TT>.FALSE.</TT>; the logical
+parameter
+must have been  previously defined in the <TT>TEMPORARIES</TT>
+section  and allocated    a  value in  the   <TT>GLOBALS</TT>
+or <TT>INDIVIDUALS</TT>
+section.  The arithmetic expression must obey the rules set out in the
+<TT>A</TT>
+section above.
+
+<P>
+</DD>
+<DT><STRONG><TT>F</TT></STRONG></DT>
+<DD>This card
+specifies the value of the nontrivial group.
+The string in
+field&nbsp;7 is an arithmetic expression; the assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{nontrivial group function} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="242" HEIGHT="16" BORDER="0"
+ SRC="img373.png"
+ ALT="\begin{displaymath}
+\mbox{nontrivial group function} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is made; any variable mentioned in  the expression must obey the rules
+set out in the <TT>A</TT>
+section above.
+
+<P>
+</DD>
+<DT><STRONG><TT>G</TT></STRONG></DT>
+<DD>This card
+specifies the value of the first derivative
+of  the  nonlinear group  function  with  respect  to  its  group-type
+variable.
+The string  in  field&nbsp;7  is  an arithmetic expression;  the
+assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{first derivative of group function} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="293" HEIGHT="16" BORDER="0"
+ SRC="img374.png"
+ ALT="\begin{displaymath}
+\mbox{first derivative of group function} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is made; any variable mentioned in the arithmetic expression must obey
+the rules set out in the <TT>A</TT>
+section above.
+
+<P>
+</DD>
+<DT><STRONG><TT>H</TT></STRONG></DT>
+<DD>This card
+specifies   the value of   the second derivative of the  the
+nonlinear group function with respect to its group-type variable.
+The
+string in field&nbsp;7 is an arithmetic expression; the assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{second derivative of group function} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="312" HEIGHT="16" BORDER="0"
+ SRC="img375.png"
+ ALT="\begin{displaymath}
+\mbox{second derivative of group function} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is made; any variable mentioned in the arithmetic expression must obey
+the rules  set  out  in the <TT>A</TT>
+section  above.
+</DD>
+</DL>
+
+<P>
+The data started on an <TT>A</TT>, <TT>I</TT>, <TT>E</TT>, <TT>F</TT>, <TT>G</TT> and
+<TT>H</TT> card
+may be continued on a card  whose first field  contains an
+<TT>A+</TT>, <TT>I+</TT>, <TT>E+</TT>,  <TT>F+</TT>, <TT>G+</TT> or <TT>H+</TT>
+respectively.
+Such cards
+contain an arithmetic expression in  field&nbsp;7 and no further
+data; the arithmetic expression  must obey the  rules set out  in  the
+<TT>A</TT> section  above.  At most nineteen continuations  of  a  single
+assignment are allowed.
+
+<P>
+The data for a single group type
+must occur  on consecutive  cards and
+in the order given in Figure&nbsp;<A HREF="node52.html#F4.2.1">5.3</A>.  A new group type is deemed
+to have started whenever a <TT>T</TT>
+card is  encountered.  The <TT>F</TT>
+card
+is compulsory for all group types.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html647"
+  HREF="node53.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html645"
+  HREF="node51.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html641"
+  HREF="node51.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html648"
+  HREF="node53.html">5.3 Two Further Examples</A>
+<B> Up:</B> <A NAME="tex2html646"
+  HREF="node51.html">5.2 Data Cards</A>
+<B> Previous:</B> <A NAME="tex2html642"
+  HREF="node51.html">5.2 Data Cards</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

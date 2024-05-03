@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.3 An Example</TITLE>
+<META NAME="description" CONTENT="2.3 An Example">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node6.html">
+<LINK REL="previous" HREF="node4.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node6.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html121"
+  HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html119"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html113"
+  HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html122"
+  HREF="node6.html">2.4 A Second Example</A>
+<B>Up:</B> <A NAME="tex2html120"
+  HREF="node2.html">2 An introduction to</A>
+<B> Previous:</B> <A NAME="tex2html114"
+  HREF="node4.html">2.2 Element and Group</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00023000000000000000"></A><A NAME="S1.4"></A>
+<BR>
+2.3 An Example
+</H2>
+
+<P>
+We now consider the small example problem,
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\rm minimize} \;\;\; F(x_1, x_2,x_3)
+\equiv x_1^2 + x_2^4 x_3^4 + x_2 \sin(x_1 + x_3) + x_1 x_3 + x_2
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="462" HEIGHT="19" BORDER="0"
+ SRC="img96.png"
+ ALT="\begin{displaymath}
+{\rm minimize} \;\;\; F(x_1, x_2,x_3)
+\equiv x_1^2 + x_2^4 x_3^4 + x_2 \sin(x_1 + x_3) + x_1 x_3 + x_2
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+subject to the bounds
+<!-- MATH
+ $- 1 \leq x_2 \leq 1$
+ -->
+<IMG
+ WIDTH="85" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img97.png"
+ ALT="$- 1 \leq x_2 \leq 1$"> and <!-- MATH
+ $1 \leq x_3 \leq 2$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img98.png"
+ ALT="$1 \leq x_3 \leq 2$">.
+There are a number of ways of casting this problem in the
+form (<A HREF="node2.html#objective">2.1</A>). Here, we consider partitioning <IMG
+ WIDTH="12" HEIGHT="11" ALIGN="BOTTOM" BORDER="0"
+ SRC="img99.png"
+ ALT="$F$">
+into groups
+as
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\begin{array}{ccccc}
+(x_1)^2 & + & (x_2 x_3)^4 & + & (x_2 \sin(x_1 + x_3) + x_1 x_3 + x_2) \\
+\uparrow  & & \uparrow & & \uparrow \\
+\mbox{group 1} & & \mbox{group 2} & & \mbox{group 3}
+\end{array}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="396" HEIGHT="56" BORDER="0"
+ SRC="img100.png"
+ ALT="\begin{displaymath}\begin{array}{ccccc}
+(x_1)^2 &amp; + &amp; (x_2 x_3)^4 &amp; + &amp; (x_2 \si...
+...box{group 1} &amp; &amp; \mbox{group 2} &amp; &amp; \mbox{group 3}
+\end{array} \end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Notice the following:
+
+<OL>
+<LI>group 1 uses the non-trivial group
+function <!-- MATH
+ $g_1 (\alpha)  = \alpha^
+2$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img101.png"
+ ALT="$g_1 (\alpha) = \alpha^
+2$">.  The group  contains a  single <EM>linear</EM>  element;  the element
+function is <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img102.png"
+ ALT="$x_1$">.
+
+<P>
+</LI>
+<LI>group 2 uses   the   non-trivial group  function
+<!-- MATH
+ $g_2(\alpha)  =
+\alpha^4$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img103.png"
+ ALT="$g_2(\alpha) =
+\alpha^4$">.  The group contains  a single <EM>nonlinear</EM> element; this
+element function is  <IMG
+ WIDTH="32" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$x_2 x_3$">.   The element  function has  <EM>two</EM>
+elemental variables,
+<IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img105.png"
+ ALT="$v_1$"> and <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img106.png"
+ ALT="$v_2$">, say,  (with <IMG
+ WIDTH="52" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img107.png"
+ ALT="$v_1 = x_2$"> and <IMG
+ WIDTH="52" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img108.png"
+ ALT="$v_2
+= x_3$">) but there is no useful transformation to internal variables.
+
+<P>
+</LI>
+<LI>group 3 uses the trivial group function
+<!-- MATH
+ $g_3 (\alpha) = \alpha$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img109.png"
+ ALT="$g_3 (\alpha) = \alpha$">.  The
+group contains two <EM>nonlinear</EM> elements and a  single <EM>linear</EM>
+element <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img110.png"
+ ALT="$x_2$">.  The first nonlinear element function is <!-- MATH
+ $x_2 \sin ( x_1
++ x_3 )$
+ -->
+<IMG
+ WIDTH="102" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img111.png"
+ ALT="$x_2 \sin ( x_1
++ x_3 )$">.  This  function has <EM>three</EM> elemental variables, <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img112.png"
+ ALT="$v_1$">,
+<IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img113.png"
+ ALT="$v_2$"> and <IMG
+ WIDTH="14" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img114.png"
+ ALT="$v_3$">,  say, (with <IMG
+ WIDTH="52" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img115.png"
+ ALT="$v_1 = x_2 $">, <IMG
+ WIDTH="52" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img116.png"
+ ALT="$v_2 = x_1$"> and  <IMG
+ WIDTH="58" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img117.png"
+ ALT="$v_3 =
+x_3)$">, but may be expressed in terms of <EM>two</EM> internal variables
+<IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img118.png"
+ ALT="$u_1$"> and <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$u_2$">, say,  where <IMG
+ WIDTH="51" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$u_1 = v_1 $"> and <!-- MATH
+ $u_2= v_2  + v_3$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img121.png"
+ ALT="$u_2= v_2 + v_3$">.  The
+second nonlinear element  function is <IMG
+ WIDTH="32" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img122.png"
+ ALT="$x_1 x_3$">,  which has two
+elemental variables <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$v_1$"> and <IMG
+ WIDTH="14" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img124.png"
+ ALT="$v_2$"> (with <IMG
+ WIDTH="52" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img125.png"
+ ALT="$v_1 = x_1$"> and <IMG
+ WIDTH="52" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img126.png"
+ ALT="$v_2 = x_3$">)
+and is  of the same type as the nonlinear element in group 2.
+</LI>
+</OL>
+
+<P>
+Thus we see that we can consider our objective  function
+to be  made up of three  groups;
+the first and  second are non-trivial
+(and  of different types) so we  will have to provide our optimization
+procedure with function and derivative
+values  for these at  some stage.  There
+are  three nonlinear elements,
+one from group two and  two more from  group three.
+Again  this means
+that  we   shall have to provide  function   and derivative
+values for
+these.  The first and  third nonlinear  element
+are of  the same type,
+while the  second  element is a  different type.  Finally one of these
+element types, the second, has  a useful transformation from elemental
+to internal variables so this transformation will need to be set up.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html121"
+  HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html119"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html113"
+  HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html122"
+  HREF="node6.html">2.4 A Second Example</A>
+<B> Up:</B> <A NAME="tex2html120"
+  HREF="node2.html">2 An introduction to</A>
+<B> Previous:</B> <A NAME="tex2html114"
+  HREF="node4.html">2.2 Element and Group</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.16 The ELEMENT USES Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.16 The ELEMENT USES Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node31.html">
+<LINK REL="previous" HREF="node29.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node31.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html417"
+  HREF="node31.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html415"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html409"
+  HREF="node29.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html418"
+  HREF="node31.html">3.2.17 The GROUP TYPE</A>
+<B>Up:</B> <A NAME="tex2html416"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html410"
+  HREF="node29.html">3.2.15 The ELEMENT TYPE</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321600000000000000"></A><A NAME="S2.2.15"></A>
+<BR>
+3.2.16 The <TT>ELEMENT USES</TT> Data Cards
+</H3>
+
+<P>
+The <TT>ELEMENT USES</TT>
+indicator card
+is used to specify the names and types of the nonlinear
+element functions.
+The element types may be selected from among those
+defined in the <TT>ELEMENT TYPE</TT>
+section.
+Associations are made between the problem variables
+and the elemental variables
+for  the  elements used and  parameter
+values are assigned.
+The syntax  for data  following   this indicator   card
+is given   in Figure&nbsp;<A HREF="node30.html#F2.2.15">3.17</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.15"></A><A NAME="9976"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.17:</STRONG>
+Possible data cards for <TT>ELEMENT USES</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="436" HEIGHT="187" BORDER="0"
+ SRC="img297.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 50}~~~~~~~~~{\scriptsize 61}$\,$}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+There are three sorts of data cards
+in the <TT>ELEMENT USES</TT>
+section.  For cards of the second  and  third  kinds, the  string <TT>elmnt-name</TT> in data field&nbsp;2 gives the name, or an array
+of names, of a
+nonlinear element function.
+This  name  may be up  to  ten characters
+long and each nonlinear element name must  be unique.  On  array
+cards
+(those prefixed  by <TT>X</TT>  or <TT>Z</TT>), the  expanded element  array
+name in field&nbsp;2 must be  valid and the integer  indices must have been
+defined in a parameter assignment (see Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).
+
+<P>
+The first kind of cards, identified by the characters <TT>T</TT> or <TT>XT</TT>
+in field&nbsp;1, give the name, or an array
+of names, of an element and its
+type.  On such cards,
+the string <TT>$$$$$$$$$$</TT> in field&nbsp;2
+is used for two purposes.
+
+<UL>
+<LI>It may contain the name, or an array of
+names, of a  nonlinear element
+function whose  type is to be defined.   This  name may  be  up to ten
+characters  long and each nonlinear element  name
+must be unique.  On
+<TT>XT</TT>
+cards  the expanded element  array name
+in  field&nbsp;2 must be
+valid and the integer  indices must have  been  defined in a parameter
+assignment (see Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>).
+
+<P>
+</LI>
+<LI>It may be used to assign a  default type
+to all the  nonlinear element
+functions.   In   this case field&nbsp;2    must contain   the string  <TT>`DEFAULT'</TT>.  Any element not explicitly  typed
+is assumed to belong to
+a default type.  If a default is to be used, it must be specified on a
+card
+and such a card may only appear before the first  <TT>T</TT> or <TT>XT</TT>    card in the <TT>ELEMENT   USES</TT>
+section.   The  string   <TT>etype-name</TT> in data field&nbsp;3 gives the name of the  element
+type to be
+used.   This  name may be up  to  ten characters   long and must  have
+appeared in the <TT>ELEMENT TYPE</TT> section.
+</LI>
+</UL>
+
+<P>
+The second kind of data card, identified by the  characters <TT>V</TT> or
+<TT>ZV</TT>
+in  field&nbsp;1, is used  to  assign problem variables
+to   the elemental  variables
+appropriate for the  element type.   On this data
+card,
+the string  <TT>ev-nam</TT> in data  field&nbsp;3 gives the name of one
+of the elemental variables for the given element type.
+This name must
+have been set in the <TT>ELEMENT TYPE</TT>
+section and be a valid Fortran
+name (see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>).  The string <TT>varbl-name</TT> in data
+field&nbsp;5 then gives the name of the problem variable
+that is  to be assigned to  the specified elemental variable.
+The name   of  this   variable   may  have  been    set in  the   <TT>VARIABLES/COLUMNS</TT>
+section  or may be  a new  variable (often known  as  a <EM>nonlinear
+variable</EM>) introduced here and can  be up to ten  characters long.  On
+a <TT>ZV</TT>
+card,
+the name of the variable  must be  an element  of an   array
+of variables, with a valid name and index.
+
+<P>
+The last kind of data card,
+identified by the characters <TT>P</TT>, <TT>XP</TT> or <TT>ZP</TT>
+in field&nbsp;1, is used  to assign numerical values to the
+parameters
+for the  element functions   (<TT>P</TT>) or  array
+of element
+functions (<TT>XP</TT> and <TT>ZP</TT>). On this data card,
+the string <TT>ep-nam</TT> in data field  3 (and, for  <TT>P</TT> and <TT>XP</TT>  cards, optionally 5) must give  the name of a parameter.
+This  name must have  been set  in the <TT>ELEMENT TYPE</TT>  section and be a
+valid Fortran  name,
+see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>.  On  <TT>P</TT> and <TT>XP</TT>
+cards,  the strings  <TT>numerical-vl</TT> in  data  fields&nbsp;4    and
+(optionally) 6 contain  the  numerical value  of the parameter.  These
+values may each occupy up to 12 locations within their field.  On <TT>ZP</TT>  cards,
+the  string <TT>r-p-a-name</TT>  in data field&nbsp;5 gives a real
+parameter array name.
+This  name must have  been  previously  defined  and its
+associated value then gives the numerical value of the parameter.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html417"
+  HREF="node31.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html415"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html409"
+  HREF="node29.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html418"
+  HREF="node31.html">3.2.17 The GROUP TYPE</A>
+<B> Up:</B> <A NAME="tex2html416"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html410"
+  HREF="node29.html">3.2.15 The ELEMENT TYPE</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

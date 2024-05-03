@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.5 The Definition of Variables and Groups</TITLE>
+<META NAME="description" CONTENT="3.2.5 The Definition of Variables and Groups">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node20.html">
+<LINK REL="previous" HREF="node18.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node20.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html307"
+  HREF="node20.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html305"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html299"
+  HREF="node18.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html308"
+  HREF="node20.html">3.2.6 The GROUPS, ROWS</A>
+<B>Up:</B> <A NAME="tex2html306"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html300"
+  HREF="node18.html">3.2.4 Do-loops</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00032500000000000000"></A><A NAME="S2.2.5"></A>
+<BR>
+3.2.5 The Definition of Variables and Groups
+</H3>
+
+<P>
+In  the MPS
+standard,  the  constraint
+matrix,   the matrix of linear elements,
+is input by  columns;
+firstly the  names of the constraints
+are specified  in the <TT>ROWS</TT>
+ section and  then variable names
+and the corresponding  matrix coefficients are  set one  at a  time in the
+<TT>COLUMNS</TT>
+section. While there is some justification for this form
+of  matrix  entry  for linear programming
+problems -- the principal  solution algorithm  for such problems, the
+simplex  method  [<A
+ HREF="node57.html#Dant63">3</A>], is usually  column oriented --  there
+seems no good reason why the coefficients of linear elements
+might not also  be input by  rows.
+After all, it is  more  natural to think of
+specifying the constraints
+for a  problem one at a time.  Furthermore,
+requiring that a complete row or column  has been specified before the
+next may be processed is unnecessarily restrictive.
+
+<P>
+We thus allow the data to be input in a either a group-wise (row-wise)
+or  variable-wise (column-wise) fashion.  In  a group/row-wise scheme,
+one or two coefficients and their  variable/column names are specified
+for a given group/row; for  a  variable/column-wise scheme, one or two
+coefficients and their  group/row  names   are specified for   a given
+variable/column.  We do, however, still require that in a group/row-wise
+storage scheme, the names of all the  variables/rows <I>which appear
+in linear elements</I>
+are  completely specified before  the coefficients
+are  input.  Similarly,  in a variable/column-wise storage scheme, the
+names of all the groups/rows <I>which have a linear element</I>
+must be
+completely specified  before the coefficients   are input. This allows
+for some checking of the input data.
+
+<P>
+If the groups/rows are specified first,  there is no  requirement that
+variables/columns are input one at a time (but of course they may be).
+When   processing  the  data   file, variable/column  names  should be
+inspected to see if they  are new or  where they have appeared before.
+Likewise,  if the variables/columns are specified  first,  there is no
+requirement that groups/rows are ordered on input.  The coordinates of
+new data  values can then  be  stored  as  a linked triple (group/row,
+variable/column, value).  Conversion from such a  component-wise input
+scheme to a row or column based  storage scheme may be performed very
+efficiently  if  desired   (see  [<A
+ HREF="node57.html#DuffErisReid86">5</A>, pp30-31], and
+subroutine MC39 in the Harwell Subroutine Library).
+
+<P>
+If a variable/column-wise input scheme is to be adopted, the data file
+will contain a  <TT>GROUPS/ROWS/CONSTRAINTS</TT>
+indicator  card
+and section followed by a  <TT>VARIABLES/COLUMNS</TT>
+card and section.  The
+allowed  data  cards  are   discussed   in    Section&nbsp;<A HREF="node20.html#S2.2.6">3.2.6</A> and
+Section&nbsp;<A HREF="node21.html#S2.2.7">3.2.7</A>.   If   a group/row-wise  input scheme  is  to be
+adopted, the  data   file   will  contain a  <TT>VARIABLES/COLUMNS</TT>
+indicator   card
+and section followed by a <TT>GROUPS/ROWS/CONSTRAINTS</TT>
+card  and section.  The data  cards
+for  this  scheme are discussed in
+Section&nbsp;<A HREF="node22.html#S2.2.8">3.2.8</A> and Section&nbsp;<A HREF="node23.html#S2.2.9">3.2.9</A>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html307"
+  HREF="node20.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html305"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html299"
+  HREF="node18.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html308"
+  HREF="node20.html">3.2.6 The GROUPS, ROWS</A>
+<B> Up:</B> <A NAME="tex2html306"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html300"
+  HREF="node18.html">3.2.4 Do-loops</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

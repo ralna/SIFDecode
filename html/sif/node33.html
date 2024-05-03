@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.19 The OBJECT BOUND Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.19 The OBJECT BOUND Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="previous" HREF="node32.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node34.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html445"
+  HREF="node34.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html443"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html439"
+  HREF="node32.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html446"
+  HREF="node34.html">3.3 Another Example</A>
+<B>Up:</B> <A NAME="tex2html444"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html440"
+  HREF="node32.html">3.2.18 The GROUP USES</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321900000000000000"></A><A NAME="S2.2.18"></A>
+<BR>
+3.2.19 The <TT>OBJECT BOUND</TT> Data Cards
+</H3>
+
+<P>
+The <TT>OBJECT BOUND</TT>
+indicator card
+is used to announce  known lower
+and upper bounds  on  the value  of  the objective   function
+for  the
+problem.  The syntax for data following this  indicator card
+is given in Figure&nbsp;<A HREF="node33.html#F2.2.18">3.20</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.18"></A><A NAME="10048"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.20:</STRONG>
+Possible data cards for <TT>OBJECT BOUND</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="406" HEIGHT="170" BORDER="0"
+ SRC="img300.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...49}$\,$}&amp;
+\multicolumn{1}{@{}c@{}}{~}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The two-character string in data  field&nbsp;1 specifies  the type of bound
+to  be input. Possible values  are: <TT>LO</TT>, <TT>XL</TT>   or <TT>ZL</TT> for a
+lower bound,  and <TT>UP</TT>, <TT>XU</TT>  or <TT>ZU</TT>  for an upper bound.
+The string <TT>obbnd-name</TT> in data field&nbsp;2 gives a name to the bounds
+under consideration.   This name may  be  up  to ten characters  long.
+Several different  known  bounds  on the objective  function
+may  be defined in the <TT>OBJECT BOUND</TT> section.
+
+<P>
+For bounds of type <TT>LO</TT>  or  <TT>UP</TT>,
+the   numerical value  of   the  bound  is  given as the  string  <TT>numerical-vl</TT>  using at most  12 characters in  data field&nbsp;4.  For
+bounds of type <TT>ZL</TT> or <TT>ZU</TT>,
+the numerical  value of the bound
+is  that  previously  associated with  the real  parameter  array
+<TT>r-p-a-name</TT> specified in field&nbsp;5.  When both lower and upper
+bounds
+on the objective are known, they must be specified on separate cards.
+
+<P>
+The  objective function
+is  assumed by  default to be  unbounded both
+below  and above.  The values  for  each named bound set  may  only be
+changed on a <TT>LO</TT>, <TT>UP</TT>, <TT>XL</TT>, <TT>XU</TT>, <TT>ZL</TT> or <TT>ZU</TT> card.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html445"
+  HREF="node34.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html443"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html439"
+  HREF="node32.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html446"
+  HREF="node34.html">3.3 Another Example</A>
+<B> Up:</B> <A NAME="tex2html444"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html440"
+  HREF="node32.html">3.2.18 The GROUP USES</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

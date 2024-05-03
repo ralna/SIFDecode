@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.1.1 Names</TITLE>
+<META NAME="description" CONTENT="3.1.1 Names">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node11.html">
+<LINK REL="previous" HREF="node9.html">
+<LINK REL="up" HREF="node9.html">
+<LINK REL="next" HREF="node11.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html200"
+  HREF="node11.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html198"
+  HREF="node9.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html192"
+  HREF="node9.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html201"
+  HREF="node11.html">3.1.2 Fortran Names</A>
+<B>Up:</B> <A NAME="tex2html199"
+  HREF="node9.html">3.1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html193"
+  HREF="node9.html">3.1 Introduction to the</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00031100000000000000"></A><A NAME="S2.1.1"></A>
+<BR>
+3.1.1 Names
+</H3>
+
+<P>
+One of the  positive features of the  MPS standard  is the  ability to
+give  meaningful  names to problem constraints
+and  variables.
+As  our proposal  is intended to  be  MPS
+compatible,   we too have  this  option.    However,  one of  the less
+convenient features of  the MPS
+standard  is the  cumbersome way that
+repetitious  structure
+is handled.   In particular,  the  name of each
+variable
+and  constraint
+must be  defined  on a  separate  line,  and
+structure within constraints  is effectively  ignored when setting  up
+the  constraint matrix.   We  consider it important  to overcome  this
+deficiency of the MPS
+standard when formulating large-scale  examples.  One way  is to allow
+variable, group
+and  nonlinear element names
+to have  indices and  to
+have syntactic devices which enable  the user to define  many items at
+once.
+
+<P>
+Unless otherwise indicated, we  allow any name which   uses up  to ten
+valid characters. A <EM>valid</EM> character is any ASCII character
+whose decimal  code lies in  the range  32  to  126 (binary 0100000 to
+11111110, hex  20 to 7E) (see, for  instance [<A
+ HREF="node57.html#DictComp83">17</A>]).  This
+includes lower and upper case roman alphabetic characters, the digits 0
+to 9,  the blank
+character   and  other mathematical  and  grammatical
+symbols.  A name can be one of the following:
+
+<OL>
+<LI>a  scalar name
+of the form
+<TT>&#163;&#163;&#163;&#163;&#163;&#163;&#163;&#163;&#163;&#163;</TT>
+where each <TT>&#163;</TT> is a valid character type excepting that the
+first <TT>&#163;</TT>  cannot be a <TT>$</TT>. A  completely blank
+string is
+also not allowed.  Futhermore, the strings <TT>'SCALE'</TT>, <TT>'MARKER'</TT>,
+<TT>'DEFAULT'</TT>, <TT>'INTEGER'</TT> and <TT>'ZERO-ONE'</TT>
+are reserved for special operations.
+</LI>
+<LI>an array name  of  the form <TT>name(index)</TT>, where  <TT>index</TT> is a
+list of integer index names,
+<TT>name</TT> is a list  of valid characters
+(the first character may  not be a <TT>$</TT>)  and the maximum possible
+size of the <EM>expanded name</EM> does  not exceed  ten characters. The
+list of  index names  must be of the  form  <TT>list1, list2, list3</TT>,
+where <TT>list1</TT>, <TT>list2</TT> and <TT>list3</TT> are  predefined index
+(parameter)
+names (see   Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>,  below) and all  three
+indices are optional. The indices are only allowed to  take on integer
+values. Commas are  only required  as separators; the  presence  of an
+open bracket ``<TT>(</TT>'' announces  a list of  indices and  a  close bracket
+``<TT>)</TT>''  terminates the list. An array  <EM>name</EM> is <EM>expanded</EM> as
+<TT>namenumber1, number2, number3</TT>, where <TT>numberi,  i = 1, 2, 3</TT>
+is the integer value allocated to the index <TT>listi</TT> at the time of
+use.
+</LI>
+</OL>
+
+<P>
+As an example, the expanded form of the array name <TT>X(I,J,K)</TT> when
+<TT>I</TT>, <TT>J</TT> and <TT>K</TT> have the  values 3, 4 and  6 respectively
+would be <TT>X3,4,6</TT>, while it would take the form <TT>X-6,0,3</TT> if
+<TT>I</TT>, <TT>J</TT> and <TT>K</TT> have the values -6, 0 and 3 respectively.
+However, <TT>X(I,J,K)</TT> could not be expanded if  <TT>I</TT>, <TT>J</TT> and
+<TT>K</TT> were each allowed to be as large as 100 as, for instance, <TT>X100,100,100</TT>    is over ten characters  long   and thus  not  a valid
+expanded name.
+
+<P>
+An array
+item may be referred to by either its array  name
+(so long as  the index lists have  been specified) or by its  expanded
+name.
+Thus, if <TT>I</TT>, <TT>J</TT> and <TT>K</TT> have been specified as 2,
+7 and 9 respectively, <TT>X(I,J,K)</TT> and <TT>X2,7,9</TT> are identical.
+
+<P>
+If  two separators  (opening  or   closing brackets and  commas)   are
+adjacent  in an array  name,
+the intervening index   is deemed not  to
+exist and is  ignored when the  name is expanded.
+Thus, the expanded name of <TT>Y()</TT>  is just <TT>Y</TT>,  while  that of
+<TT>Z(I,,K)</TT> is <TT>Z3,4</TT>  if <TT>I</TT>   is 3 and  <TT>K</TT>  is  4.
+Furthermore, any  name which   does not  include  the characters ``<TT>(</TT>'', ``<TT>)</TT>'' or ``<TT>,</TT>'' may  be used as an array  name
+and is its own expanded name.
+Thus the name <TT>X</TT> may be a scalar or array
+name whereas <TT>W(</TT> and <TT>V,</TT> can only be scalar names.
+
+<P>
+We defer the definition of integer indices until Section&nbsp;<A HREF="node17.html#S2.2.3">3.2.3</A>.
+
+<P>
+Note that blanks
+are considered to be significant characters.  Thus if
+<IMG
+ WIDTH="8" HEIGHT="1" ALIGN="MIDDLE" BORDER="0"
+ SRC="img184.png"
+ ALT="$_{-}$"> denotes a blank, the names <IMG
+ WIDTH="8" HEIGHT="1" ALIGN="MIDDLE" BORDER="0"
+ SRC="img185.png"
+ ALT="$_{-}$"><TT>x</TT>  and <TT>x</TT><IMG
+ WIDTH="8" HEIGHT="1" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$_{-}$"> are
+different. It  is recommended that all  names are  left-shifted within
+their  relevant data fields
+to avoid possible user-instigated name recognition errors.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html200"
+  HREF="node11.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html198"
+  HREF="node9.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html192"
+  HREF="node9.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html201"
+  HREF="node11.html">3.1.2 Fortran Names</A>
+<B> Up:</B> <A NAME="tex2html199"
+  HREF="node9.html">3.1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html193"
+  HREF="node9.html">3.1 Introduction to the</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

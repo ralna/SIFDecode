@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5.3 Two Further Examples</TITLE>
+<META NAME="description" CONTENT="5.3 Two Further Examples">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="previous" HREF="node51.html">
+<LINK REL="up" HREF="node46.html">
+<LINK REL="next" HREF="node54.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html655"
+  HREF="node54.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html653"
+  HREF="node46.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html649"
+  HREF="node52.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html656"
+  HREF="node54.html">6 Free Form Input</A>
+<B>Up:</B> <A NAME="tex2html654"
+  HREF="node46.html">5 The SIF for</A>
+<B> Previous:</B> <A NAME="tex2html650"
+  HREF="node52.html">5.2.1 The INDIVIDUALS Data</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00053000000000000000"></A><A NAME="S4.3"></A>
+<BR>
+5.3  Two Further Examples
+</H2>
+
+<P>
+In  Section&nbsp;<A HREF="node5.html#S1.4">2.3</A>,  we gave  an  example. An  SGIF file for  this
+example is given in Figure&nbsp;<A HREF="node53.html#F4.3.1">5.4</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F4.3.1"></A><A NAME="10357"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5.4:</STRONG>
+SGIF file for the nontrivial group types
+for the example 
+<BR>
+of Section&nbsp;<A HREF="node5.html#S1.4">2.3</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="432" HEIGHT="313" BORDER="0"
+ SRC="img376.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...~~~~~~~~~~~~~~~~~~~~{\scriptsize 65}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The  problem  is again  given the  name <TT>DOC</TT>.  The  two types of
+nontrivial groups  were assigned   the names <TT>GTYPE1/2</TT>    by  the
+previous  SDIF file, each with group-type  variables
+<TT>ALPHA</TT>.  The function and derivatives
+values of the second group type, <!-- MATH
+ $g(\alpha) =  \alpha^4$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img377.png"
+ ALT="$g(\alpha) = \alpha^4$">, all  use some
+product of <IMG
+ WIDTH="17" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img378.png"
+ ALT="$\alpha^2$">,  so an auxiliary  variable is  assigned to hold
+this value, the variable being local to the group type.  Likewise, the
+derivatives of the first group type,
+<!-- MATH
+ $g(\alpha) = \alpha^2$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img379.png"
+ ALT="$g(\alpha) = \alpha^2$"> both use some product of 2.0,  so another auxiliary variable
+is assigned to hold its value.
+
+<P>
+We gave a second example in Section&nbsp;<A HREF="node6.html#S1.5">2.4</A>. An  SGIF file for this
+example is given in  Figure&nbsp;<A HREF="node53.html#F4.3.2">5.5</A> on page <A HREF="node53.html#F4.3.2"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="file:/usr/local/lib/latex2html/icons/crossref.png"></A>.  The
+problem is again  given
+the name <TT>DOC2</TT>.  The single  nontrivial group type  was given the
+name <TT>SINE</TT> by the  previous   SDIF  file, with   the  group-type
+variable <TT>ALPHA</TT> and the  single parameter <TT>P</TT>.  The function
+and  second derivatives both  depend on the  product  of the
+parameter
+with the sine of the group type variable,
+so  an auxiliary variable is assigned to hold this value.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F4.3.2"></A><A NAME="10377"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5.5:</STRONG>
+SGIF file for the nontrivial group type
+for the example 
+<BR>
+of Section&nbsp;<A HREF="node6.html#S1.5">2.4</A></CAPTION>
+<TR><TD><IMG
+ WIDTH="432" HEIGHT="247" BORDER="0"
+ SRC="img380.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...~~~~~~~~~~~~~~~~~~~~{\scriptsize 65}}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html655"
+  HREF="node54.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html653"
+  HREF="node46.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html649"
+  HREF="node52.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html656"
+  HREF="node54.html">6 Free Form Input</A>
+<B> Up:</B> <A NAME="tex2html654"
+  HREF="node46.html">5 The SIF for</A>
+<B> Previous:</B> <A NAME="tex2html650"
+  HREF="node52.html">5.2.1 The INDIVIDUALS Data</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

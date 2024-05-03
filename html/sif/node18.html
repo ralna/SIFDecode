@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.4 Do-loops</TITLE>
+<META NAME="description" CONTENT="3.2.4 Do-loops">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node19.html">
+<LINK REL="previous" HREF="node17.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node19.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html297"
+  HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html295"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html289"
+  HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html298"
+  HREF="node19.html">3.2.5 The Definition of</A>
+<B>Up:</B> <A NAME="tex2html296"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html290"
+  HREF="node17.html">3.2.3 Integer and Real</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00032400000000000000"></A><A NAME="S2.2.4"></A>
+<BR>
+3.2.4 Do-loops
+</H3>
+
+<P>
+A do-loop may occur at any point in the <TT>GROUPS</TT>, <TT>VARIABLES</TT>,
+<TT>CONSTANTS</TT>, <TT>RANGES</TT>,  <TT>BOUNDS</TT>,
+<TT>START POINT</TT>, <B>New</B><TT>QUADRATIC</TT>, <TT>ELEMENT USES</TT> or 
+<TT>GROUP USES</TT> sections.
+Do-loops are  used to make   array
+definitions,  that is,   to  make compact definitions of
+several quantities at once. The syntax  required for do-loops is given
+in Figure&nbsp;<A HREF="node18.html#F2.2.4">3.6</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.4"></A><A NAME="9697"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.6:</STRONG>
+Syntax for do-loops</CAPTION>
+<TR><TD><IMG
+ WIDTH="392" HEIGHT="138" BORDER="0"
+ SRC="img258.png"
+ ALT="\begin{figure}
+% latex2html id marker 9678
+\begin{center}
+\begin{tabular}{\ver...
+...ize 49}}&amp;
+\multicolumn{1}{@{}c@{}}{~}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The two-character string in data field 1  specifies either  the start or
+the end of a do-loop. The start of a loop is indicated  by  the string
+<TT>DO.</TT>
+In   this   case an integer   parameter
+named in field&nbsp;2  is
+defined to take values starting from the integer parameter value given
+in field&nbsp;3 and ending with the last value before the integer parameter
+value given  in field&nbsp;5 has been surpassed.   The parameters  named in
+fields&nbsp;3  and 5 must  have been defined  on previous data  cards.
+The
+parameter name
+defined in field 2 can occupy up to ten locations.   If
+the next data card does not have the characters <TT>DI</TT>
+as its first field, the parameter defined on the  <TT>DO</TT>
+card, <TT>iloop</TT> say, will take all integer values starting from that
+given in field  3, say  <TT>istart</TT>, and  ending on that in field  5,
+<TT>iend</TT> say.  If <TT>istart</TT> is larger  than <TT>iend</TT>,  the loop
+will be skipped.
+
+<P>
+If the data card
+following a <TT>DO</TT>
+card has the string  <TT>DI</TT>
+in field&nbsp;1,   the  do-loop parameter
+named    in   field&nbsp;2 is    to be
+incremented
+by the amount,  <TT>incr</TT> say,  specified for the integer
+parameter given in field&nbsp;3.  Once again, the parameter in field&nbsp;3 must
+have been previously  defined.  The  index <TT>iloop</TT> will now  take
+values
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\tt iloop} = {\tt istart}  + j \cdot {\tt incr}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="184" HEIGHT="15" BORDER="0"
+ SRC="img259.png"
+ ALT="\begin{displaymath}
+{\tt iloop} = {\tt istart} + j \cdot {\tt incr}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+for all positive   <IMG
+ WIDTH="8" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img260.png"
+ ALT="$j$"> for which  <TT>iloop</TT>  lies   between  (and
+including) <TT>istart</TT> and <TT>iend</TT>.  If <TT>incr</TT> is negative and
+<TT>istart</TT>  is  larger than  <TT>iend</TT>,  the parameter specifies a
+decreasing sequence of  values.   If <TT>incr</TT>  is positive  and <TT>istart</TT> is larger  than <TT>iend</TT>,  or  if <TT>incr</TT> is negative and
+<TT>istart</TT> is smaller than <TT>iend</TT>, the loop will be skipped.
+
+<P>
+Once a do-loop has been  started, any array
+definitions  which use its
+do-loop index specify that the definition is to be made for all values
+of the integer parameter
+specified in  the loop.   Loops can be nested
+up to three deep;  this corresponds to the  maximum number  of allowed
+indices in an array
+index list.
+
+<P>
+A do-loop must be terminated. A particular loop can be terminated on a
+data card
+in which field&nbsp;1 contains the characters  <TT>OD</TT>;
+the name of the loop
+parameter must appear in field&nbsp;2. Alternatively, all loops
+may be terminated at once using a data  card in which field&nbsp;1 contains
+the characters <TT>ND</TT>.
+
+<P>
+In   addition, parameter     assignments with the   syntax  given   in
+Figure&nbsp;<A HREF="node17.html#Fig4.3">3.5</A> -- that is, cards  whose first  field are <TT>IE</TT>,
+<TT>IR</TT>, <TT>IA</TT>, <TT>IS</TT>, <TT>IM</TT>, <TT>ID</TT>,  <TT>I=</TT>, <TT>I+</TT>,
+<TT>I-</TT>, <TT>I*</TT>, <TT>I/</TT>, <TT>RE</TT>, <TT>RI</TT>,  <TT>RA</TT>, <TT>RS</TT>,
+<TT>RM</TT>, <TT>RD</TT>, <TT>RF</TT>, <TT>R=</TT>, <TT>R+</TT>, <TT>R-</TT>, <TT>R*</TT>,
+<TT>R/</TT>, <TT>R(</TT>, <TT>AE</TT>, <TT>AI</TT>,  <TT>AA</TT>, <TT>AS</TT>, <TT>AM</TT>,
+<TT>AD</TT>, <TT>AF</TT>, <TT>A=</TT>,  <TT>A+</TT>, <TT>A-</TT>, <TT>A*</TT>, <TT>A/</TT>
+or <TT>R(</TT> -- may be inserted at any point in a  do-loop; it is only
+necessary that a parameter is defined prior to its use.
+
+<P>
+Note   that  array
+definitions  may  occur  both  within  and  outside
+do-loops; all that is required  for  a  successful array definition is
+that  the  integer indices   used have   defined values  when they are
+needed.  The use of do-loops is illustrated in Section&nbsp;<A HREF="node35.html#S2.4">3.4</A>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html297"
+  HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html295"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html289"
+  HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html298"
+  HREF="node19.html">3.2.5 The Definition of</A>
+<B> Up:</B> <A NAME="tex2html296"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html290"
+  HREF="node17.html">3.2.3 Integer and Real</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+
+<!--#include virtual="/nag_style.shtm" -->
+
+<title>The CUTE classification scheme</title>
+
+<meta NAME="keywords" LANG="en-us" CONTENT="CCLRC, CSE, HSL">
+
+</head>
+
+<!--#include virtual="/nag_header.shtm" -->
+
+<h1 align=center>The CUTE classification scheme</h1>
+<hr>
+<p>
+Each problem in the 
+<a href="http://cuter.rl.ac.uk/cuter-www/">CUTEr</a>/<a href="http://ccpforge.cse.rl.ac.uk/gf/project/cutest/wiki/">CUTEst</a>
+test set comes with a simple problem classification. This classification
+was inspired by the scheme of Hock and Schittkowski (Test Examples for
+Nonlinear Programming Codes, Lectures Notes in Economics and
+Mathematical Systems 187, Springer Verlag, 1981).
+
+<p> A problem is classified by the string
+<pre>
+   <b>XXXr-XX-n-m</b>
+</pre>
+This string must not contain any blanks.
+In what follows, we state the admissible letters and integers,
+together with their
+interpretation, for each character in the classification string.
+Note that all letters must be given in upper case.
+
+<p>
+The first character  in the string   defines the type   of the problem
+objective function.  Possible values are:
+
+<p>
+<ol>
+<dl>
+<dt> <b>N </b>  no objective function is defined,
+<dt> <b>C </b>  the objective function is constant,
+<dt> <b>L </b>  the objective function is linear,
+<dt> <b>Q </b>  the objective function is quadratic,
+<dt> <b>S </b>  the objective function is a sum of squares, and
+<dt> <b>O </b>  the objective function is none of the above.
+</dl>
+</ol>
+
+<p>
+The second character in the string defines the type of constraints of
+the problem. Possible values are:
+
+<p>
+<ol>
+<dl>
+<dt> <b>U </b>  the problem is unconstrained,
+<dt> <b>X </b>  the problem's only constraints are fixed variables,
+<dt> <b>B </b>  the problem's only constraints are bounds on the variables,
+<dt> <b>N </b>  the problem's constraints represent the adjacency matrix of
+a (linear) network,
+<dt> <b>L </b>  the problem's constraints are linear,
+<dt> <b>Q </b>  the problem's constraints are quadratic, and
+<dt> <b>O </b>  the problem's constraints are more general than any of the
+above alone.
+</dl>
+</ol>
+
+<p>
+The third character in the string indicates the smoothness of the
+problem. There are two choices:
+
+<p>
+<ol>
+<dl>
+<dt> <b>R </b>  the problem is regular, that is its first and second
+derivatives exist and are continuous everywhere, or
+<dt> <b>I </b>  the problem is irregular.
+</dl>
+</ol>
+
+<p>
+The integer (<b>r</b>)  which corresponds to the fourth  character  of the
+string is the degree of the highest derivatives provided analytically
+within the problem description.
+It is restricted to being one of the single characters <tt>0</tt>, <tt>1</tt>
+or <tt>2</tt>.
+
+<p>
+The  character immediately following the first hyphen indicates the
+primary origin and/or interest of the problem.
+Possible values are:
+
+<p>
+<ol>
+<dl>
+<dt> <b>A </b>  the problem is academic, that is, has been constructed
+specifically by researchers to test one or more algorithms,
+<dt> <b>M </b>  the problem is part of a modelling exercise where the actual
+      value of the solution is not used in a genuine practical application, and
+<dt> <b>R </b>  the problem's solution is (or has been) actually used in a
+real application for purposes other than testing algorithms.
+</dl>
+</ol>
+
+<p>
+The next character in the string indicates whether or not the problem
+description contains explicit 
+<a href="http://www.numerical.rl.ac.uk/lancelot/sif/node3.html#SECTION00021000000000000000"> internal variables</a>.
+There are two possible values, namely
+
+<p>
+<ol>
+<dl>
+<dt> <b>Y </b>  the problem description contains explicit internal variables, or
+<dt> <b>N </b>  the problem description does not contain any explicit internal
+variables.
+</dl>
+</ol>
+
+<p>
+The symbol(s) between the second and  third hyphen indicate the number
+of variables in the problem.  Possible values are
+
+<p>
+<ol>
+<dl>
+<dt> <b>V </b>  the number of variables in the problem can be chosen by the 
+user, or
+<dt> <b>n </b>  a positive integer giving the actual (fixed) number of problem
+variables.
+</dl>
+</ol>
+
+<p>
+The symbol(s) after the third hyphen indicate the number of
+constraints (other than fixed variables and bounds) in the problem.
+Note that fixed variables are not considered as general constraints here.
+The two possible values are
+
+<p>
+<ol>
+<dl>
+<dt> <b>V </b>  the number of constraints in the problem can be chosen by the
+user, or
+<dt> <b>m </b>  a nonnegative integer giving the actual (fixed) number of
+problem constraints.
+</dl>
+</ol>
+
+</ul>
+
+<!--#include virtual="/nag_short_tail.shtm" -->
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.1.1 The Values and Derivatives Required</TITLE>
+<META NAME="description" CONTENT="4.1.1 The Values and Derivatives Required">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="previous" HREF="node37.html">
+<LINK REL="up" HREF="node37.html">
+<LINK REL="next" HREF="node39.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html501"
+  HREF="node39.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html499"
+  HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html495"
+  HREF="node37.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html502"
+  HREF="node39.html">4.2 Indicator Cards</A>
+<B>Up:</B> <A NAME="tex2html500"
+  HREF="node37.html">4.1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html496"
+  HREF="node37.html">4.1 Introduction to the</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00041100000000000000"></A><A NAME="S3.1.1"></A>
+<BR>
+4.1.1 The Values and Derivatives Required
+</H3>
+
+<P>
+It is assumed that a nonlinear element type
+is  specified in  terms of internal variables
+<B>u</B>,  whose names
+are those  given on the <TT>ELEMENT TYPE</TT>
+data  cards
+in an SDIF file  (if   the element has  no useful internal
+variables, the internal  and elemental
+variables are  the same and the
+internal variables will  have  been named  after  the elementals), see
+Section&nbsp;<A HREF="node29.html#S2.2.14">3.2.15</A>.  An optimization procedure is likely to require
+the  values of the   element functions
+and possibly their first and second, derivatives.
+These derivatives need only be given with respect
+to the internal variables.
+For if we denote the gradient
+and Hessian
+matrix of an element function
+<IMG
+ WIDTH="9" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img303.png"
+ ALT="$f$"> with respect to <IMG
+ WIDTH="9" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img304.png"
+ ALT="$u$"> by
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\nabla_u f \;\; \mbox{and} \;\; \nabla_{uu} f
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="112" HEIGHT="16" BORDER="0"
+ SRC="img305.png"
+ ALT="\begin{displaymath}
+\nabla_u f \;\; \mbox{and} \;\; \nabla_{uu} f
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+respectively, the  gradient and  Hessian
+matrices with  respect to the elemental variables
+are
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+W^T \nabla_u f \;\; \mbox{and} \;\; W^T \nabla_{uu} f W,
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="185" HEIGHT="18" BORDER="0"
+ SRC="img306.png"
+ ALT="\begin{displaymath}
+W^T \nabla_u f \;\; \mbox{and} \;\; W^T \nabla_{uu} f W,
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+where <IMG
+ WIDTH="16" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img307.png"
+ ALT="$W$"> is defined by (<A HREF="node3.html#1.2.7">2.11</A>).
+
+<P>
+We thus need only supply derivatives
+with respect to <IMG
+ WIDTH="9" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img308.png"
+ ALT="$u$">.  Formally, we must define the function value <IMG
+ WIDTH="9" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img309.png"
+ ALT="$f$">,
+possibly the  gradient
+vector <IMG
+ WIDTH="31" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img310.png"
+ ALT="$\nabla_u f$"> (i.e., the vector  whose  <IMG
+ WIDTH="5" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img311.png"
+ ALT="$i$">-th
+component is the first partial derivative with  respect  to the <IMG
+ WIDTH="5" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img312.png"
+ ALT="$i$">-th
+internal variable) and,  possibly, the Hessian
+matrix <IMG
+ WIDTH="38" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\nabla_{uu} f$">
+(i.e.,   the matrix whose    <IMG
+ WIDTH="20" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img314.png"
+ ALT="$i,j$">-th entry is    the  second  partial
+derivative with respect to  the <IMG
+ WIDTH="5" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img315.png"
+ ALT="$i$">-th and <IMG
+ WIDTH="8" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img316.png"
+ ALT="$j$">-th internal variables),
+all evaluated at <IMG
+ WIDTH="9" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img317.png"
+ ALT="$u$">.   We now describe how  to set up  the data for a
+given problem.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html501"
+  HREF="node39.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html499"
+  HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html495"
+  HREF="node37.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html502"
+  HREF="node39.html">4.2 Indicator Cards</A>
+<B> Up:</B> <A NAME="tex2html500"
+  HREF="node37.html">4.1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html496"
+  HREF="node37.html">4.1 Introduction to the</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

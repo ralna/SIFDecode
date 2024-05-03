@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.4.2 The GLOBALS Data Cards</TITLE>
+<META NAME="description" CONTENT="4.4.2 The GLOBALS Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node44.html">
+<LINK REL="previous" HREF="node42.html">
+<LINK REL="up" HREF="node41.html">
+<LINK REL="next" HREF="node44.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html554"
+  HREF="node44.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html552"
+  HREF="node41.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html546"
+  HREF="node42.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html555"
+  HREF="node44.html">4.4.3 The INDIVIDUALS Data</A>
+<B>Up:</B> <A NAME="tex2html553"
+  HREF="node41.html">4.4 Data Cards</A>
+<B> Previous:</B> <A NAME="tex2html547"
+  HREF="node42.html">4.4.1 The TEMPORARIES Data</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00044200000000000000"></A><A NAME="S3.2.2"></A>
+<BR>
+4.4.2 The <TT>GLOBALS</TT>  Data Cards
+</H3>
+
+<P>
+The <TT>GLOBALS</TT>
+indicator card
+is used to announce the assignment of general parameter
+values.
+the syntax for data cards following the indicator card is given in
+Figure&nbsp;<A HREF="node43.html#F3.2.2">4.4</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F3.2.2"></A><A NAME="10176"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4.4:</STRONG>
+Possible data cards for <TT>GLOBALS</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="667" HEIGHT="169" BORDER="0"
+ SRC="img335.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...~~~~~~~~~~~~~~$\,${\scriptsize 65}}
+\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+The one or two   character string  in field&nbsp;1  specifies the  type  of
+assignment that is to be  made from  the card.
+Possible values for the
+first character of the string are:
+<DL>
+<DT><STRONG><TT>A</TT></STRONG></DT>
+<DD>This card
+announces that an auxiliary  parameter is  to be assigned a
+value. The  string <TT>p-name</TT> in field&nbsp;2 gives  the  name of the
+auxiliary parameter that is  to be defined; this name  must be a valid
+Fortran name, see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>,  and must have been previously
+defined in the <TT>TEMPORARIES</TT>
+section.  The string  in  field&nbsp;7  is an  arithmetic   expression. The
+assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable named in field~2} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img336.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~2} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+is made, where  again <IMG
+ WIDTH="15" HEIGHT="7" ALIGN="BOTTOM" BORDER="0"
+ SRC="img337.png"
+ ALT="$\leftarrow$"> means ``is  given the  value''; any
+variable   mentioned   in the    arithmetic expression must  either be
+reserved (see Section&nbsp;<A HREF="node42.html#S3.2.1">4.4.1</A>), or  have been defined in the <TT>TEMPORARIES</TT>
+section. If in this latter case, the variable  is integer  or real, it
+must have been allocated a value itself on a previous <TT>GLOBALS</TT>
+data card.
+
+<P>
+</DD>
+<DT><STRONG><TT>I</TT></STRONG></DT>
+<DD>This card
+announces that an  auxiliary parameter  is to be assigned  a
+value whenever a second logical
+auxiliary  parameter has  the value   <TT>.TRUE.</TT>  The string  <TT>p-name</TT> in field&nbsp;3 gives the name of the  auxiliary parameter that is
+to be defined; this name must be a valid Fortran name,
+see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>, and must have been
+previously defined in the <TT>TEMPORARIES</TT>
+section.  The string in field&nbsp;7 is an arithmetic expression. The assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img338.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+will be made  if and only   if the logical
+auxiliary parameter <TT>l-name</TT> specified in   field  2  has the
+value  <TT>.TRUE.</TT>;  the
+logical  parameter   must have  been previously   defined  in the <TT>TEMPORARIES</TT>
+section  and  allocated   a value in   the <TT>GLOBALS</TT>
+section.  The arithmetic expression must obey the rules set out in the
+<TT>A</TT> section above.
+
+<P>
+</DD>
+<DT><STRONG><TT>E</TT></STRONG></DT>
+<DD>This card
+announces that  an auxiliary  parameter is to be assigned  a
+value whenever a second logical
+auxiliary parameter has the value <TT>.FALSE.</TT> The string <TT>p-name</TT>  in field&nbsp;3 gives  the name of the
+auxiliary parameter that is to be  defined; this name  must be a valid
+Fortran name, see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>,  and  must have been previously
+defined in the <TT>TEMPORARIES</TT>
+section.  The string in field&nbsp;7 is an
+arithmetic expression. The assignment
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="305" HEIGHT="16" BORDER="0"
+ SRC="img339.png"
+ ALT="\begin{displaymath}
+\mbox{auxiliary variable named in field~3} \leftarrow \mbox{field~7}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+will be  made if and   only if the  logical auxiliary  parameter,
+<TT>l-name</TT>, specified in   field&nbsp;2 has  the value   <TT>.FALSE.</TT>;  the
+logical parameter  must  have  been  previously  defined in  the  <TT>TEMPORARIES</TT>
+section   and allocated a  value  in   the <TT>GLOBALS</TT>
+section.  The arithmetic expression must obey the rules set out in the
+<TT>A</TT> section above.
+</DD>
+</DL>
+
+<P>
+The  data started on  an  <TT>A</TT>, <TT>I</TT>  and <TT>E</TT>  card
+may be
+continued on a card whose first field contains an <TT>A+</TT>, <TT>I+</TT> or
+<TT>E+</TT> respectively.
+Such cards contain an arithmetic expression in
+field&nbsp;7 and no further data;  the  arithmetic expression must obey the
+rules   set  out in   the <TT>A</TT>  section   above.  At  most nineteen
+continuations of a single assignment are allowed.
+
+<P>
+The <TT>GLOBALS</TT>
+section is intended for the definition  of auxiliary
+variables which occur in more than one element  type.
+If an auxiliary
+variable occurs  in a single element  type, it  may  be defined in the
+<TT>INDIVIDUALS</TT>
+section (see Section&nbsp;<A HREF="node44.html#S3.2.3">4.4.3</A>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html554"
+  HREF="node44.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html552"
+  HREF="node41.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html546"
+  HREF="node42.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html555"
+  HREF="node44.html">4.4.3 The INDIVIDUALS Data</A>
+<B> Up:</B> <A NAME="tex2html553"
+  HREF="node41.html">4.4 Data Cards</A>
+<B> Previous:</B> <A NAME="tex2html547"
+  HREF="node42.html">4.4.1 The TEMPORARIES Data</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

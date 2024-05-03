@@ -1,0 +1,446 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.1 Problem, Elemental and Internal Variables</TITLE>
+<META NAME="description" CONTENT="2.1 Problem, Elemental and Internal Variables">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html101"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html99"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html93"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html102"
+  HREF="node4.html">2.2 Element and Group</A>
+<B>Up:</B> <A NAME="tex2html100"
+  HREF="node2.html">2 An introduction to</A>
+<B> Previous:</B> <A NAME="tex2html94"
+  HREF="node2.html">2 An introduction to</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00021000000000000000"></A><A NAME="S1.2"></A>
+<BR>
+2.1 Problem, Elemental and Internal Variables
+</H2>
+
+<P>
+A nonlinear element function <IMG
+ WIDTH="13" HEIGHT="17" ALIGN="MIDDLE" BORDER="0"
+ SRC="img29.png"
+ ALT="$f_j$">
+is assumed  to be a function of the
+problem variables <IMG
+ WIDTH="14" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$\bar{x}_j$">, a  subset of the overall variables <IMG
+ WIDTH="9" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img31.png"
+ ALT="$x$">.
+Suppose that <IMG
+ WIDTH="14" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img32.png"
+ ALT="$\bar{x}_j$"> has  <IMG
+ WIDTH="15" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$n_j$"> components.  Then one can consider
+the nonlinear element function
+to be of the <EM>structural</EM> form <!-- MATH
+ $f_j
+(v_1,\cdots,v_{n_j})$
+ -->
+<IMG
+ WIDTH="99" HEIGHT="18" ALIGN="MIDDLE" BORDER="0"
+ SRC="img34.png"
+ ALT="$f_j
+(v_1,\cdots,v_{n_j})$">, where   we assign  <!-- MATH
+ $v_1  = \bar{x}_{j1},\cdots,
+v_{n_j} =  \bar{x}_{jn_{j}}$
+ -->
+<IMG
+ WIDTH="164" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img35.png"
+ ALT="$v_1 = \bar{x}_{j1},\cdots,
+v_{n_j} = \bar{x}_{jn_{j}}$">.  The <EM>elemental</EM> variables
+for the element  function <IMG
+ WIDTH="13" HEIGHT="17" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$f_j$"> are  the variables  <IMG
+ WIDTH="8" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img37.png"
+ ALT="$v$"> and, while we
+need to associate  the particular values  <IMG
+ WIDTH="14" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img38.png"
+ ALT="$\bar{x}_j$"> with <IMG
+ WIDTH="8" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img39.png"
+ ALT="$v$">,  it is
+the elemental variables which are important in defining  the character
+of the nonlinear element functions.
+
+<P>
+As an example,  the first nonlinear element  function
+for a particular problem might be
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+(x_{29} + x_3 - 2x_{17})e^{x_{29} - x_{17}}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.2.1"></A><IMG
+ WIDTH="173" HEIGHT="16" BORDER="0"
+ SRC="img40.png"
+ ALT="\begin{displaymath}
+(x_{29} + x_3 - 2x_{17})e^{x_{29} - x_{17}}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.5)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+which has the structural form
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+f_1 (v_1, v_2, v_3) = (v_1 + v_2 - 2v_3) e^{v_{1} - v_{3}},
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.2.2"></A><IMG
+ WIDTH="258" HEIGHT="16" BORDER="0"
+ SRC="img41.png"
+ ALT="\begin{displaymath}
+f_1 (v_1, v_2, v_3) = (v_1 + v_2 - 2v_3) e^{v_{1} - v_{3}},
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.6)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where we need to assign <!-- MATH
+ $v_1 = x_{29}, v_2 =  x_3$
+ -->
+<IMG
+ WIDTH="117" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img42.png"
+ ALT="$v_1 = x_{29}, v_2 = x_3$"> and <IMG
+ WIDTH="58" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img43.png"
+ ALT="$v_3 = x_{17}$">.
+For this example, there are three elemental variables.
+
+<P>
+The example may be used to illustrate a  further point. Although <IMG
+ WIDTH="14" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img44.png"
+ ALT="$f_1$">
+is a function of  three variables, the  function itself is really only
+composed of <EM>two</EM> independent parts; the product of <!-- MATH
+ $v_1 + v_2 - 2
+v_3$
+ -->
+<IMG
+ WIDTH="91" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$v_1 + v_2 - 2
+v_3$"> with <IMG
+ WIDTH="42" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img46.png"
+ ALT="$e^{v_1 - v_3}$">, or, if we write <!-- MATH
+ $u_1 = v_1  +  v_2 - 2 v_3$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img47.png"
+ ALT="$u_1 = v_1 + v_2 - 2 v_3$">
+and <!-- MATH
+ $u_2 =  v_1 - v_3$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$u_2 = v_1 - v_3$">,   the product  of  <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$u_1$"> with <IMG
+ WIDTH="20" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img50.png"
+ ALT="$e^{u_2}$">.  The
+variables <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$u_1$"> and <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img52.png"
+ ALT="$u_2$"> are known  as <EM>internal</EM> variables
+for   the   element  function.   They  are obtained   as  <EM>linear
+combinations</EM>  of the elemental  variables.   The important feature as
+far as an optimization procedure is concerned  is that  each nonlinear
+function  involves  as  few internal  variables  as possible,  as this
+allows  for   compact    storage   and  more  efficient     derivative
+approximation.
+
+<P>
+It frequently happens,  however, that a function does  not have useful
+internal variables.
+For instance, another element function
+might have structural form
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+f_2 (v_1, v_2) = v_1 \sin v_2,
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.2.3"></A><IMG
+ WIDTH="144" HEIGHT="16" BORDER="0"
+ SRC="img53.png"
+ ALT="\begin{displaymath}
+f_2 (v_1, v_2) = v_1 \sin v_2,
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.7)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where for example  <IMG
+ WIDTH="52" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img54.png"
+ ALT="$v_1 = x_6$"> and  <IMG
+ WIDTH="58" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img55.png"
+ ALT="$v_2 = x_{12}$">.  Here, we  have
+broken <IMG
+ WIDTH="14" HEIGHT="16" ALIGN="MIDDLE" BORDER="0"
+ SRC="img56.png"
+ ALT="$f_2$"> down  into as few  pieces as possible. Although there are
+internal variables, <IMG
+ WIDTH="51" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img57.png"
+ ALT="$u_1 = v_1$"> and <IMG
+ WIDTH="51" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$u_2 = v_2$">, they are the same in
+this case  as   the  elemental variables
+and  there is  no virtue  in
+exploiting  them.  Moreover  it  can happen that   although there  are
+special   internal  variables,
+there  are  just as   many  internal as
+elemental   variables  and it therefore   doesn't particularly help to
+exploit them.  For instance, if
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+f_3 (v_1, v_2) = (v_1 + v_2) \log (v_1 - v_2),
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.2.4"></A><IMG
+ WIDTH="236" HEIGHT="16" BORDER="0"
+ SRC="img59.png"
+ ALT="\begin{displaymath}
+f_3 (v_1, v_2) = (v_1 + v_2) \log (v_1 - v_2),
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.8)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where, for example,  <IMG
+ WIDTH="58" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img60.png"
+ ALT="$v_1 = x_{12}$"> and <IMG
+ WIDTH="52" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img61.png"
+ ALT="$v_2 = x_2$">, the function can
+be formed as <IMG
+ WIDTH="58" HEIGHT="15" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$u_1 \log u_2$">, where <!-- MATH
+ $u_1 = v_1 + v_2$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$u_1 = v_1 + v_2$"> and <!-- MATH
+ $u_2  = v_1-
+v_2$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$u_2 = v_1-
+v_2$">. But as there are just as many internal  variables as elementals,
+it will    not  normally  be   advantageous   to use  this    internal
+representation.
+Finally,  although   an element  function
+may have  useful  internal
+variables, the user may decide not to exploit  them.  The optimization
+procedure  should still work  but at the expense of  extra storage
+and computational effort.
+
+<P>
+In general, there will be a linear transformation
+from the elemental variables to the internal ones. For example in
+(<A HREF="node3.html#1.2.2">2.6</A>), we have
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left( \begin{array}{c}
+                         u_1 \\u_2
+                        \end{array} \right) =
+                 \left( \begin{array}{rrr}
+                         1 &  1 &  -2 \\
+                         1 &  0 &  -1
+                        \end{array} \right)
+                 \left( \begin{array}{c}
+                         v_1 \\v_2\\v_3
+                        \end{array} \right)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.2.5"></A><IMG
+ WIDTH="238" HEIGHT="58" BORDER="0"
+ SRC="img65.png"
+ ALT="\begin{displaymath}
+\left( \begin{array}{c}
+u_1 \\ u_2
+\end{array} \right) =
+...
+...\left( \begin{array}{c}
+v_1 \\ v_2\\ v_3
+\end{array} \right)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.9)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+while in (<A HREF="node3.html#1.2.3">2.7</A>), we have
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left( \begin{array}{c}
+                          u_1 \\u_2
+                        \end{array} \right) =
+                 \left( \begin{array}{rr} 1 & 0 \\
+                                          0 & 1
+                         \end{array} \right)
+                 \left( \begin{array}{c} v_1 \\v_2
+                 \end{array} \right)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.2.6"></A><IMG
+ WIDTH="199" HEIGHT="39" BORDER="0"
+ SRC="img66.png"
+ ALT="\begin{displaymath}
+\left( \begin{array}{c}
+u_1 \\ u_2
+\end{array} \right) =
+...
+...ight)
+\left( \begin{array}{c} v_1 \\ v_2
+\end{array} \right)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.10)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+In general the transformation will be of the form
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+u = Wv
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.2.7"></A><IMG
+ WIDTH="56" HEIGHT="12" BORDER="0"
+ SRC="img67.png"
+ ALT="\begin{displaymath}
+u = Wv
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.11)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+and  this transformation is  <EM>useful</EM> if the  matrix <IMG
+ WIDTH="16" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img68.png"
+ ALT="$W$"> has fewer
+rows than columns.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html101"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html99"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html93"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html102"
+  HREF="node4.html">2.2 Element and Group</A>
+<B> Up:</B> <A NAME="tex2html100"
+  HREF="node2.html">2 An introduction to</A>
+<B> Previous:</B> <A NAME="tex2html94"
+  HREF="node2.html">2 An introduction to</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

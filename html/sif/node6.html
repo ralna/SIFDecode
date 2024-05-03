@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2.4 A Second Example</TITLE>
+<META NAME="description" CONTENT="2.4 A Second Example">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node7.html">
+<LINK REL="previous" HREF="node5.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node7.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html131"
+  HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html129"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html123"
+  HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html132"
+  HREF="node7.html">2.5 A Final Example</A>
+<B>Up:</B> <A NAME="tex2html130"
+  HREF="node2.html">2 An introduction to</A>
+<B> Previous:</B> <A NAME="tex2html124"
+  HREF="node5.html">2.3 An Example</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00024000000000000000"></A><A NAME="S1.5"></A>
+<BR>
+2.4 A Second Example
+</H2>
+
+<P>
+We   now  consider a different   sort   of example, the  unconstrained
+problem,
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+{\rm minimize} \;\;\;\;F(x_1,\cdots,x_{1000})
+\equiv \sum_{i = 1}^{999} \sin(x_i^2 + x_{1000}^2 + x_1 - 1)
+        + {\scriptstyle \frac{1}{2}}\sin(x_{1000}^2).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="1.5.1"></A><IMG
+ WIDTH="508" HEIGHT="48" BORDER="0"
+ SRC="img127.png"
+ ALT="\begin{displaymath}
+{\rm minimize} \;\;\;\;F(x_1,\cdots,x_{1000})
+\equiv \sum_{i...
+...0}^2 + x_1 - 1)
++ {\scriptstyle \frac{1}{2}}\sin(x_{1000}^2).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.17)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Once again, there are a number of ways of  casting this problem in the
+form (<A HREF="node2.html#objective">2.1</A>), but the most natural is to consider the argument
+of each sine function as a group -- the group  function
+is  then <!-- MATH
+ $g_i
+(\alpha ) =  p_1 \sin \alpha$
+ -->
+<IMG
+ WIDTH="107" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img128.png"
+ ALT="$g_i
+(\alpha ) = p_1 \sin \alpha $">, <!-- MATH
+ $1 \leq  i \leq   1000$
+ -->
+<IMG
+ WIDTH="87" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img129.png"
+ ALT="$1 \leq i \leq 1000$">,  for various
+values of  the parameter
+<IMG
+ WIDTH="15" HEIGHT="11" ALIGN="MIDDLE" BORDER="0"
+ SRC="img130.png"
+ ALT="$p_1$">.  Each  group but  the   last  has two
+nonlinear elements, <IMG
+ WIDTH="34" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img131.png"
+ ALT="$x_{1000}^2$"> and <IMG
+ WIDTH="15" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img132.png"
+ ALT="$x_i^2$"> <!-- MATH
+ $1 \leq i \leq 999$
+ -->
+<IMG
+ WIDTH="79" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img133.png"
+ ALT="$1 \leq i \leq 999$"> and a
+single linear element <IMG
+ WIDTH="43" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img134.png"
+ ALT="$x_1 - 1$">.  The last has no linear element and a
+single  nonlinear  element, <IMG
+ WIDTH="34" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img135.png"
+ ALT="$x_{1000}^2$">.     A single   element type,
+<IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img136.png"
+ ALT="$v_1^2$">, of the elemental variable,
+<IMG
+ WIDTH="14" HEIGHT="10" ALIGN="BOTTOM" BORDER="0"
+ SRC="img137.png"
+ ALT="$v_1$">, covers all of the nonlinear elements.
+
+<P>
+Thus we see that we can consider our  objective function
+to be made up of 1000 nontrivial  groups, all of  the same type,
+so we
+will have to  provide  our optimization  procedure  with function  and
+derivative values
+for these at some stage.  There  are 1999 nonlinear elements,
+two from
+each group
+except the last,  but all of the  same  type and again we shall have to
+provide function and derivative 
+values for these.  As there is so  much  structure
+to this problem, it
+would  be    inefficient   to  pass   the  data   group-by-group   and
+element-by-element.   Clearly,  one   would  like to    specify   such
+repetitious structures using a convenient shorthand.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html131"
+  HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html129"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html123"
+  HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html132"
+  HREF="node7.html">2.5 A Final Example</A>
+<B> Up:</B> <A NAME="tex2html130"
+  HREF="node2.html">2 An introduction to</A>
+<B> Previous:</B> <A NAME="tex2html124"
+  HREF="node5.html">2.3 An Example</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

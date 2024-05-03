@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3.2.15 The ELEMENT TYPE Data Cards</TITLE>
+<META NAME="description" CONTENT="3.2.15 The ELEMENT TYPE Data Cards">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node30.html">
+<LINK REL="previous" HREF="node28.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node30.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html407"
+  HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html405"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html399"
+  HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html408"
+  HREF="node30.html">3.2.16 The ELEMENT USES</A>
+<B>Up:</B> <A NAME="tex2html406"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html400"
+  HREF="node28.html">3.2.14 The QUADRATIC, HESSIAN,</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000321500000000000000"></A><A NAME="S2.2.14"></A>
+<BR>
+3.2.15 The <TT>ELEMENT TYPE</TT> Data Cards
+</H3>
+
+<P>
+The <TT>ELEMENT TYPE</TT>
+indicator card
+is used to announce the data for the different types of
+nonlinear elements
+to be used. The names of  the elemental
+and, optionally, internal variables  and parameters
+for  each  element
+type are specified   in this  section.   The   syntax  for data  cards
+following the indicator card is given in Figure&nbsp;<A HREF="node29.html#F2.2.14">3.16</A>.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F2.2.14"></A><A NAME="9952"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.16:</STRONG>
+Possible data cards for <TT>ELEMENT TYPE</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="376" HEIGHT="122" BORDER="0"
+ SRC="img293.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 45}}&amp;
+\multicolumn{1}{@{}c@{}}{~}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The string in field&nbsp;1  may be  one of <TT>EV</TT>, <TT>IV</TT> or <TT>EP</TT>.
+This indicates whether the  names of  elemental variables
+(<TT>EV</TT>), internal variables
+(<TT>IV</TT>)  or elemental parameters
+(<TT>EP</TT>) are to be specified on the given data card.
+If no  cards with the string
+<TT>IV</TT>  in field&nbsp;1   are found for  a particular  element type, the
+element is assumed to have no useful internal  variables;
+the internal
+variables are then  allocated the  same names
+as the elemental
+ones.  Likewise, if no cards
+with the  string  <TT>EP</TT> in  field&nbsp;1 are found
+for a particular element type,
+the element is assumed not to depend on parameter values.
+
+<P>
+The string  <TT>etype-name</TT> in  data field&nbsp;2 gives  the  name of the
+element  type
+under   consideration.  This name    may be   up to ten
+characters long.  The data for a particular element must  be specified
+on consecutive data cards.
+
+<P>
+The strings in data  fields 3 and  (optionally)  5  give the  names of
+elemental  variables
+(field&nbsp;1  <IMG
+ WIDTH="12" HEIGHT="4" ALIGN="BOTTOM" BORDER="0"
+ SRC="img294.png"
+ ALT="$=$"> <TT>EV</TT>),
+internal  variables
+(field&nbsp;1 <IMG
+ WIDTH="12" HEIGHT="4" ALIGN="BOTTOM" BORDER="0"
+ SRC="img295.png"
+ ALT="$=$"> <TT>IV</TT>)
+or parameters
+(field&nbsp;1  <IMG
+ WIDTH="12" HEIGHT="4" ALIGN="BOTTOM" BORDER="0"
+ SRC="img296.png"
+ ALT="$=$"> <TT>EP</TT>)
+for  the element  type
+specified in  field&nbsp;2.   These strings must  be
+valid  Fortran  names (see  Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>).  The  names  of the
+variables for  different element types  may be the  same; the names of
+the elemental variables, internal   variables and  parameters
+(if the latter two are given) for a specific element  type must all be
+different.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html407"
+  HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html405"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html399"
+  HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html408"
+  HREF="node30.html">3.2.16 The ELEMENT USES</A>
+<B> Up:</B> <A NAME="tex2html406"
+  HREF="node14.html">3.2 Indicator and Data</A>
+<B> Previous:</B> <A NAME="tex2html400"
+  HREF="node28.html">3.2.14 The QUADRATIC, HESSIAN,</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 99.2beta8 (1.42)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4.4.1 The TEMPORARIES Data Card</TITLE>
+<META NAME="description" CONTENT="4.4.1 The TEMPORARIES Data Card">
+<META NAME="keywords" CONTENT="sif">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v99.2beta8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="sif.css">
+
+<LINK REL="next" HREF="node43.html">
+<LINK REL="previous" HREF="node41.html">
+<LINK REL="up" HREF="node41.html">
+<LINK REL="next" HREF="node43.html">
+</HEAD>
+
+<BODY text="#000000" bgcolor="#FFFFFF">
+<BR> <HR>
+<A NAME="tex2html544"
+  HREF="node43.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html542"
+  HREF="node41.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html536"
+  HREF="node41.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   <BR>
+<B> Next:</B> <A NAME="tex2html545"
+  HREF="node43.html">4.4.2 The GLOBALS Data</A>
+<B>Up:</B> <A NAME="tex2html543"
+  HREF="node41.html">4.4 Data Cards</A>
+<B> Previous:</B> <A NAME="tex2html537"
+  HREF="node41.html">4.4 Data Cards</A>
+<BR> <HR> <P>
+
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00044100000000000000"></A><A NAME="S3.2.1"></A>
+<BR>
+4.4.1 The <TT>TEMPORARIES</TT> Data Card
+</H3>
+
+<P>
+When specifying  the function  and  derivative
+values of  a  nonlinear element,
+it  often happens that an expression  occurs more  than once.
+It  is  then convenient to define an  auxiliary  parameter
+to have the
+value of  the  common  expression and  henceforth   to refer  to   the
+auxiliary parameter.  For  instance, a  nonlinear  element  of the two
+internal variables <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img326.png"
+ ALT="$u_1$"> and <IMG
+ WIDTH="15" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img327.png"
+ ALT="$u_2$"> might  be <IMG
+ WIDTH="43" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img328.png"
+ ALT="$u_1 e^{u_2}.$"> (The names
+of the  internal  variables
+have  already  been specified in  the <TT>ELEMENT TYPE</TT>
+section of the SDIF and are known as <EM>reserved</EM> parameters.)
+Its gradient
+vector (vector  of first partial derivatives)
+has  components
+<IMG
+ WIDTH="20" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img329.png"
+ ALT="$e^{u_2}$"> and <IMG
+ WIDTH="36" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img330.png"
+ ALT="$u_1 e^{u_2}$">.  If  we define the auxiliary parameter
+<IMG
+ WIDTH="53" HEIGHT="12" ALIGN="BOTTOM" BORDER="0"
+ SRC="img331.png"
+ ALT="$w = e^{u_2}$">, the derivatives
+are then <IMG
+ WIDTH="11" HEIGHT="8" ALIGN="BOTTOM" BORDER="0"
+ SRC="img332.png"
+ ALT="$w$"> and <IMG
+ WIDTH="28" HEIGHT="10" ALIGN="MIDDLE" BORDER="0"
+ SRC="img333.png"
+ ALT="$u_1 w$">.
+
+<P>
+
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="F3.2.1"></A><A NAME="10156"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4.3:</STRONG>
+Possible data cards for <TT>TEMPORARIES</TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="358" HEIGHT="153" BORDER="0"
+ SRC="img334.png"
+ ALT="\begin{figure}\begin{center}
+\begin{tabular}{\vert@{}c@{}\vert@{}l@{}\vert@{}l@...
+...ize 10}}&amp;
+\multicolumn{1}{@{}c@{}}{~}\\
+\end{tabular} \end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+
+
+<P>
+The <TT>TEMPORARIES</TT>
+indicator card
+is  used   to announce  the   names of  any  auxiliary
+parameters
+which    are to be   used in   defining  the function  and
+derivative
+values of the nonlinear elements. This list should also
+include  the name of any intrinsic  and external functions  used.  The
+syntax  for  data cards
+following    the indicator   card  is given in Figure&nbsp;<A HREF="node42.html#F3.2.1">4.3</A>.
+
+<P>
+The single-character string in field&nbsp;1 specifies the type of auxiliary
+parameter that is to be defined. Possible types are integer (<TT>I</TT>),
+real  (<TT>R</TT>),
+logical  (<TT>L</TT>),
+intrinsic  function (<TT>M</TT>)
+or external function (<TT>F</TT>).
+The string  <TT>p-name</TT> in  field&nbsp;2 then   gives the name of  the
+auxiliary parameter. The name must be a valid Fortran name,
+see Section&nbsp;<A HREF="node11.html#S2.1.2">3.1.2</A>, but must not be a reserved one, i.e., one of
+the  names assigned to  the  internal variables
+or parameters
+for the element
+in question in the <TT>ELEMENT TYPE</TT>
+section of  the   SDIF  (see, Section&nbsp;<A HREF="node29.html#S2.2.14">3.2.15</A>).    Any auxiliary
+parameter that is to be used must be defined in the <TT>TEMPORARIES</TT>
+section along with all intrinsic and external function names.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html544"
+  HREF="node43.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/local/lib/latex2html/icons/next.png"></A> 
+<A NAME="tex2html542"
+  HREF="node41.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/local/lib/latex2html/icons/up.png"></A> 
+<A NAME="tex2html536"
+  HREF="node41.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/local/lib/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html545"
+  HREF="node43.html">4.4.2 The GLOBALS Data</A>
+<B> Up:</B> <A NAME="tex2html543"
+  HREF="node41.html">4.4 Data Cards</A>
+<B> Previous:</B> <A NAME="tex2html537"
+  HREF="node41.html">4.4 Data Cards</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<br> <hr>
+<a href="http://www.cse.clrc.ac.uk/Group/CSENAG">
+<img align=middle src="http://www.numerical.rl.ac.uk/img/num.gif"></a>
+<a href="http://www.cse.clrc.ac.uk/nag/lancelot/lancelot.shtml">
+<img align=middle src=http://www.numerical.rl.ac.uk/lancelot/lancelot.small.gif height=30></a>
+</ADDRESS>
+</BODY>
+</HTML>
