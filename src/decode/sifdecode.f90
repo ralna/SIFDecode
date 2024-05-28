@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.3 - 2024-04-07 AT 10:00 GMT.
+! THIS VERSION: SIFDECODE 2.4 - 2024-05-27 AT 10:00 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 
@@ -25,7 +25,7 @@
 !  V e r s i o n
 !---------------
 
-      CHARACTER ( LEN = 6 ) :: version = '2.3   '
+      CHARACTER ( LEN = 6 ) :: version = '2.4   '
 
 !--------------------
 !   P r e c i s i o n
@@ -3338,7 +3338,7 @@
               END IF
               IF ( field3 == '''SCALE''   ' .OR.  field3 == ' ''SCALE''  ') THEN
                 novals = 0
-                value4 = ABS( value4 )
+!               value4 = ABS( value4 )   ! remove this restriction
               END IF
             END IF
             IF ( debug .AND. out > 0 ) WRITE( out, 5060 )                      &
@@ -7070,13 +7070,18 @@
 !  the parameters for the group and the number of parameters involved
 
         ELSE
-          k = ndtype
-          IF ( k == 0 ) THEN
-            ngpars = 0
-          ELSE
+          IF ( GTYPE( ngrupe ) > 0 ) THEN  ! bug fix 2024-05-28
+            k = GTYPE( ngrupe )
             ngpars = GTYPESP_ptr( k + 1 ) - GTYPESP_ptr( k )
+          ELSE
+            k = ndtype
+            IF ( k == 0 ) THEN
+              ngpars = 0
+            ELSE
+              ngpars = GTYPESP_ptr( k + 1 ) - GTYPESP_ptr( k )
+            END IF
+            GTYPE( ngrupe ) = k
           END IF
-          GTYPE( ngrupe ) = k
           GP_ptr ( ngrupe ) = nlisgp + 1
 
           IF ( nlisgp + ngpars > len_gp_val_orig ) THEN
