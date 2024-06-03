@@ -11,7 +11,7 @@ task:
     if [ "$(uname)" = "FreeBSD" ]; then
       pkg install -y py39-pip meson bash gcc12
     else
-      brew install python meson gcc
+      brew install python meson gcc@14
     fi
   configure_script: |
     if [ "$(uname -s)" = "FreeBSD" ]; then
