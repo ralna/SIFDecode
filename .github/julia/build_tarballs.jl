@@ -3,7 +3,7 @@ using BinaryBuilder, Pkg
 haskey(ENV, "SIFDECODE_RELEASE") || error("The environment variable SIFDECODE_RELEASE is not defined.")
 haskey(ENV, "SIFDECODE_COMMIT") || error("The environment variable SIFDECODE_COMMIT is not defined.")
 
-name = "SIFDECODE"
+name = "SIFDecode"
 version = VersionNumber(ENV["SIFDECODE_RELEASE"])
 
 # Collection of sources required to complete build

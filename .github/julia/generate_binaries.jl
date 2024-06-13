@@ -2,7 +2,7 @@
 haskey(ENV, "SIFDECODE_RELEASE") || error("The environment variable SIFDECODE_RELEASE is not defined.")
 version = VersionNumber(ENV["SIFDECODE_RELEASE"])
 version2 = ENV["SIFDECODE_RELEASE"]
-package = "SIFDECODE"
+package = "SIFDecode"
 
 platforms = [
    ("aarch64-apple-darwin-libgfortran5"  , "lib", "dylib"),
@@ -75,7 +75,7 @@ for (platform, libdir, ext) in platforms
 
       cd("$(package)_binaries.$version2")
       if ext == "dll"
-        run(`zip -r --symlinks ../../../$(package)_binaries.$version2.$platform.zip include modules lib bin`)
+        run(`zip -r --symlinks ../../../$(package)_binaries.$version2.$platform.zip share modules lib bin`)
       else
         run(`tar -czf ../../../$(package)_binaries.$version2.$platform.tar.gz share modules lib bin`)
       end
