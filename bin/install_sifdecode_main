@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -vx
 
 # partial build script for sifdecode
 # version for Bourne/bash shell
