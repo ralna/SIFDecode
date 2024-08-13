@@ -19,6 +19,14 @@ fi
 
 #echo $CMP
 
+if [[ ! -e $SIFDECODE/objects ]]; then
+  $MKDIR $SIFDECODE/objects
+fi
+
+if [[ ! -e $SIFDECODE/modules ]]; then
+  $MKDIR $SIFDECODE/modules
+fi
+
 #  create architecture-dependent object and module directories
 
 OBJDIR=$SIFDECODE/objects/$VERSION
