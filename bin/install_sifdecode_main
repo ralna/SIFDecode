@@ -35,11 +35,11 @@ MODDIR=$SIFDECODE/modules/$VERSION
 echo "$MACHINE ($OPSYS) $COMPUSED" > $SIFDECODE/versions/$VERSION
 
 if [[ ! -e $OBJDIR ]]; then
-    $MKDIR $OBJDIR
+    $MKDIR -p $OBJDIR
 fi
 
 if [[ ! -e $MODDIR ]]; then
-    $MKDIR $MODDIR
+    $MKDIR -p $MODDIR
 fi
 
 #  write out the sifdecode/bin/sys file for this architecture
