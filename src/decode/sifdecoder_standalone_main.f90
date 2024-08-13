@@ -74,8 +74,8 @@
    &   '       tools. The default is to decode the problem for use with', /,   &
    &   '       the double precision tools.', /,                                &
    &   '', /,                                                                  &
-   &   '  -h, --help   Print this short help message and stop.', /,            &
-   &   '', /,                                                                  &
+   &   '  -h, --help   Print this short help message and stop.', / )" )
+          WRITE( 6, "(                                                         &
    &   '  -o 0|1', /,                                                          &
    &   '       Regulate the output level of sifdecoder. Verbose  mode', /,     &
    &   '       is -o 1, silent mode is -o 0. Silent mode is the default.', /,  &
@@ -92,8 +92,8 @@
    &   '  -p 1|2|3', /,                                                        &
    &   '       Specifies the package that the decoded problem is ', /,         &
    &   '       intended for: -p 1 is for LANCELOT, -p 2 is for BARIA and', /,  &
-   &   '       -p 3 is for CUTEst. The default is to decode for CUTEst.', /,   &
-   &   '', /,                                                                  &
+   &   '       -p 3 is for CUTEst. The default is to decode for CUTEst.', / )" )
+          WRITE( 6, "(                                                         &
    &   '  -s 0|1|2|3', /,                                                      &
    &   '       Specify the rough size of problem that will be  decoded. ', /,  &
    &   '       This  is used  for  array  initialization  and', /,             &
