@@ -170,7 +170,7 @@
       OPEN( outra, FILE = prbra,  FORM = 'FORMATTED', STATUS = 'UNKNOWN' )
       REWIND outra
       OPEN( outex, FILE = prbex,  FORM = 'FORMATTED', STATUS = 'UNKNOWN' )
-      REWIND OUTEX
+      REWIND outex
       IF ( auto == 0 ) THEN
         OPEN( outfn, FILE = prbfn,  FORM = 'FORMATTED', STATUS = 'UNKNOWN' )
         REWIND OUTFN

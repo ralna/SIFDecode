@@ -48,8 +48,9 @@ NAME          KISSING2
 
 *   Number of points: m
 
-*IE m                   24          $-PARAMETER
- IE m                   25          $-PARAMETER
+*IE m                   5              $-PARAMETER
+*IE m                   24             $-PARAMETER
+ IE m                   25             $-PARAMETER
 
 *   Dimension: n
 

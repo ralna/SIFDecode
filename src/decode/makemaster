@@ -1,7 +1,7 @@
 #  Main body of the installation makefile for the SIFDECODE decode package
 
 #  N. Gould, D. Orban and Ph. L. Toint.
-#  This version: 2023-10-24
+#  This version: 2024-08-12
 
 SHELL = /bin/$(BINSHELL)
 
@@ -31,7 +31,8 @@ RMOBFILE = $(SIFDECODE)/bin/rmobfile $(RM) $(OBJ)
 
 #  compilation agenda
 
-SIFDECODES = $(LS)(sifdecode.o) $(OBJ)/sifdecode_main.o
+SIFDECODES = $(LS)(sifdecode.o) $(LS)(sifdecoder_standalone.o) \
+             $(OBJ)/sifdecode_main.o $(OBJ)/sifdecoder_standalone_main.o
 
 #  main compilations and runs
 
@@ -47,7 +48,7 @@ sifdecode: $(SIFDECODES)
 
 # run example tests
 
-test: test_unconstrained test_constrained
+test: test_unconstrained test_constrained test_standalone
 
 test_unconstrained: $(SIFDECODES)
 	echo ""
@@ -64,6 +65,23 @@ test_constrained: $(SIFDECODES)
           $(SIFDECODE)/bin/sifdecoder -A $(VERSION) ALLINITC
 	echo ""
 	echo " Tests for constrained sifdecode complete"
+
+test_standalone: $(SIFDECODES)
+	echo ""
+	echo " Decode SIF file using stndalone "
+	echo "\n ** Default call -"
+	cd $(SIFDECODE)/sif/ ; $(OBJ)/sifdecoder_standalone KISSING2
+	echo "\n ** Call with permitted non-default parameter -"
+	cd $(SIFDECODE)/sif/ ; \
+          $(OBJ)/sifdecoder_standalone -param "m=5" KISSING2
+	echo "\n ** Call with unpermitted non-default parameter -"
+	cd $(SIFDECODE)/sif/ ; \
+          $(OBJ)/sifdecoder_standalone -param "m=4" KISSING2
+	echo "\n ** Call with forced unpermitted non-default parameter -"
+	cd $(SIFDECODE)/sif/ ; \
+          $(OBJ)/sifdecoder_standalone -param "m=4" -force KISSING2
+	echo ""
+	echo " Standalone test for sifdecode complete"
 
 test_single: test_unconstrained_single test_constrained_single
 
@@ -116,6 +134,23 @@ $(LS)(sifdecode.o): ../decode/sifdecode.f90
 	$(MVMODS)
 	@printf '[ OK ]\n'
 
+sifdecoder_standalone.o: $(LS)(sifdecoder_standalone.o)
+
+$(LS)(sifdecoder_standalone.o): ../decode/sifdecoder_standalone.f90
+	@printf ' %-9s %-15s\t' "Compiling" "sifdecoder_standalone"
+	$(CP) ../decode/sifdecoder_standalone.f90 \
+          $(OBJ)/sifdecoder_standalone.f90
+	cd $(OBJ); $(FORTRAN) -o sifdecoder_standalone.o $(FFLAGS) \
+                     sifdecoder_standalone.f90 \
+                || ( printf ' %-26s' "=> Disabling optimization " ; \
+                   $(FORTRAN) -o sifdecoder_standalone.o $(FFLAGSN) \
+                      sifdecoder_standalone.f90 )
+	cd $(OBJ); $(ARR) sifdecoder_standalone.o; \
+          $(RM) sifdecoder_standalone.f90 sifdecoder_standalone.o
+	$(RMOBFILE) sifdecoder_standalone_main.o
+	$(MVMODS)
+	@printf '[ OK ]\n'
+
 #  main programs
 
 sifdecode_main.o: $(OBJ)/sifdecode_main.o
@@ -129,6 +164,23 @@ $(OBJ)/sifdecode_main.o: ../decode/sifdecode_main.f90
 	cd $(OBJ); $(FORTRAN) -o run_sifdecode $(RUNFFLAGS) \
           sifdecode_main.o -L$(OBJ) $(PLIBS) ; $(RM) sifdecode_main.f90
 	cd $(OBJ); $(RM) sifdecode_main.f90
+	@printf '[ OK ]\n'
+
+sifdecoder_standalone_main.o: $(OBJ)/sifdecoder_standalone_main.o
+
+$(OBJ)/sifdecoder_standalone_main.o: ../decode/sifdecoder_standalone_main.f90
+	@printf ' %-9s %-15s\t' "Compiling" "sifdecoder_standalone_main"
+	$(CP) ../decode/sifdecoder_standalone_main.f90 \
+          $(OBJ)/sifdecoder_standalone_main.f90
+	cd $(OBJ); $(FORTRAN) -o sifdecoder_standalone_main.o \
+                     $(FFLAGS) sifdecoder_standalone_main.f90 \
+          || ( printf ' %-26s' "=> Disabling optimization " ; \
+            $(FORTRAN) -o sifdecoder_standalone_main.o \
+                     $(FFLAGSN) sifdecoder_standalone_main.f90 )
+	cd $(OBJ); $(FORTRAN) -o sifdecoder_standalone $(RUNFFLAGS) \
+          sifdecoder_standalone_main.o -L$(OBJ) $(PLIBS) ; \
+            $(RM) sifdecoder_standalone_main.f90
+	cd $(OBJ); $(RM) sifdecoder_standalone_main.f90
 	@printf '[ OK ]\n'
 
 #  book keeping

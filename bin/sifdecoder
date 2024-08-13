@@ -481,10 +481,13 @@ fi
 if (( automatic != 0  )); then
   [[ -e ELFUND.f  ]] && $MV ELFUND.f ELFUN.f
   [[ -e GROUPD.f  ]] && $MV GROUPD.f GROUP.f
+  [[ -e EXTERA.f  ]] && $MV EXTERA.f EXTER.f
   [[ -e ELFUND_s.f  ]] && $MV ELFUND_s.f ELFUN_s.f
   [[ -e GROUPD_s.f  ]] && $MV GROUPD_s.f GROUP_s.f
-  [[ -e EXTERA.f  ]] && $MV EXTERA.f EXTER.f
   [[ -e EXTERA_s.f  ]] && $MV EXTERA_s.f EXTER_s.f
+  [[ -e ELFUND_q.f  ]] && $MV ELFUND_q.f ELFUN_q.f
+  [[ -e GROUPD_q.f  ]] && $MV GROUPD_q.f GROUP_q.f
+  [[ -e EXTERA_q.f  ]] && $MV EXTERA_q.f EXTER_q.f
 fi
 
 if [[ -e EXTER.f  ]]; then
