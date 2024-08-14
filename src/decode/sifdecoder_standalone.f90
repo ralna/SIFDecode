@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.4 - 2024-08-12 AT 15:30 GMT.
+! THIS VERSION: SIFDECODE 2.5 - 2024-08-14 AT 09:30 GMT.
 
 !-*-*-*-*-*-  S I F D E C O D E R _ S T A N A L O N E _ M O D U L E  -*-*-*-*-*-
 

@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.4 - 2024-08-12 AT 15:30 GMT.
+! THIS VERSION: SIFDECODE 2.5 - 2024-08-14 AT 09:30 GMT.
 
 !-*-*-*-*-*-*-*-*-  S I F D E C O D E R _ m a i n   P R O G R A M  -*-*-*-*-*-*-
 
@@ -43,7 +43,7 @@
       INTEGER :: show_params = 0
       INTEGER :: force = 0
       CHARACTER ( LEN = len_param ) :: param_list = REPEAT( ' ', len_param )
-      CHARACTER ( LEN = 20 ) :: sifname = REPEAT( ' ', 20 )
+      CHARACTER ( LEN = 1000 ) :: sifname = REPEAT( ' ', 1000 )
 
 !  read and process command-line options
 
@@ -60,15 +60,18 @@
           WRITE( 6, "(                                                         &
    &  ' Decode a standard input format (SIF) file. Use:', /,                   &
    &  '', /,                                                                   &
-   &  '  sifdecoder_standalone [-sp] [-qp] [-h] [-o 0|1] [-f] [-b]', /,        &
+   &  '  sifdecoder_standalone [-sp] [-dp] [-qp] [-h] [-o 0|1] [-f] [-b]', /,  &
    &  '    [-p 1|2|3] [-s 0|1|2|3] [-st 1|2|3] [-show] [-force]', /,           &
    &  '    [-param name=value[,name=value...]] problem[.SIF]', /,              &
    &  '', /,                                                                   &
    &  ' where', /,                                                             &
    &   '', /,                                                                  &
-   &   '  -sp  Decode  the  problem  for use with the single precision', /,    &
+   &   '  -sp  Decode the problem for use with the single precision', /,       &
    &   '       tools. The default is to decode the problem for use with', /,   &
    &   '       the double precision tools.', /,                                &
+   &   '', /,                                                                  &
+   &   '  -dp  Decode the problem for use with the double precision', /,       &
+   &   '       tools. This is the default.', /,                                &
    &   '', /,                                                                  &
    &   '  -qp  Decode the problem for use with the quadruple precision', /,    &
    &   '       tools. The default is to decode the problem for use with', /,   &
@@ -85,10 +88,10 @@
    &   '       approximations; any significant differences will be', /,        &
    &   '       reported. N.B. currently not supported as standalone.', /,      &
    &   '', /,                                                                  &
-   &   '  -f   Use automatic differentiation in Forward mode.', /,             &
-   &   '', /,                                                                  &
-   &   '  -b   Use automatic differentiation in Backward mode.', /,            &
-   &   '', /,                                                                  &
+   &   '  -f   Use automatic differentiation with HSL_AD02 in Forward mode.',  &
+   &   /, '', /,                                                               &
+   &   '  -b   Use automatic differentiation with HSL_AD02 in Backward mode.', &
+   &   /, '', /,                                                               &
    &   '  -p 1|2|3', /,                                                        &
    &   '       Specifies the package that the decoded problem is ', /,         &
    &   '       intended for: -p 1 is for LANCELOT, -p 2 is for BARIA and', /,  &
@@ -135,6 +138,8 @@
           STOP
         CASE( '-sp' )
            realpr = 32
+        CASE( '-dp' )
+           realpr = 64
         CASE( '-qp' )
            realpr = 128
         CASE( '-o' )

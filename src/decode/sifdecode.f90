@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.4 - 2024-05-27 AT 10:00 GMT.
+! THIS VERSION: SIFDECODE 2.5 - 2024-08-14 AT 09:30 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 
@@ -1017,6 +1017,8 @@
             string( i : i + 1 ) = 'E+'
           IF ( string( i : i + 1 ) == 'D-' )                                   &
             string( i : i + 1 ) = 'E-'
+          IF ( string( i : i + 6 ) == '1.0D308' )                              &
+            string( i : i + 6 ) = '1.0E38 '
         END DO
         END SUBROUTINE single_string
 
