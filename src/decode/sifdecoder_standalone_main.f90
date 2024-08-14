@@ -83,11 +83,11 @@
    &   '       Regulate the output level of sifdecoder. Verbose  mode', /,     &
    &   '       is -o 1, silent mode is -o 0. Silent mode is the default.', /,  &
    &   '', /,                                                                  &
-   &   '  -c   check the derivatves that are provided in ELFUN.f and', /,      &
-   &   '       GROUP.f by comparing the values against finite-diffrence', /,   &
-   &   '       approximations; any significant differences will be', /,        &
-   &   '       reported. N.B. currently not supported as standalone.', /,      &
-   &   '', /,                                                                  &
+!  &   '  -c   check the derivatves that are provided in ELFUN.f and', /,      &
+!  &   '       GROUP.f by comparing the values against finite-diffrence', /,   &
+!  &   '       approximations; any significant differences will be', /,        &
+!  &   '       reported. N.B. currently not supported as standalone.', /,      &
+!  &   '', /,                                                                  &
    &   '  -f   Use automatic differentiation with HSL_AD02 in Forward mode.',  &
    &   /, '', /,                                                               &
    &   '  -b   Use automatic differentiation with HSL_AD02 in Backward mode.', &

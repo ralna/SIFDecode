@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -v
+#!/usr/bin/env bash
 
 # partial build script for sifdecode
 # version for Bourne/bash shell
@@ -18,9 +18,8 @@ if [[ -e $SIFDECODE/versions/$VERSION ]]; then
 fi
 
 #echo $CMP
-echo 'SIFDECODE = '$SIFDECODE
-ls $SIFDECODE
 
+#  ensure that objects and modules directories exist
 
 if [[ ! -e $SIFDECODE/objects ]]; then
   $MKDIR $SIFDECODE/objects
