@@ -24,6 +24,15 @@ meson test -C builddir
 SIFDecode can also be installed via the "make" build system based on [ARCHDefs](https://github.com/ralna/ARCHDefs).
 To use this variant, follow the instructions in the CUTEst [wiki](https://github.com/ralna/CUTEst/wiki).
 
+## Where to find SIF files
+A large collection of SIF files can be found at https://bitbucket.org/optrove/workspace/repositories/.
+In particular this contains:
+* The CUTEst NLP test set in the `sif` repository
+* The Maros-Meszaros QP test set in the `maros-meszaros` repository
+* The Netlib LP test set in the `netlib-lp` repository
+
+The test problems are classified according to the [CUTE classification scheme](https://www.cuter.rl.ac.uk/Problems/classification.shtml).
+
 ## How to decode a SIF file
 
 Since the release `v2.5.1`, an executable `sifdecoder_standalone` is
