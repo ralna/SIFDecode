@@ -909,6 +909,9 @@
                 IF ( lineex( i : i + 15 ) == '      SUBROUTINE' ) THEN
                   firstb = 0
                 END IF
+                IF ( lineex( i : i + 24 ) == 'REAL(REAL128)    FUNCTION' ) THEN
+                  firstb = 0
+                END IF
               END IF
               IF ( firstb == 0 .AND. lineex( i : i ) == ')' ) THEN
                 firstb = 1
