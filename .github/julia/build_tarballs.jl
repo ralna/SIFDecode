@@ -47,8 +47,7 @@ platforms = expand_gfortran_versions(platforms)
 
 # The products that we will ensure are always built
 products = [
-    LibraryProduct("libsifdecode", :libsifdecode),
-    ExecutableProduct("sifdecoder_standalone", :sifdecoder_standalone),
+   ExecutableProduct("sifdecoder_standalone", :sifdecoder_standalone),
 ]
 
 # Dependencies that must be installed before this package can be built
