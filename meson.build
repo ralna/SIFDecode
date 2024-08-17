@@ -1,12 +1,12 @@
 project(
   'SIFDecode',
   'fortran',
-  version: '2.5.1',
+  version: '2.6.0',
   meson_version: '>= 0.61.0',
   default_options: [
     'buildtype=release',
     'libdir=lib',
-    'default_library=shared',
+    'default_library=static',
     'warning_level=0',
   ],
 )
