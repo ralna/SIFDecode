@@ -902,23 +902,28 @@
         IF ( realpr == 32 ) THEN
           CALL single_string( lineex( 1 : 72 ) )
         ELSE IF ( realpr == 128 ) THEN
-          CALL quadruple_string( lineex( 1 : 72 ) )
-!         IF ( firstb < 1 ) THEN
+          IF (  lineex( 1 : 1 ) /= 'C' ) THEN
             DO i = 1, 72
               IF ( i <= 56 ) THEN
                 IF ( lineex( i : i + 15 ) == '      SUBROUTINE' ) THEN
                   firstb = 0
                 END IF
-                IF ( lineex( i : i + 24 ) == 'REAL(REAL128)    FUNCTION' ) THEN
+                IF ( lineex( i : i + 24 ) == 'DOUBLE PRECISION FUNCTION' .OR.  &
+                     lineex( i : i + 15 ) == 'INTEGER FUNCTION' ) THEN
                   firstb = 0
                 END IF
+                IF ( lineex( i : i + 9 ) == 'BLOCK DATA' ) THEN
+                  firstb = 1
+                  EXIT
+                END IF
+
               END IF
               IF ( firstb == 0 .AND. lineex( i : i ) == ')' ) THEN
                 firstb = 1
-                EXIT
               END IF
             END DO
-!         END IF
+          END IF
+          CALL quadruple_string( lineex( 1 : 72 ) )
         END IF
 
 !  skip blank lines
@@ -1021,7 +1026,19 @@
           IF ( string( i : i + 1 ) == 'D-' )                                   &
             string( i : i + 1 ) = 'E-'
           IF ( string( i : i + 6 ) == '1.0D308' )                              &
-            string( i : i + 6 ) = '1.0E38 '
+            string( i : i + 6 ) =     '1.0E38 '
+          IF ( string( i : i + 7 ) == '1.79D308' )                             &
+            string( i : i + 7 ) =     '3.40E38 '
+          IF ( string( i : i + 8 ) == '-26.628D0' )                            &
+            string( i : i + 8 ) =     '-9.382E0 '
+          IF ( string( i : i + 7 ) == '1.11D-16' )                             &
+            string( i : i + 7 ) =     '5.96E-8 '
+          IF ( string( i : i + 7 ) == '26.543D0' )                             &
+            string( i : i + 7 ) =     '9.194E0 '
+          IF ( string( i : i + 5 ) == '6.71D7' )                               &
+            string( i : i + 5 ) =     '2.90E3'
+          IF ( string( i : i + 7 ) == '2.53D307' )                             &
+            string( i : i + 7 ) =     '4.79E37 '
         END DO
         END SUBROUTINE single_string
 
@@ -1035,9 +1052,22 @@
             string( i : i + 1 ) = 'E+'
           IF ( string( i : i + 1 ) == 'D-' )                                   &
             string( i : i + 1 ) = 'E-'
+          IF ( string( i : i + 7 ) == '1.0D308)' )                             &
+             string( i : i + 15 ) = '1.0E308_real128)'
+          IF ( string( i : i + 7 ) == '1.79D308' )                             &
+             string( i : i + 15 ) = '1.79E308_real128'
+          IF ( string( i : i + 8 ) == '-26.628D0' )                            &
+             string( i : i + 8 ) = '-26.628E0'
+          IF ( string( i : i + 7 ) == '1.11D-16' )                             &
+             string( i : i + 7 ) = '1.11E-16'
+          IF ( string( i : i + 7 ) == '26.543D0' )                             &
+             string( i : i + 7 ) = '26.543E0'
+          IF ( string( i : i + 5 ) == '6.71D7' )                               &
+             string( i : i + 5 ) = '6.71E7'
+          IF ( string( i : i + 7 ) == '2.53D307' )                             &
+             string( i : i + 15 ) = '2.53E307_real128'
         END DO
         END SUBROUTINE quadruple_string
-
 
 !  end of subroutine SIFDECODE_decode
 
