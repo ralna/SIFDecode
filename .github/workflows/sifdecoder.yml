@@ -1,0 +1,93 @@
+name: sifdecoder
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: ${{ matrix.problems }} -- ${{ matrix.precision }} precision
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        version: ['12']
+        problems: ['sifcollection', 'maros-meszaros', 'netlib-lp']
+        precision: ['single', 'double', 'quadruple']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out SIFDecode
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Meson and Ninja
+        run: pip install meson ninja
+
+      - name: Install compilers
+        uses: fortran-lang/setup-fortran@main
+        with:
+          compiler: ${{ matrix.compiler }}
+          version: ${{ matrix.version }}
+
+      # Uncomment this section to obtain ssh access to VM
+      # - name: Setup tmate session
+      # if: matrix.os == 'windows-latest'
+      # uses: mxschmitt/action-tmate@v3
+
+      - name: Download ${{ matrix.problems }}
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE/../
+          if [[ "${{ matrix.problems }}" == "sifcollection" ]]; then
+            # https://bitbucket.org/optrove/sif/downloads/?tab=branches
+            wget https://bitbucket.org/optrove/sif/get/c71425cc7f54ddda53ab57c11290a1cbf53aaf17.tar.gz
+            tar -xvzf c71425cc7f54ddda53ab57c11290a1cbf53aaf17.tar.gz
+            mv optrove-sif-c71425cc7f54 sif
+          fi
+          if [[ "${{ matrix.problems }}" == "maros-meszaros" ]]; then
+            # https://bitbucket.org/optrove/maros-meszaros/downloads/?tab=branches
+            wget https://bitbucket.org/optrove/maros-meszaros/get/9adfb5707b1e0b83a2e0a26cc8310704ff01b7c1.tar.gz
+            tar -xvzf 9adfb5707b1e0b83a2e0a26cc8310704ff01b7c1.tar.gz
+            mv optrove-maros-meszaros-9adfb5707b1e sif
+          fi
+          if [[ "${{ matrix.problems }}" == "netlib-lp" ]]; then
+            # https://bitbucket.org/optrove/netlib-lp/downloads/?tab=branches
+            wget https://bitbucket.org/optrove/netlib-lp/get/f83996fca9370b23d8896f134c4dfe7adbaca0ec.tar.gz
+            tar -xvzf f83996fca9370b23d8896f134c4dfe7adbaca0ec.tar.gz
+            mv optrove-netlib-lp-f83996fca937 sif
+          fi
+
+      - name: SIFDecode
+        shell: bash
+        run: |
+          meson setup builddir -Ddefault_library=static
+          meson compile -C builddir
+          cp builddir/sifdecoder_standalone $GITHUB_WORKSPACE/../sif
+
+      - name: Decode the SIF files
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE/../sif
+          for file in *.SIF; do
+            if [ -f "$file" ]; then
+              echo "Processing $file"
+              rm -f *.f *.o *.d
+              if [[ "${{ matrix.precision }}" == "single" ]]; then
+                ./sifdecoder_standalone -sp "$file"
+                gfortran -shared -fPIC *.f
+              fi
+              if [[ "${{ matrix.precision }}" == "double" ]]; then
+                ./sifdecoder_standalone -dp "$file"
+                gfortran -shared -fPIC *.f
+              fi
+              if [[ "${{ matrix.precision }}" == "quadruple" ]]; then
+                ./sifdecoder_standalone -qp "$file"
+                gfortran -shared -fPIC *.f
+              fi
+            fi
+          done
