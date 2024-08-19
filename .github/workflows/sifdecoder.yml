@@ -7,11 +7,11 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    name: ${{ matrix.problems }} -- ${{ matrix.precision }} precision
+    name: ${{ matrix.os }} -- ${{ matrix.problems }} -- ${{ matrix.precision }} precision
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
         version: ['12']
         problems: ['sifcollection', 'maros-meszaros', 'netlib-lp']
         precision: ['single', 'double', 'quadruple']
