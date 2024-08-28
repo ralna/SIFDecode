@@ -44,22 +44,15 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/../
           if [[ "${{ matrix.problems }}" == "sifcollection" ]]; then
-            # https://bitbucket.org/optrove/sif/downloads/?tab=branches
-            wget https://bitbucket.org/optrove/sif/get/c71425cc7f54ddda53ab57c11290a1cbf53aaf17.tar.gz
-            tar -xvzf c71425cc7f54ddda53ab57c11290a1cbf53aaf17.tar.gz
-            mv optrove-sif-c71425cc7f54 sif
+            git clone https://bitbucket.org/optrove/sif
           fi
           if [[ "${{ matrix.problems }}" == "maros-meszaros" ]]; then
-            # https://bitbucket.org/optrove/maros-meszaros/downloads/?tab=branches
-            wget https://bitbucket.org/optrove/maros-meszaros/get/9adfb5707b1e0b83a2e0a26cc8310704ff01b7c1.tar.gz
-            tar -xvzf 9adfb5707b1e0b83a2e0a26cc8310704ff01b7c1.tar.gz
-            mv optrove-maros-meszaros-9adfb5707b1e sif
+            git clone https://bitbucket.org/optrove/maros-meszaros
+            mv maros-meszaros sif
           fi
           if [[ "${{ matrix.problems }}" == "netlib-lp" ]]; then
-            # https://bitbucket.org/optrove/netlib-lp/downloads/?tab=branches
-            wget https://bitbucket.org/optrove/netlib-lp/get/f83996fca9370b23d8896f134c4dfe7adbaca0ec.tar.gz
-            tar -xvzf f83996fca9370b23d8896f134c4dfe7adbaca0ec.tar.gz
-            mv optrove-netlib-lp-f83996fca937 sif
+            git clone https://bitbucket.org/optrove/netlib-lp
+            mv netlib-lp sif
           fi
 
       - name: SIFDecode
