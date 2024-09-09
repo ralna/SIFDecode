@@ -61,7 +61,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: ${{ matrix.os }}_${{ matrix.compiler }}-v${{ matrix.version }}_Int${{ matrix.int }}_meson-log.txt
+          name: ${{ matrix.os }}_${{ matrix.compiler }}-v${{ matrix.version }}_meson-log.txt
           path: builddir/meson-logs/meson-log.txt
 
       - name: Install SIFDecode
@@ -71,5 +71,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: ${{ matrix.os }}_${{ matrix.compiler }}-v${{ matrix.version }}_Int${{ matrix.int }}_install-log.txt
+          name: ${{ matrix.os }}_${{ matrix.compiler }}-v${{ matrix.version }}_install-log.txt
           path: builddir/meson-logs/install-log.txt

@@ -1,0 +1,58 @@
+name: CLASS.DB
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Verify SIF files and CLASSF.DB consistency
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout SIFDecode
+        uses: actions/checkout@v4
+
+      - name: Download the CUTEst NLP test set
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE/../
+          git clone https://bitbucket.org/optrove/sif
+
+      - name: Check entries in CLASSF.DB and SIF files
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE/../sif
+
+          # Read the CLASSF.DB file and store the problem names in an array
+          mapfile -t db_problems < <(awk '{print $1}' CLASSF.DB)
+
+          # Initialize counters for missing files and missing DB entries
+          missing_sif_count=0
+          missing_db_count=0
+
+          # Check if each SIF file has an entry in CLASSF.DB
+          for file in *.SIF; do
+            problem_name="${file%.SIF}"
+            if [[ " ${db_problems[*]} " != *" ${problem_name} "* ]]; then
+              echo "${problem_name} is ABSENT from CLASSF.DB"
+              missing_db_count=$((missing_db_count + 1))
+            fi
+          done
+
+          # Check if each entry in CLASSF.DB has a corresponding SIF file
+          for problem in "${db_problems[@]}"; do
+            if [[ ! -f "${problem}.SIF" ]]; then
+              echo "SIF file for ${problem} is MISSING"
+              missing_sif_count=$((missing_sif_count + 1))
+            fi
+          done
+
+          echo "Total number of SIF files without DB entries: ${missing_db_count}"
+          echo "Total number of DB entries without SIF files: ${missing_sif_count}"
+
+          # Exit with error if any issues were found
+          if [ "${missing_db_count}" -ne 0 ] || [ "${missing_sif_count}" -ne 0 ]; then
+            echo "Error: Mismatch between CLASSF.DB entries and SIF files"
+            exit 1
+          fi
