@@ -76,6 +76,10 @@ VERSION=${MCH}.${OS}.${CMP}
 #PLPLOTUSED="unused"
 #PLPLOT=""
 
+if [[ ! -e $SIFDECODE/versions ]]; then
+  $MKDIR $SIFDECODE/versions
+fi
+
 if [[ -e $SIFDECODE/versions/$VERSION ]]; then
     warning " There is already a SIFDECODE installation with version $VERSION."
     yesno_default_no ' Do you wish to proceed ... existing version will be destroyed'

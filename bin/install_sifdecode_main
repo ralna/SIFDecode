@@ -34,6 +34,8 @@ fi
 OBJDIR=$SIFDECODE/objects/$VERSION
 MODDIR=$SIFDECODE/modules/$VERSION
 
+echo "$MACHINE ($OPSYS) $COMPUSED $SIFDECODE/versions/$VERSION"
+
 echo "$MACHINE ($OPSYS) $COMPUSED" > $SIFDECODE/versions/$VERSION
 
 if [[ ! -e $OBJDIR ]]; then
