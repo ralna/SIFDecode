@@ -1251,7 +1251,7 @@
       INTEGER :: iptype, istype, ndtype, level, ijump, lineno
       INTEGER :: level3, lev1, lev2, lev3, lev1s, lev2s, lev3s
       INTEGER :: lev1e, lev2e, lev3e, lev1i, lev2i, lev3i, levl3a
-      INTEGER :: ninstr1, ninstr2, ninstr3, jstart, jstop
+      INTEGER :: ninstr1, ninstr2, ninstr3, jstart, jstop, hyphen
       INTEGER :: used_length, new_length, min_length, alloc_status
       INTEGER :: used_length2, new_length2, min_length2
       INTEGER :: used_length3, new_length3, min_length3
@@ -1927,9 +1927,11 @@
                     IF ( NULINE( j : j ) /= ' ' ) THEN
                       jstart = j
                       classification_start = .TRUE.
+                      hyphen = 0
                     END IF
                   ELSE
-                    IF ( NULINE( j : j ) == ' ' ) THEN
+                    IF ( NULINE( j : j ) == '-' ) hyphen = hyphen + 1
+                    IF ( NULINE( j : j ) == ' ' .OR. hyphen == 4 ) THEN
                       jstop = j - 1
                       EXIT
                     END IF
