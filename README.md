@@ -31,7 +31,7 @@ In particular this contains:
 * The Maros-Meszaros QP test set in the `maros-meszaros` repository
 * The Netlib LP test set in the `netlib-lp` repository
 
-The test problems are classified according to the [CUTE classification scheme](https://www.cuter.rl.ac.uk/Problems/classification.shtml).
+The test problems are classified according to the [CUTE classification scheme](https://ralna.github.io/SIFDecode/html/classification/).
 
 ## How to decode a SIF file
 

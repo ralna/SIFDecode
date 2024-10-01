@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.5 - 2024-08-14 AT 09:30 GMT.
+! THIS VERSION: SIFDECODE 2.6 - 2024-10-01 AT 09:30 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 
@@ -287,6 +287,7 @@
       CHARACTER ( LEN = 10 ) :: pname
       CHARACTER ( LEN = 10 ) :: nameof, namerh, namera, namebn, namest, nameob
       CHARACTER ( LEN = 24 ) :: bad_alloc
+      CHARACTER ( LEN = 30 ) :: classification
       CHARACTER ( LEN = 72 ) :: lineex
       CHARACTER ( LEN = max_record_length ) :: nuline
 
@@ -388,7 +389,7 @@
                    n, ng, nnza, nobj, nconst, nrange, nbnd, nstart, neltype,   &
                    ngtype, nelvar, nlvars, nnlvrs, nlisgp, nlisep, nelnum,     &
                    neling, narray, nrival, nobbnd, nevnames, nivnames,         &
-                   nepnames, ngpnames, pname,                                  &
+                   nepnames, ngpnames, pname, classification,                  &
                    ELING_el, ELING_g, length, TABLE, KEY, INLIST,              &
                    GSTATE, ELV, INV, TYPEE, IDROWS, ELVAR,                     &
                    ELING_ptr, GTYPE, ELP, GTYPESP_ptr, IWK, EP_ptr, EV_ptr,    &
@@ -465,8 +466,8 @@
 
       CALL MAKE_outsdif( n, nlvars, ng, nelnum, neling, nobj, nelvar, nlisgp,  &
                          nlisep, nbnd, nnza, nconst, nstart, nrange, nobjgr,   &
-                         nobbnd, neltype, ngtype, pname, nameob, namerh,       &
-                         namera, namebn, namest, nameof,                       &
+                         nobbnd, neltype, ngtype, pname, classification,       &
+                         nameob, namerh, namera, namebn, namest, nameof,       &
                          ELING_ptr, ELVAR, EV_ptr, ABYROW_col, ABYROW_ptr,     &
                          A_row, A_col, length, TABLE, KEY, INLIST,             &
                          GSTATE, IDROWS, ELV, INV, GTYPESP_ptr, ELING_el,      &
@@ -1079,7 +1080,8 @@
                          n, ng, nnza, nobj, nconst, nrange, nbnd, nstart,      &
                          neltype, ngtype, nelvar, nlvars, nnlvrs, nlisgp,      &
                          nlisep, nelnum, neling, narray, nrival, nobbnd,       &
-                         nevnames, nivnames, nepnames, ngpnames, pname,        &
+                         nevnames, nivnames, nepnames, ngpnames,               &
+                         pname, classification,                                &
                          ELING_el, ELING_g, length, TABLE, KEY, INLIST,        &
                          GSTATE, ELV, INV, TYPEE, IDROWS, ELVAR, ELING_ptr,    &
                          GTYPE, ELP, GTYPESP_ptr, IWK, EP_ptr, EV_ptr,         &
@@ -1101,6 +1103,7 @@
       INTEGER :: nevnames, nivnames, nepnames, ngpnames
       LOGICAL :: debug
       CHARACTER ( LEN = 10 ) :: pname
+      CHARACTER ( LEN = 30 ) :: classification
       INTEGER, ALLOCATABLE, DIMENSION( : ) :: ELV, INV, ELP
       INTEGER, ALLOCATABLE, DIMENSION( : ) :: EV_ptr, TYPEE, EP_ptr, TYPEV
       INTEGER, ALLOCATABLE, DIMENSION( : ) :: GTYPESP_ptr, ELVAR, IIVAL, IWK
@@ -1248,7 +1251,7 @@
       INTEGER :: iptype, istype, ndtype, level, ijump, lineno
       INTEGER :: level3, lev1, lev2, lev3, lev1s, lev2s, lev3s
       INTEGER :: lev1e, lev2e, lev3e, lev1i, lev2i, lev3i, levl3a
-      INTEGER :: ninstr1, ninstr2, ninstr3
+      INTEGER :: ninstr1, ninstr2, ninstr3, jstart, jstop
       INTEGER :: used_length, new_length, min_length, alloc_status
       INTEGER :: used_length2, new_length2, min_length2
       INTEGER :: used_length3, new_length3, min_length3
@@ -1264,13 +1267,13 @@
       INTEGER :: len_rvalue3, len_farray, len2_array, len2_carray, len2_varray
       INTEGER :: len_gp_val_orig, len_fbound, len_rival, len3_iarray
       REAL ( KIND = wp ) :: value4, value6
-      LOGICAL :: defnam, inrep, defaut, doloop
+      LOGICAL :: defnam, inrep, defaut, doloop, classification_start
       LOGICAL :: end_bound_section, end_start_section, end_quadratic_section
       LOGICAL :: end_element_type_section, end_element_uses_section
       LOGICAL :: end_group_type_section, start_group_uses_section
       LOGICAL :: dgrset, adddoloop, qgroup, qsqr, qprod
       LOGICAL :: setana, delset, grp1st, grpyet, varyet, fixed
-      LOGICAL :: skipl1, skipl2, skipl3
+      LOGICAL :: skipl1, skipl2, skipl3, got_classification
       CHARACTER ( LEN = 2 ) :: field1, colfie
       CHARACTER ( LEN = 10 ) :: field2, field3, field5, grupe, elmnt
       CHARACTER ( LEN = 10 ) :: detype, dgtype
@@ -1842,6 +1845,11 @@
         BLNKLN( i : i ) = ' '
       END DO
 
+!  initialize a blank classification
+
+      classification = REPEAT( ' ', 30 )
+      got_classification = .FALSE.
+
 !  start of main loop
 
   100 CONTINUE
@@ -1905,7 +1913,40 @@
 
 !  ignore comment cards
 
-        IF ( NULINE( 1 : 1 ) == '*' ) GO TO 100
+        IF ( NULINE( 1 : 1 ) == '*' ) THEN
+          IF ( .NOT. got_classification ) THEN
+            DO i = 1, max_record_length - 13
+              IF ( NULINE( i : i + 13 ) == 'classification' .OR.               &
+                   NULINE( i : i + 13 ) == 'CLASSIFICATION' ) THEN
+
+!  the string has been found, now search for the classification string itself
+
+                classification_start = .FALSE. ; jstop = 80
+                DO j = i + 14, max_record_length
+                  IF ( .NOT. classification_start ) THEN
+                    IF ( NULINE( j : j ) /= ' ' ) THEN
+                      jstart = j
+                      classification_start = .TRUE.
+                    END IF
+                  ELSE
+                    IF ( NULINE( j : j ) == ' ' ) THEN
+                      jstop = j - 1
+                      EXIT
+                    END IF
+                  END IF
+                END DO
+
+!  copy the string and exit
+
+                classification( 1 : jstop - jstart + 1 )                       &
+                  = NULINE( jstart : jstop )
+                got_classification = .TRUE.
+                EXIT
+              END IF
+            END DO
+          END IF
+          GO TO 100
+        END IF
 
 !  check if we have entered fixed-format input
 
@@ -9074,9 +9115,9 @@
 !-*-*- S I F D E C O D E   M A K E _ o u t s d i f    S U B R O U T I N E -*-*-
 
       SUBROUTINE MAKE_outsdif( n, nlvars, ng, nelnum, neling, nobj,            &
-                         nelvar, nlisgp, nlisep,                               &
-                         nbnd, nnza, nconst, nstart, nrange, nobjgr, nobbnd,   &
-                         neltype, ngtype, pname, nameob, namerh, namera,       &
+                         nelvar, nlisgp, nlisep, nbnd, nnza, nconst, nstart,   &
+                         nrange, nobjgr, nobbnd, neltype, ngtype,              &
+                         pname, classification, nameob, namerh, namera,        &
                          namebn, namest, nameof, ELING_ptr, ELVAR, EV_ptr,     &
                          ABYROW_col, ABYROW_ptr, A_row, A_col,                 &
                          length, TABLE, KEY, INLIST,                           &
@@ -9099,6 +9140,7 @@
       INTEGER :: len1_blu, len1_vstart, len1_cstart, realpr, iauto
       LOGICAL :: debug
       CHARACTER ( LEN = 10 ) :: pname
+      CHARACTER ( LEN = 30 ) :: classification
       CHARACTER ( LEN = 10 ) :: nameob, namerh, namera, namebn, namest, nameof
       INTEGER :: ELING_ptr( ng + 1 ), ELVAR( nelvar )
       INTEGER :: EV_ptr( nelnum + 1 )
@@ -9684,7 +9726,7 @@
 !  print out problem data. output the number of variables, groups and
 !  elements and, perhaps, the identity of the objective function group
 
-      WRITE( outda, 3100 ) ialgor, pname, iauto
+      WRITE( outda, 3100 ) ialgor, pname, iauto, classification
       IF ( ialgor == 2 ) WRITE( outda, 3170 ) nslack, nobjgr
 
 !  output the starting addresses of the elements in each group,
@@ -9881,7 +9923,7 @@
  3020 FORMAT( /, 3('  Row   Col    Value  '),                                  &
               /, 3('  ---   ---    -----  '),                                  &
               /, ( 3( 2I5, 1P, D12.4 ) ) )
- 3100 FORMAT( I2, A10, I2 )
+ 3100 FORMAT( I2, A10, I2, 1X, A30 )
  3110 FORMAT( ( 10I8 ) )
  3120 FORMAT( ( 1P, 4D16.8 ) )
  3121 FORMAT( ( 1P, 4E16.8 ) )

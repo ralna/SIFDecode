@@ -42,7 +42,7 @@ To get CUTEst working, here is what you need to do:
 
     or
 
-       http://www.cuter.rl.ac.uk/Problems/mastsif.shtml
+       https://bitbucket.org/optrove/sif 
 
 1.  Now set the three environment variables $ARCHDEFS, $SIFDECODE and $CUTEST
     to point at the directories ./archdefs, ./sifdecode and ./cutest
@@ -240,7 +240,7 @@ To get CUTEst working, here is what you need to do:
 
 11. Refer to the CUTEst Wiki
 
-      http://ccpforge.cse.rl.ac.uk/gf/project/cutest/wiki/
+      https://github.com/ralna/CUTEst/wiki/
 
     for updates/bug fixes/news.
 
