@@ -1921,7 +1921,7 @@
 
 !  the string has been found, now search for the classification string itself
 
-                classification_start = .FALSE. ; jstop = 80
+                classification_start = .FALSE. ; jstop = max_record_length
                 DO j = i + 14, max_record_length
                   IF ( .NOT. classification_start ) THEN
                     IF ( NULINE( j : j ) /= ' ' ) THEN
@@ -1938,6 +1938,7 @@
 
 !  copy the string and exit
 
+                jstop = MIN( jstop, jstart + 29 )
                 classification( 1 : jstop - jstart + 1 )                       &
                   = NULINE( jstart : jstop )
                 got_classification = .TRUE.
