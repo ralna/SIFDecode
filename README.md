@@ -48,11 +48,11 @@ sifdecoder_standalone -qp ROSENBR.SIF  # decode the SIF problem in quadruple pre
 Then, you can create either a shared or a static library for your problem
 using a Fortran compiler, such as `gfortran`.
 ```shell
-gfortran -shared -fPIC -o libROSENBR.so *.f     # shared library on Linux and FreeBSD
-gfortran -shared -fPIC -o libROSENBR.dll *.f    # shared library on Windows
-gfortran -shared -fPIC -o libROSENBR.dylib *.f  # shared library on Mac
+gfortran -O3 -shared -fPIC -o libROSENBR.so *.f     # shared library on Linux and FreeBSD
+gfortran -O3 -shared -fPIC -o libROSENBR.dll *.f    # shared library on Windows
+gfortran -O3 -shared -fPIC -o libROSENBR.dylib *.f  # shared library on Mac
 
-gfortran -c *.f  # generate object files *.o
+gfortran -O3 -c *.f  # generate object files *.o
 ar rcs libmylibrary.a *.o  # static library on all platform
 ```
 
