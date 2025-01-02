@@ -1,7 +1,7 @@
 project(
   'SIFDecode',
   'fortran',
-  version: '2.6.0',
+  version: '2.6.2',
   meson_version: '>= 0.61.0',
   default_options: [
     'buildtype=release',
@@ -37,3 +37,6 @@ endforeach
 # Fortran modules
 script_modules = files('install_modules.py')
 meson.add_install_script(script_modules)
+
+# Install the bash script
+install_data('bin/sifdecoder', install_dir: 'bin')
