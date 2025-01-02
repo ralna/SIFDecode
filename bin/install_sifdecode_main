@@ -6,7 +6,7 @@
 # syntax: ginstall_sifdecode
 
 # N. Gould, D. Orban & Ph. Toint
-# ( Last modified 2023-10-24 at 14:05 GMT )
+# ( Last modified 2025-01-02 at 08:10 GMT )
 
 export SIFDECODE=`dirs -l`
 export SIFDECODE=`echo $SIFDECODE | $SED 's"/tmp_mnt""'`
@@ -59,7 +59,7 @@ echo 'LS="'$LS'"'                                                  >> $SYSFILE
 echo 'LN="'$LN'"'                                                  >> $SYSFILE
 echo 'GREP="'$GREP'"'                                              >> $SYSFILE
 echo 'AWK="'$AWK'"'                                                >> $SYSFILE
-echo 'HEAD="'HEAD'"'                                               >> $SYSFILE
+echo 'HEAD="'$HEAD'"'                                              >> $SYSFILE
 echo 'TAIL="'$TAIL'"'                                              >> $SYSFILE
 echo 'FORTRAN="'$FORTRAN'"'                                        >> $SYSFILE
 MOD='$SIFDECODE/modules/'$VERSION'/$PRECIS'
