@@ -353,7 +353,6 @@ if ((  nbparam > 0  )); then
     let failed=0
 
     if [[  "$matchingLines" == ""  ]]; then
-        echo 'force = ' $FORCE
         if (( FORCE == 0 )); then
             warning "Failed setting ${PARNAMELIST[$p]} to ${PARVALUELIST[$p]} -- skipping"
             let failed=1
