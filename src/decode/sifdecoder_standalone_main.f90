@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.5 - 2024-08-14 AT 09:30 GMT.
+! THIS VERSION: SIFDECODE 2.6 - 2025-04-19 AT 14:30 GMT.
 
 !-*-*-*-*-*-*-*-*-  S I F D E C O D E R _ m a i n   P R O G R A M  -*-*-*-*-*-*-
 
@@ -40,6 +40,7 @@
       INTEGER :: output_level = 0
       INTEGER :: auto = 0
       INTEGER :: deriv_check = 0
+      INTEGER :: add_suffix = 0
       INTEGER :: show_params = 0
       INTEGER :: force = 0
       CHARACTER ( LEN = len_param ) :: param_list = REPEAT( ' ', len_param )
@@ -61,8 +62,8 @@
    &  ' Decode a standard input format (SIF) file. Use:', /,                   &
    &  '', /,                                                                   &
    &  '  sifdecoder_standalone [-sp] [-dp] [-qp] [-h] [-o 0|1] [-f] [-b]', /,  &
-   &  '    [-p 1|2|3] [-s 0|1|2|3] [-st 1|2|3] [-show] [-force]', /,           &
-   &  '    [-param name=value[,name=value...]] problem[.SIF]', /,              &
+   &  '    [-p 1|2|3] [-s 0|1|2|3] [-st 1|2|3] [-show] [-suffix]', /,          &
+   &  '    [-force] [-param name=value[,name=value...]] problem[.SIF]', /,     &
    &  '', /,                                                                   &
    &  ' where', /,                                                             &
    &   '', /,                                                                  &
@@ -119,6 +120,10 @@
    &   '       displays possible parameter settings for problem[.SIF]', /,     &
    &   '       and stop.  Other options are ignored.', /,                      &
    &   '', /,                                                                  &
+   &   '  -suffix', /,                                                         &
+   &   '       add _problem as a suffix to all files generated, where', /,     &
+   &   '       problem is the name of the SIF problem.', /,                    &
+   &   '', /,                                                                  &
    &   '  -param', /,                                                          &
    &   '       Cast problem[.SIF] against explicit parameter settings. ', /,   &
    &   '       Several parameter settings may be given as a comma-', /,        &
@@ -166,6 +171,8 @@
           READ( argval, * ) start
         CASE( '-show' )
           show_params = 1
+        CASE( '-suffix' )
+          add_suffix = 1
         CASE( '-param' )
           CALL GET_COMMAND_ARGUMENT( argnum, argval )
           argnum = argnum + 1
@@ -209,6 +216,7 @@
                               auto = auto, package = package,                  &
                               output_level = output_level,                     &
                               deriv_check = deriv_check,                       &
+                              add_suffix = add_suffix,                         &
                               show_params = show_params,                       &
                               param_list = param_list, force = force )
 
