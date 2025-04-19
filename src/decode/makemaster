@@ -69,17 +69,21 @@ test_constrained: $(SIFDECODES)
 test_standalone: $(SIFDECODES)
 	echo ""
 	echo " Decode SIF file using stndalone "
-	echo "\n ** Default call -"
+	echo "** Default call -"
 	cd $(SIFDECODE)/sif/ ; $(OBJ)/sifdecoder_standalone KISSING2
-	echo "\n ** Call with permitted non-default parameter -"
+	echo "** Call with permitted non-default parameter -"
 	cd $(SIFDECODE)/sif/ ; \
           $(OBJ)/sifdecoder_standalone -param "m=5" KISSING2
-	echo "\n ** Call with unpermitted non-default parameter -"
+	echo "** Call with unpermitted non-default parameter -"
 	cd $(SIFDECODE)/sif/ ; \
           $(OBJ)/sifdecoder_standalone -param "m=4" KISSING2
-	echo "\n ** Call with forced unpermitted non-default parameter -"
+	echo "** Call with forced unpermitted non-default parameter -"
 	cd $(SIFDECODE)/sif/ ; \
           $(OBJ)/sifdecoder_standalone -param "m=4" -force KISSING2
+	echo ""
+	echo "** Call with added suffices -"
+	cd $(SIFDECODE)/sif/ ; \
+          $(OBJ)/sifdecoder_standalone -suffix KISSING2
 	echo ""
 	echo " Standalone test for sifdecode complete"
 

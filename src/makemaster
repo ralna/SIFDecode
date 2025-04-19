@@ -21,6 +21,10 @@ test:
 	( cd decode ; $(MAKE) -f $(SIFDECODE)/makefiles/$(VERSION) \
                      test PWD=$(PWD)/decode )
 
+test_standalone:
+	( cd decode ; $(MAKE) -f $(SIFDECODE)/makefiles/$(VERSION) \
+                     test_standalone PWD=$(PWD)/decode )
+
 #  book keeping
 
 clean:

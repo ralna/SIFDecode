@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.5 - 2024-08-14 AT 09:30 GMT.
+! THIS VERSION: SIFDECODE 2.6 - 2025-04-19 AT 14:50 GMT.
 
 !-*-*-*-*-*-  S I F D E C O D E R _ S T A N A L O N E _ M O D U L E  -*-*-*-*-*-
 
@@ -61,7 +61,7 @@
 
     SUBROUTINE SIFDECODER_decode( name, status, out, size, realpr, start,      &
                                   auto, package, output_level, deriv_check,    &
-                                  show_params, param_list, force )
+                                  add_suffix, show_params, param_list, force )
 
 !  decode a given SIF file to produce static data (OUTSDIF.d) and 
 !  evaluation routines (ELFUN.f, GROUP.f, RANGE.f, EXTER.f or similar names) 
@@ -111,6 +111,11 @@
 
       INTEGER, OPTIONAL :: deriv_check
 
+! add_suffix: add the suffix _problem to all generated filenames if 1 
+!             (default 0)
+ 
+      INTEGER, OPTIONAL :: add_suffix
+
 ! show_params: display parameters if 1 and stop (default 0)
  
       INTEGER, OPTIONAL :: show_params
@@ -133,24 +138,25 @@
 
       INTEGER :: out_used, size_used, realpr_used, start_used, package_used
       INTEGER :: auto_used, output_level_used, deriv_check_used
-      INTEGER :: show_params_used, force_used, file_size
+      INTEGER :: add_suffix_used, show_params_used, force_used, file_size
       INTEGER :: i, j, len_params, n_params, in_sif, out_sif, infn, ingr, inex
       LOGICAL :: var, exists
       TYPE( SIFDECODER_param_type ) :: params
+      CHARACTER ( LEN = LEN_TRIM( name ) ) sifname
 
 !  i/o file names
 
-      CHARACTER ( LEN = 24 ) :: prbout
-      CHARACTER ( LEN = 24 ) :: prbfn
-      CHARACTER ( LEN = 24 ) :: prbff
-      CHARACTER ( LEN = 24 ) :: prbfd
-      CHARACTER ( LEN = 24 ) :: prbra
-      CHARACTER ( LEN = 24 ) :: prbgr
-      CHARACTER ( LEN = 24 ) :: prbgf
-      CHARACTER ( LEN = 24 ) :: prbgd
-      CHARACTER ( LEN = 24 ) :: prbet
-      CHARACTER ( LEN = 24 ) :: prbex
-      CHARACTER ( LEN = 24 ) :: prbea
+      CHARACTER ( LEN = 24 ) :: prbout = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbfn = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbff = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbfd = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbra = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbgr = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbgf = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbgd = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbet = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbex = REPEAT( ' ', 24 )
+      CHARACTER ( LEN = 24 ) :: prbea = REPEAT( ' ', 24 )
 
 !  deriv_check for dummy arguments and set defaults (see dummy arguments)
 
@@ -194,6 +200,12 @@
         deriv_check_used = deriv_check
       ELSE
         deriv_check_used = 0
+      END IF
+
+      IF ( PRESENT( add_suffix ) ) THEN
+        add_suffix_used = add_suffix
+      ELSE
+        add_suffix_used = 0
       END IF
 
       IF ( PRESENT( show_params ) ) THEN
@@ -293,42 +305,86 @@
 !  set names for output files, with additional _s in the single precsion case,
 !  and _q in the quadruple precision case
 
-      IF ( realpr == 32 ) THEN
-        prbout = 'OUTSDIF.d              '
-        prbfn  = 'ELFUN_s.f              '
-        prbff  = 'ELFUNF_s.f             '
-        prbfd  = 'ELFUND_s.f             '
-        prbra  = 'RANGE_s.f              '
-        prbgr  = 'GROUP_s.f              '
-        prbgf  = 'GROUPF_s.f             '
-        prbgd  = 'GROUPD_s.f             '
-        prbet  = 'SETTYP_s.f             '
-        prbex  = 'EXTER_s.f              '
-        prbea  = 'EXTERA_s.f             '
-      ELSE IF ( realpr == 128 ) THEN
-        prbout = 'OUTSDIF.d              '
-        prbfn  = 'ELFUN_q.f              '
-        prbff  = 'ELFUNF_q.f             '
-        prbfd  = 'ELFUND_q.f             '
-        prbra  = 'RANGE_q.f              '
-        prbgr  = 'GROUP_q.f              '
-        prbgf  = 'GROUPF_q.f             '
-        prbgd  = 'GROUPD_q.f             '
-        prbet  = 'SETTYP_q.f             '
-        prbex  = 'EXTER_q.f              '
-        prbea  = 'EXTERA_q.f             '
+      IF ( add_suffix_used == 1 ) THEN
+        i = LEN_TRIM( name )
+        sifname = name
+        IF ( sifname( i - 3 : i ) == '.SIF' )                                  &
+          sifname( i - 3 : i ) = REPEAT( ' ', 4 )
+        IF ( realpr == 32 ) THEN
+          prbout = 'OUTSDIF_' // TRIM( sifname ) // '_s.d'
+          prbfn  = 'ELFUN_' // TRIM( sifname ) // '_s.f'
+          prbff  = 'ELFUNF_' // TRIM( sifname ) // '_s.f'
+          prbfd  = 'ELFUND_' // TRIM( sifname ) // '_s.f'
+          prbra  = 'RANGE_' // TRIM( sifname ) // '_s.f'
+          prbgr  = 'GROUP_' // TRIM( sifname ) // '_s.f'
+          prbgf  = 'GROUPF_' // TRIM( sifname ) // '_s.f'
+          prbgd  = 'GROUPD_' // TRIM( sifname ) // '_s.f'
+          prbet  = 'SETTYP_' // TRIM( sifname ) // '_s.f'
+          prbex  = 'EXTER_' // TRIM( sifname ) // '_s.f'
+          prbea  = 'EXTERA_' // TRIM( sifname ) // '_s.f'
+        ELSE IF ( realpr == 128 ) THEN
+          prbout = 'OUTSDIF_' // TRIM( sifname ) // '_q.d'
+          prbfn  = 'ELFUN_' // TRIM( sifname ) // '_q.f'
+          prbff  = 'ELFUNF_' // TRIM( sifname ) // '_q.f'
+          prbfd  = 'ELFUND_' // TRIM( sifname ) // '_q.f'
+          prbra  = 'RANGE_' // TRIM( sifname ) // '_q.f'
+          prbgr  = 'GROUP_' // TRIM( sifname ) // '_q.f'
+          prbgf  = 'GROUPF_' // TRIM( sifname ) // '_q.f'
+          prbgd  = 'GROUPD_' // TRIM( sifname ) // '_q.f'
+          prbet  = 'SETTYP_' // TRIM( sifname ) // '_q.f'
+          prbex  = 'EXTER_' // TRIM( sifname ) // '_q.f'
+          prbea  = 'EXTERA_' // TRIM( sifname ) // '_q.f'
+        ELSE
+          prbout = 'OUTSDIF_' // TRIM( sifname ) // '.d'
+          prbfn  = 'ELFUN_' // TRIM( sifname ) // '.f'
+          prbff  = 'ELFUNF_' // TRIM( sifname ) // '.f'
+          prbfd  = 'ELFUND_' // TRIM( sifname ) // '.f'
+          prbra  = 'RANGE_' // TRIM( sifname ) // '.f'
+          prbgr  = 'GROUP_' // TRIM( sifname ) // '.f'
+          prbgf  = 'GROUPF_' // TRIM( sifname ) // '.f'
+          prbgd  = 'GROUPD_' // TRIM( sifname ) // '.f'
+          prbet  = 'SETTYP_' // TRIM( sifname ) // '.f'
+          prbex  = 'EXTER_' // TRIM( sifname ) // '.f '
+          prbea  = 'EXTERA_' // TRIM( sifname ) // '.f'
+        END IF
       ELSE
-        prbout = 'OUTSDIF.d              '
-        prbfn  = 'ELFUN.f                '
-        prbff  = 'ELFUNF.f               '
-        prbfd  = 'ELFUND.f               '
-        prbra  = 'RANGE.f                '
-        prbgr  = 'GROUP.f                '
-        prbgf  = 'GROUPF.f               '
-        prbgd  = 'GROUPD.f               '
-        prbet  = 'SETTYP.f               '
-        prbex  = 'EXTER.f                '
-        prbea  = 'EXTERA.f               '
+        IF ( realpr == 32 ) THEN
+          prbout = 'OUTSDIF.d              '
+          prbfn  = 'ELFUN_s.f              '
+          prbff  = 'ELFUNF_s.f             '
+          prbfd  = 'ELFUND_s.f             '
+          prbra  = 'RANGE_s.f              '
+          prbgr  = 'GROUP_s.f              '
+          prbgf  = 'GROUPF_s.f             '
+          prbgd  = 'GROUPD_s.f             '
+          prbet  = 'SETTYP_s.f             '
+          prbex  = 'EXTER_s.f              '
+          prbea  = 'EXTERA_s.f             '
+        ELSE IF ( realpr == 128 ) THEN
+          prbout = 'OUTSDIF.d              '
+          prbfn  = 'ELFUN_q.f              '
+          prbff  = 'ELFUNF_q.f             '
+          prbfd  = 'ELFUND_q.f             '
+          prbra  = 'RANGE_q.f              '
+          prbgr  = 'GROUP_q.f              '
+          prbgf  = 'GROUPF_q.f             '
+          prbgd  = 'GROUPD_q.f             '
+          prbet  = 'SETTYP_q.f             '
+          prbex  = 'EXTER_q.f              '
+          prbea  = 'EXTERA_q.f             '
+        ELSE
+          prbout = 'OUTSDIF.d              '
+          prbfn  = 'ELFUN.f                '
+          prbff  = 'ELFUNF.f               '
+          prbfd  = 'ELFUND.f               '
+          prbra  = 'RANGE.f                '
+          prbgr  = 'GROUP.f                '
+          prbgf  = 'GROUPF.f               '
+          prbgd  = 'GROUPD.f               '
+          prbet  = 'SETTYP.f               '
+          prbex  = 'EXTER.f                '
+          prbea  = 'EXTERA.f               '
+        END IF
       END IF
 
 !  open the relevant files - UNIX-like systems
