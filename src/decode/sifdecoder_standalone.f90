@@ -306,10 +306,19 @@
 !  and _q in the quadruple precision case
 
       IF ( add_suffix_used == 1 ) THEN
-        i = LEN_TRIM( name )
+        j = LEN_TRIM( name )
         sifname = name
-        IF ( sifname( i - 3 : i ) == '.SIF' )                                  &
-          sifname( i - 3 : i ) = REPEAT( ' ', 4 )
+        IF ( sifname( j - 3 : j ) == '.SIF' ) THEN
+          sifname( j - 3 : j ) = REPEAT( ' ', 4 )
+          j = j - 4
+        END IF
+        DO i = j, 1, - 1
+          IF ( sifname( i : i ) == '/' ) THEN
+            sifname( 1 : i ) = REPEAT( ' ', i )
+            sifname = ADJUSTL( sifname )
+            EXIT
+          END IF
+        END DO
         IF ( realpr == 32 ) THEN
           prbout = 'OUTSDIF_' // TRIM( sifname ) // '_s.d'
           prbfn  = 'ELFUN_' // TRIM( sifname ) // '_s.f'
