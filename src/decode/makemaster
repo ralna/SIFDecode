@@ -55,6 +55,8 @@ test_unconstrained: $(SIFDECODES)
 	echo " Decode unconstrained SIF file"
 	cd $(SIFDECODE)/sif/ ; \
           $(SIFDECODE)/bin/sifdecoder -A $(VERSION) ALLINITU
+	cd $(SIFDECODE)/sif/ ; \
+          $(RM) ELFUN*.* GROUP*.* RANGE*.* EXTER*.* OUTSDIF*.* 
 	echo ""
 	echo " Tests for unconstrained sifdecode complete"
 
@@ -63,6 +65,8 @@ test_constrained: $(SIFDECODES)
 	echo " Decode constrained SIF file"
 	cd $(SIFDECODE)/sif/ ; \
           $(SIFDECODE)/bin/sifdecoder -A $(VERSION) ALLINITC
+	cd $(SIFDECODE)/sif/ ; \
+          $(RM) ELFUN*.* GROUP*.* RANGE*.* EXTER*.* OUTSDIF*.* 
 	echo ""
 	echo " Tests for constrained sifdecode complete"
 
@@ -80,14 +84,22 @@ test_standalone: $(SIFDECODES)
 	echo " ** Call with forced unpermitted non-default parameter -"
 	cd $(SIFDECODE)/sif/ ; \
           $(OBJ)/sifdecoder_standalone -param "m=4" -force KISSING2
+	cd $(SIFDECODE)/sif/ ; \
+          $(RM) ELFUN*.* GROUP*.* RANGE*.* EXTER*.* OUTSDIF*.* 
 	echo ""
 	echo " ** Call with added suffices -"
 	cd $(SIFDECODE)/sif/ ; \
           $(OBJ)/sifdecoder_standalone -suffix KISSING2
+	cd $(SIFDECODE)/sif/ ; \
+          echo " files: " ELFUN*.* GROUP*.* RANGE*.* OUTSDIF*.*  || true
 	echo ""
 	echo " ** Call with added suffices deleting prepended pathname  -"
 	cd $(SIFDECODE)/sif/ ; \
           $(OBJ)/sifdecoder_standalone -suffix $(SIFDECODE)/sif/KISSING2
+	cd $(SIFDECODE)/sif/ ; \
+          echo " files: " ELFUN*.* GROUP*.* RANGE*.* OUTSDIF*.*  || true
+	cd $(SIFDECODE)/sif/ ; \
+          $(RM) ELFUN*.* GROUP*.* RANGE*.* EXTER*.* OUTSDIF*.* 
 	echo ""
 	echo " Standalone test for sifdecode complete"
 
