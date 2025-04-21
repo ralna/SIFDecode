@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.6 - 2025-04-19 AT 14:50 GMT.
+! THIS VERSION: SIFDECODE 2.6 - 2025-04-21 AT 08:55 GMT.
 
 !-*-*-*-*-*-  S I F D E C O D E R _ S T A N A L O N E _ M O D U L E  -*-*-*-*-*-
 
@@ -313,7 +313,7 @@
           j = j - 4
         END IF
         DO i = j, 1, - 1
-          IF ( sifname( i : i ) == '/' ) THEN
+          IF ( sifname( i : i ) == '/' .OR. sifname( i : i ) == '\' ) THEN
             sifname( 1 : i ) = REPEAT( ' ', i )
             sifname = ADJUSTL( sifname )
             EXIT
