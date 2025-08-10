@@ -35,7 +35,7 @@ The test problems are classified according to the [CUTE classification scheme](h
 
 ## How to decode a SIF file
 
-Since the release `v2.5.1`, an executable `sifdecoder_standalone` is
+Since version `v2.5.1`, an executable `sifdecoder_standalone` is
 available and allows you to easily decode SIF files on any platform.
 
 ```shell
@@ -53,8 +53,12 @@ gfortran -O3 -shared -fPIC -o libROSENBR.dll *.f    # shared library on Windows
 gfortran -O3 -shared -fPIC -o libROSENBR.dylib *.f  # shared library on Mac
 
 gfortran -O3 -c *.f  # generate object files *.o
-ar rcs libmylibrary.a *.o  # static library on all platform
+ar rcs libROSENBR.a *.o  # static library on all platform
 ```
+
+Since version `v2.6.3`, the executable `sifdecoder_standalone` accepts an option `-suffix`.
+All generated files are then suffixed with the problem name and the precision,
+allowing SIF files to be decoded in parallel within the same folder.
 
 A bash script [`sifdecoder`](https://github.com/ralna/SIFDecode/blob/master/bin/sifdecoder) can
 also be used with additional options but is less interoperable.
