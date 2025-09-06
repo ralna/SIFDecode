@@ -25,7 +25,7 @@
 
 !  local variables
 
-      INTEGER :: i, l, argnum, narg, status
+      INTEGER :: l, argnum, narg, status
       INTEGER, PARAMETER :: len_param = 200
       LOGICAL :: file_exists
       CHARACTER ( LEN = len_param ) :: argval

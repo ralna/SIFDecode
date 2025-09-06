@@ -27,7 +27,7 @@
 
 !  local variables
 
-      INTEGER :: i, ad0, auto, print_level, status, algorithm, size, start
+      INTEGER :: ad0, auto, print_level, status, algorithm, size, start
       INTEGER :: realpr
 
 !  assign the standard output unit numbers

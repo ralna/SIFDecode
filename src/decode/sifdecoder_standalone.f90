@@ -139,7 +139,7 @@
       INTEGER :: out_used, size_used, realpr_used, start_used, package_used
       INTEGER :: auto_used, output_level_used, deriv_check_used
       INTEGER :: add_suffix_used, show_params_used, force_used, file_size
-      INTEGER :: i, j, len_params, n_params, in_sif, out_sif, infn, ingr, inex
+      INTEGER :: i, j, len_params, in_sif, out_sif, infn, ingr, inex
       LOGICAL :: var, exists
       TYPE( SIFDECODER_param_type ) :: params
       CHARACTER ( LEN = LEN_TRIM( name ) ) sifname

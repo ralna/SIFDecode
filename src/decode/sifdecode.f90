@@ -19183,9 +19183,9 @@
 
 !-*-*-*-*-*- S I F D E C O D E   L O W E R    S U B R O U T I N E -*-*-*-*-*-
 
-      SUBROUTINE LOWER( c, n )
-      INTEGER :: n
-      CHARACTER ( LEN = * ) :: c
+!     SUBROUTINE LOWER( c, n )
+!     INTEGER :: n
+!     CHARACTER ( LEN = * ) :: c
 
 !  -------------------------------
 !  convert character to lower case
@@ -19193,21 +19193,21 @@
 
 !  local variables
 
-      INTEGER :: i, j
+!     INTEGER :: i, j
 
-      DO 20 j = 1, n
-        DO i = 1, 26
-          IF ( c( j : j ) == UCHARS( i ) ) THEN
-            c( j : j ) = LCHARS( i )
-            GO TO 20
-          END IF
-        END DO
-   20 CONTINUE
-      RETURN
+!     DO 20 j = 1, n
+!       DO i = 1, 26
+!         IF ( c( j : j ) == UCHARS( i ) ) THEN
+!           c( j : j ) = LCHARS( i )
+!           GO TO 20
+!         END IF
+!       END DO
+!  20 CONTINUE
+!     RETURN
 
 !  end of subroutine LOWER
 
-      END SUBROUTINE LOWER
+!     END SUBROUTINE LOWER
 
 !-*-*-*- S I F D E C O D E   G E T _ S T R I N G    S U B R O U T I N E -*-*-*-
 
@@ -19733,13 +19733,13 @@
 
 !-*-*- S I F D E C O D E   H A S H _ r e b u i l d    S U B R O U T I N E -*-*-
 
-      SUBROUTINE HASH_rebuild( len_table, nchar, TABLE, KEY,                   &
-                               len_table_new, TABLE_new, KEY_new, inform )
-      INTEGER :: nchar, len_table, len_table_new, inform
-      INTEGER :: TABLE( len_table )
-      INTEGER :: TABLE_new( len_table_new )
-      CHARACTER ( LEN = 1 ) :: KEY( nchar, len_table )
-      CHARACTER ( LEN = 1 ) :: KEY_new( nchar, len_table_new )
+!     SUBROUTINE HASH_rebuild( len_table, nchar, TABLE, KEY,                   &
+!                              len_table_new, TABLE_new, KEY_new, inform )
+!     INTEGER :: nchar, len_table, len_table_new, inform
+!     INTEGER :: TABLE( len_table )
+!     INTEGER :: TABLE_new( len_table_new )
+!     CHARACTER ( LEN = 1 ) :: KEY( nchar, len_table )
+!     CHARACTER ( LEN = 1 ) :: KEY_new( nchar, len_table_new )
 
 !  -------------------------------------------------------------------
 !  rebuild the chained scatter table (Williams, CACM 2, 21-24, 1959)
@@ -19757,38 +19757,38 @@
 
 !  local variables
 
-      INTEGER :: ifree, k
-      CHARACTER ( LEN = 1 ), DIMENSION( nchar ) :: FIELD
+!     INTEGER :: ifree, k
+!     CHARACTER ( LEN = 1 ), DIMENSION( nchar ) :: FIELD
 
 !  reinitialize the scatter table
 
-      CALL HASH_initialize( len_table_new, TABLE_new )
+!     CALL HASH_initialize( len_table_new, TABLE_new )
 
 !  run through the entries in the old table seeing if the kth is empty
 
-      DO k = 1, len_table
+!     DO k = 1, len_table
 
 !  if the kth entry was previously occupied, copy its key into the new table
 
-        IF ( TABLE( k ) >= 0 ) THEN
-          FIELD( : nchar ) = KEY( : nchar, k )
-          CALL HASH_insert( len_table_new, nchar, FIELD, TABLE_new, KEY_new,   &
-                            ifree )
+!       IF ( TABLE( k ) >= 0 ) THEN
+!         FIELD( : nchar ) = KEY( : nchar, k )
+!         CALL HASH_insert( len_table_new, nchar, FIELD, TABLE_new, KEY_new,   &
+!                           ifree )
 
 !  check that there is sufficient space
 
-          IF ( ifree == 0 ) THEN
-            inform = - 1
-            RETURN
-          END IF
-        END IF
-      END DO
-      inform = 0
-      RETURN
+!         IF ( ifree == 0 ) THEN
+!           inform = - 1
+!           RETURN
+!         END IF
+!       END IF
+!     END DO
+!     inform = 0
+!     RETURN
 
 !  end of subroutine HASH_rebuild
 
-      END SUBROUTINE HASH_rebuild
+!     END SUBROUTINE HASH_rebuild
 
 ! -*-  H A S H _ e n l a r g e _ a n d _ i n s e r t    S U B R O U T I N E  -*-
 
