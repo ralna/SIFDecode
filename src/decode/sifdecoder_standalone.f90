@@ -652,20 +652,37 @@
 
       LOGICAL :: there_are_params
       CHARACTER ( LEN = 72 ) :: line
+      CHARACTER ( LEN = len_var ) :: var
+      CHARACTER ( LEN = len_val ) :: val
+      CHARACTER ( LEN = 2 ) :: typ
+      CHARACTER, PARAMETER :: tab = CHAR(9)
 
 !  run through the SIF file, looking for parameter lines
 
-      WRITE( out, "( ' Parameter list (no * = default values):', / )" )
+      WRITE( out, "( ' Parameter list:', / )" )
       there_are_params = .FALSE.
       DO
        line = REPEAT( ' ', 72 )
        READ( UNIT = in_sif, FMT = "( A72 )", END = 100, ERR = 100 ) line
        IF ( LEN( TRIM( line ) ) >= 50 ) THEN
 
-!  this is a paramter line
+!  this is a parameter line
 
          IF ( line( 40 : 50 ) == '$-PARAMETER' ) THEN
-           WRITE( out, "( A )" ) TRIM( line )
+           var = ADJUSTL( line( 5 : 14 ) )
+           val = ADJUSTL( line( 25 : 36 ) )
+           typ = line( 2 : 3 )
+           WRITE( out, "( A, '=', A, A, '(', A, ')', A )", advance="no" ) TRIM(var), TRIM(val), tab, typ, tab
+           IF ( line( 1 : 1 )  == '*' ) THEN
+             WRITE( out, "( A )", advance="no" ) tab
+           ELSE
+             WRITE( out, "( '-default value-' )", advance="no" )
+           END IF
+           IF ( LEN( TRIM( line( 51 : 72 ) ) ) > 0 ) THEN
+             WRITE( out, "( A, 'comment: ', A )" ) tab, TRIM( line( 51:72 ) )
+           ELSE
+             WRITE( out, "( A, 'uncommented ' )" ) tab
+           END IF
            there_are_params = .TRUE.
          END IF
        END IF
