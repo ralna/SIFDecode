@@ -58,7 +58,7 @@ jobs:
       - name: SIFDecode
         shell: bash
         run: |
-          meson setup builddir -Ddefault_library=static
+          meson setup builddir --buildtype=debug -Ddefault_library=static
           meson compile -C builddir
           cp builddir/sifdecoder_standalone $GITHUB_WORKSPACE/../sif
 
