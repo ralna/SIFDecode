@@ -52,7 +52,7 @@ jobs:
       - name: Setup SIFDecode
         shell: bash
         run: |
-          meson setup builddir --prefix=$GITHUB_WORKSPACE/../meson
+          meson setup builddir --buildtype=debug --prefix=$GITHUB_WORKSPACE/../meson
 
       - name: Build SIFDecode
         shell: bash
