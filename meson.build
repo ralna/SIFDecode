@@ -38,5 +38,5 @@ endforeach
 script_modules = files('install_modules.py')
 meson.add_install_script(script_modules)
 
-# Install the bash script
-install_data('bin/sifdecoder', install_dir: 'bin')
+# Symlink sifdecoder_standalone to sifdecoder
+install_symlink('sifdecoder', install_dir: 'bin', pointing_to: 'bin/sifdecoder_standalone')
