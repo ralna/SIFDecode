@@ -42,4 +42,4 @@ meson.add_install_script(script_modules)
 install_symlink('sifdecoder', install_dir: 'bin', pointing_to: 'bin/sifdecoder_standalone')
 
 # Install sifdecoder man page
-install_man('sifdecoder.1')
+install_man('man/man1/sifdecoder.1')
