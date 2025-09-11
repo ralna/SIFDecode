@@ -60,7 +60,7 @@ jobs:
         run: |
           meson setup builddir --buildtype=debug -Ddefault_library=static
           meson compile -C builddir
-          cp builddir/sifdecoder_standalone $GITHUB_WORKSPACE/../sif
+          cp builddir/sifdecoder $GITHUB_WORKSPACE/../sif
 
       - name: Decode the SIF files
         shell: bash
@@ -71,15 +71,15 @@ jobs:
               echo "Processing $file"
               rm -f *.f *.o *.d
               if [[ "${{ matrix.precision }}" == "single" ]]; then
-                ./sifdecoder_standalone -sp "$file"
+                ./sifdecoder -sp "$file"
                 gfortran -shared -fPIC *.f
               fi
               if [[ "${{ matrix.precision }}" == "double" ]]; then
-                ./sifdecoder_standalone -dp "$file"
+                ./sifdecoder -dp "$file"
                 gfortran -shared -fPIC *.f
               fi
               if [[ "${{ matrix.precision }}" == "quadruple" ]]; then
-                ./sifdecoder_standalone -qp "$file"
+                ./sifdecoder -qp "$file"
                 gfortran -shared -fPIC *.f
               fi
             fi
