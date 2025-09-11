@@ -7,7 +7,7 @@ sifdecoder \- SIF-decoding script (meson version).
 [\-f] [\-b] [\-a \fI1|2\fP]
 [\-s \fI0|1|2|3\fP]
 [\-st \fI1|2|3\fP]
-[\-show] [\-param
+[\-show] [-suffix] [\-param
 \fIname=value\fP[\fI,name=value...\fP]] [\-force]
 \fIproblem[.SIF]\fP
 .SH DESCRIPTION
@@ -73,6 +73,10 @@ as 1, and this is the default.
 .BI \-show
 displays possible parameter settings for problem[.SIF]. Other options
 are ignored.
+.TP
+.BI \-suffix
+add _problem as a suffix to all files generated, where problem is the name 
+of the SIF problem (see below).
 .TP
 .BI \-param
 Cast problem[.SIF] against explicit parameter settings. Several
