@@ -73,6 +73,8 @@ test_constrained: $(SIFDECODES)
 test_standalone: $(SIFDECODES)
 	echo ""
 	echo " Decode SIF file using stndalone "
+	echo " ** Call without any arguments -"
+	cd $(SIFDECODE)/sif/ ; $(OBJ)/sifdecoder_standalone
 	echo " ** Default call -"
 	cd $(SIFDECODE)/sif/ ; $(OBJ)/sifdecoder_standalone KISSING2
 	echo " ** Call with permitted non-default parameter -"

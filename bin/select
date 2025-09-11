@@ -121,8 +121,7 @@ if [[ -z "$ARCH" ]]; then
 #  echo "ARCH not set"
   if [[ -z "$MYARCH" ]]; then
     error ' no architecture specified and environment variable MYARCH is unset.
- Either specificy architecture with -A option or set variable MYARCH.
- and re-run.'
+ Either specify architecture with -A option or set variable MYARCH and re-run.'
     exit 2
   else
     ARCH=${MYARCH}

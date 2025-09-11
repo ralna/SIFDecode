@@ -6,10 +6,10 @@
 #  This version April 6th, 2024
 
 display_short_help() {
-    echo ' Use: sifdecoder [-A architecture] [-sp] [-h] [-c] [-f] [-b] [-a j]'
-    echo '                       [-p package] [-s size] [-o j] [-m] [-st j]'
-    echo '                       [-show] [-param name=value[,name=value...]]'
-    echo '                       [-force] probname[.SIF]'
+    echo ' Use: sifdecoder [-A architecture] [-sp] [-qp] [-h] [-c] [-f] [-b]'
+    echo '                 [-a j] [-p package] [-s size] [-o j] [-m] [-st j]'
+    echo '                 [-show] [-param name=value[,name=value...]]'
+    echo '                 [-force] probname[.SIF]'
 }
 
 display_long_help() {
