@@ -2,13 +2,14 @@ using BinaryBuilder, Pkg
 
 haskey(ENV, "SIFDECODE_RELEASE") || error("The environment variable SIFDECODE_RELEASE is not defined.")
 haskey(ENV, "SIFDECODE_COMMIT") || error("The environment variable SIFDECODE_COMMIT is not defined.")
+haskey(ENV, "SIFDECODE_URL") || error("The environment variable SIFDECODE_URL is not defined.")
 
 name = "SIFDecode"
 version = VersionNumber(ENV["SIFDECODE_RELEASE"])
 
 # Collection of sources required to complete build
 sources = [
-    GitSource("https://github.com/ralna/SIFDecode.git", ENV["SIFDECODE_COMMIT"])
+    GitSource(ENV["SIFDECODE_URL"], ENV["SIFDECODE_COMMIT"])
 ]
 
 # Bash recipe for building across all platforms
