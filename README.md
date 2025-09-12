@@ -35,14 +35,14 @@ The test problems are classified according to the [CUTE classification scheme](h
 
 ## How to decode a SIF file
 
-Since version `v2.5.1`, an executable `sifdecoder_standalone` is
+Since version `v2.7.0`, an executable binary of `sifdecoder` is
 available and allows you to easily decode SIF files on any platform.
 
 ```shell
-sifdecoder_standalone -h  # display the options
-sifdecoder_standalone -sp ROSENBR.SIF  # decode the SIF problem in single precision
-sifdecoder_standalone -dp ROSENBR.SIF  # decode the SIF problem in double precision
-sifdecoder_standalone -qp ROSENBR.SIF  # decode the SIF problem in quadruple precision
+sifdecoder -h  # display the options
+sifdecoder -sp ROSENBR.SIF  # decode the SIF problem in single precision
+sifdecoder -dp ROSENBR.SIF  # decode the SIF problem in double precision
+sifdecoder -qp ROSENBR.SIF  # decode the SIF problem in quadruple precision
 ```
 
 Then, you can create either a shared or a static library for your problem
@@ -56,9 +56,9 @@ gfortran -O3 -c *.f  # generate object files *.o
 ar rcs libROSENBR.a *.o  # static library on all platform
 ```
 
-Since version `v2.6.3`, the executable `sifdecoder_standalone` accepts an option `-suffix`.
+Since version `v2.7.0`, the executable binary `sifdecoder` accepts an option `-suffix`.
 All generated files are then suffixed with the problem name and the precision,
 allowing SIF files to be decoded in parallel within the same folder.
 
 A bash script [`sifdecoder`](https://github.com/ralna/SIFDecode/blob/master/bin/sifdecoder) can
-also be used with additional options but is less interoperable.
+also be used under the "make" build system with additional options but is less interoperable.
