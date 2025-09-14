@@ -1,7 +1,7 @@
 #  Main body of the installation makefile for the SIFDECODE decode package
 
 #  N. Gould, D. Orban and Ph. L. Toint.
-#  This version: 2024-08-12
+#  This version: 2025-09-11
 
 SHELL = /bin/$(BINSHELL)
 
@@ -72,7 +72,7 @@ test_constrained: $(SIFDECODES)
 
 test_standalone: $(SIFDECODES)
 	echo ""
-	echo " Decode SIF file using stndalone "
+	echo " Decode SIF file using standalone "
 	echo " ** Call without any arguments -"
 	cd $(SIFDECODE)/sif/ ; $(OBJ)/sifdecoder_standalone
 	echo " ** Default call -"
