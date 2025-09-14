@@ -156,7 +156,7 @@
  2000 FORMAT(                                                                  &
       ' Decode a standard input format (SIF) file. Use:', /,                   &
       '', /,                                                                   &
-      '  sifdecoder_standalone [-sp] [-dp] [-qp] [-h] [-o 0|1] [-f] [-b]', /,  &
+      '  sifdecoder [-sp] [-dp] [-qp] [-h] [-o 0|1] [-f] [-b]', /,             &
       '    [-p 1|2|3] [-s 0|1|2|3] [-st 1|2|3] [-show] [-suffix]', /,          &
       '    [-force] [-param name=value[,name=value...]] problem[.SIF]', /,     &
       '', /,                                                                   &
