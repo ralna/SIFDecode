@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.6 - 2025-08-10 AT 15:50 GMT.
+! THIS VERSION: SIFDECODE 3.0 - 2025-09-14 AT 15:50 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 
@@ -25,7 +25,7 @@
 !  V e r s i o n
 !---------------
 
-      CHARACTER ( LEN = 6 ) :: version = '2.6.4 '
+      CHARACTER ( LEN = 6 ) :: version = '3.0.0 '
 
 !--------------------
 !   P r e c i s i o n
