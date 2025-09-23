@@ -651,7 +651,7 @@
 !  local variables
 
       LOGICAL :: there_are_params
-      CHARACTER ( LEN = 72 ) :: line
+      CHARACTER ( LEN = 80 ) :: line
       CHARACTER ( LEN = len_var ) :: var
       CHARACTER ( LEN = len_val ) :: val
       CHARACTER ( LEN = 2 ) :: typ
@@ -662,8 +662,8 @@
       WRITE( out, "( ' Parameter list:', / )" )
       there_are_params = .FALSE.
       DO
-       line = REPEAT( ' ', 72 )
-       READ( UNIT = in_sif, FMT = "( A72 )", END = 100, ERR = 100 ) line
+       line = REPEAT( ' ', 80 )
+       READ( UNIT = in_sif, FMT = "( A80 )", END = 100, ERR = 100 ) line
        IF ( LEN( TRIM( line ) ) >= 50 ) THEN
 
 !  this is a parameter line
@@ -678,8 +678,8 @@
            ELSE
              WRITE( out, "( '-default value-' )", advance="no" )
            END IF
-           IF ( LEN( TRIM( line( 51 : 72 ) ) ) > 0 ) THEN
-             WRITE( out, "( A, 'comment: ', A )" ) tab, TRIM( line( 51:72 ) )
+           IF ( LEN( TRIM( line( 51 : 80 ) ) ) > 0 ) THEN
+             WRITE( out, "( A, 'comment: ', A )" ) tab, TRIM( line( 51:80 ) )
            ELSE
              WRITE( out, "( A, 'uncommented ' )" ) tab
            END IF
