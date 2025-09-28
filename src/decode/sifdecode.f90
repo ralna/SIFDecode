@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 3.0 - 2025-09-14 AT 15:50 GMT.
+! THIS VERSION: SIFDECODE 3.1 - 2025-09-28 AT 13:55 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 
@@ -3771,25 +3771,25 @@
               ' available to enlarge hash table or allocatble arrays' )
  2010 FORMAT( ' ** Exit from INTERPRET_gpsmps - first card is not NAME ' )
  2020 FORMAT( ' ** Exit from INTERPRET_gpsmps - indicator card not recognised' )
- 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A10,   &
+ 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A,     &
               ' not recognised ' )
  2060 FORMAT( ' ** Exit from INTERPRET_gpsmps - non array defn. within do-loop')
  2130 FORMAT( ' ** Exit from INTERPRET_gpsmps - do loop level greater than 3 ' )
- 2160 FORMAT( ' ** Exit from INTERPRET_gpsmps - element ', A10, ' variable ',  &
-              A10, ' not set ' )
+ 2160 FORMAT( ' ** Exit from INTERPRET_gpsmps - element ', A, ' variable ',    &
+              A, ' not set ' )
  2210 FORMAT( ' ** Exit from INTERPRET_gpsmps -',                              &
               ' groups and variables sections mixed')
  2250 FORMAT( ' ** Exit from INTERPRET_gpsmps - no group-type arg. given ' )
- 2280 FORMAT( ' ** Exit from INTERPRET_gpsmps - element ', A10, ' parameter ', &
-              A10, ' not set ' )
- 2340 FORMAT( ' ** Exit from INTERPRET_gpsmps - group ', A10, ' parameter ',   &
-              A10, ' not set ' )
+ 2280 FORMAT( ' ** Exit from INTERPRET_gpsmps - element ', A, ' parameter ',   &
+              A, ' not set ' )
+ 2340 FORMAT( ' ** Exit from INTERPRET_gpsmps - group ', A, ' parameter ',     &
+              A, ' not set ' )
  2380 FORMAT( ' ** Exit from INTERPRET_gpsmps - do loop not completed ' )
  2740 FORMAT( ' ** Exit from INTERPRET_gpsmps - data file empty ' )
  2750 FORMAT( ' ** Exit from INTERPRET_gpsmps - data file incomplete.',        &
               ' No ENDATA card ' )
  2760 FORMAT( ' ** Exit from INTERPRET_gpsmps - #internal vars >= #elementals' )
- 2960 FORMAT( /, ' From within do loop ending on line ', i5,                   &
+ 2960 FORMAT( /, ' From within do loop ending on line ', I0,                   &
               ', current line is ', /,                                         &
               2X, A2, 1X, A10, A10, 1P, D12.4, 3X, A10, D12.4 )
  2970 FORMAT( ' Line ', I7, 3X, A )
@@ -3823,21 +3823,21 @@
               /, '    ----------   --------   -------------- ',                &
               /, ( 5X, 2A10, I14 ) )
  4000 FORMAT( ' Int. par. num. ', I5, ' Name = ', A10, ' Value = ', I12)
- 4010 FORMAT( ' Level-', I1, ' Instruction ', I4, ' Starting do-loop ' )
- 4020 FORMAT( ' Level-', I1, ' Instruction ', I4, ' Ending do-loop ' )
- 4030 FORMAT( ' Level-', I1, ' Instruction ', I4,                              &
+ 4010 FORMAT( ' Level-', I1, ' Instruction ', I0, ' Starting do-loop ' )
+ 4020 FORMAT( ' Level-', I1, ' Instruction ', I0, ' Ending do-loop ' )
+ 4030 FORMAT( ' Level-', I1, ' Instruction ', I0,                              &
               ' Incrementing do-loop ' )
- 4100 FORMAT( ' Real par. num. ', I5, ' Name = ', A10,' Value = ',             &
+ 4100 FORMAT( ' Real par. num. ', I0, ' Name = ', A,' Value = ',               &
                 1P, D12.4)
- 5000 FORMAT( /, ' Level-', I1, ' instruction ', I3, ' loop index ',           &
-                A10, ' = ', I12 )
- 5010 FORMAT( ' Level-', I1, ' instruction ', I3,                              &
-              ' Index ', A10, ' = ', I12 )
- 5020 FORMAT( ' Level-', I1, ' instruction ', I3,                              &
-              ' Index ', A10, ' = ', 1P, D12.4 )
+ 5000 FORMAT( /, ' Level-', I0, ' instruction ', I0, ' loop index ',           &
+                A, ' = ', I0 )
+ 5010 FORMAT( ' Level-', I1, ' instruction ', I0,                              &
+              ' Index ', A, ' = ', I12 )
+ 5020 FORMAT( ' Level-', I0, ' instruction ', I0,                              &
+              ' Index ', A, ' = ', 1P, D12.4 )
  5030 FORMAT( /, ' Level-', I1, ' skipping loop instructions ', I0, ' to ', I0 )
  5040 FORMAT( /, ' Level-', I1, ' skipping loop instructions' )
- 5060 FORMAT( ' Level-', I1, ' instruction ', I3, ' Set line ', /,             &
+ 5060 FORMAT( ' Level-', I0, ' instruction ', I0, ' Set line ', /,             &
               '    field1 = ', A12, ' field2 = ', A10, ' field3 = ',           &
               A10, /, '    value4 = ', 1P, D12.4, ' field5 = ', A10,           &
               ' value6 = ', 1P, D12.4 )
@@ -4096,8 +4096,8 @@
 !  non-executable statements
 
  2040 FORMAT( ' ** Exit from INTERPRET_gpsmps - group/row name not',           &
-              ' recognised: name is ', A10 )
- 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A2,                 &
+              ' recognised: name is ', A )
+ 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A,                  &
               '  not recognised in GROUPS section ' )
  2220 FORMAT( ' ** Exit from INTERPRET_gpsmps -',                              &
               ' conflicting field 1 on GROUPS card')
@@ -4432,12 +4432,12 @@
 !  non-executable statements
 
  2040 FORMAT( ' ** Exit from INTERPRET_gpsmps - group/row name not',           &
-              ' recognised: name is ', A10 )
+              ' recognised: name is ', A )
  2050 FORMAT( ' ** Exit from INTERPRET_gpsmps - column/var name not',          &
-              ' recognised: name is ', A10 )
+              ' recognised: name is ', A )
  2080 FORMAT( ' ** Exit from INTERPRET_gpsmps - ''D'' group/row contains data' )
- 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A2,                 &
-              '  not recognised in GROUPS section ' )
+ 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A,                  &
+              ' not recognised in GROUPS section ' )
  2220 FORMAT( ' ** Exit from INTERPRET_gpsmps -',                              &
               ' conflicting field 1 on GROUPS card')
 
@@ -4805,10 +4805,10 @@
 
 !  non-executable statements
 
- 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A10,   &
+ 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A,     &
               ' not recognised ' )
  2040 FORMAT( ' ** Exit from INTERPRET_gpsmps - group/row name not',           &
-              ' recognised: name is ', A10 )
+              ' recognised: name is ', A )
  2060 FORMAT( ' ** Exit from INTERPRET_gpsmps - type given for RHS or RANGES' )
  2070 FORMAT( ' ** Exit from INTERPRET_gpsmps - scale given for RHS or RANGES' )
  2080 FORMAT( ' ** Exit from INTERPRET_gpsmps - ''D'' group/row contains data' )
@@ -5123,12 +5123,12 @@
 
 !  non-executable statements
 
- 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A10,   &
+ 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A,     &
               ' not recognised ' )
  2050 FORMAT( ' ** Exit from INTERPRET_gpsmps - column/var name not',          &
-              ' recognised: name is ', A10 )
- 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A2,                 &
-              '  not recognised in BOUNDS section ' )
+              ' recognised: name is ', A )
+ 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A,                  &
+              ' not recognised in BOUNDS section ' )
  2200 FORMAT( ' ** Exit from INTERPRET_gpsmps - default specified out of order')
 
 !  end of subroutine SBOUND
@@ -5421,14 +5421,14 @@
 
 !  non-executable statements
 
- 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A10,   &
+ 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A,     &
               ' not recognised ' )
  2040 FORMAT( ' ** Exit from INTERPRET_gpsmps - group/row name not',           &
-              ' recognised: name is ', A10 )
+              ' recognised: name is ', A )
  2050 FORMAT( ' ** Exit from INTERPRET_gpsmps - column/var name not',          &
-              ' recognised: name is ', A10 )
- 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A2,                 &
-              '  not recognised in START POINT section ' )
+              ' recognised: name is ', A )
+ 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A,                  &
+              ' not recognised in START POINT section ' )
  2200 FORMAT( ' ** Exit from INTERPRET_gpsmps - default specified out of order')
 
 !  end of subroutine SSTART
@@ -6420,7 +6420,7 @@
 
 !  non-executable statements
 
- 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A2,                 &
+ 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A,                  &
               '  not recognised in ELEMENT TYPE section ' )
  2110 FORMAT( ' ** Exit from INTERPRET_gpsmps - duplicate elemental var. name' )
  2120 FORMAT( ' ** Exit from INTERPRET_gpsmps - duplicate internal var. name ' )
@@ -6798,14 +6798,14 @@
 !  non-executable statements
 
  2090 FORMAT( ' ** Exit from INTERPRET_gpsmps - element type not recognised:', &
-              ' name is ', A10 )
- 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A2,                 &
+              ' name is ', A )
+ 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A,                  &
               '  not recognised in ELEMENT USES section ' )
  2150 FORMAT( ' ** Exit from INTERPRET_gpsmps - element variable unrecognised' )
  2260 FORMAT( ' ** Exit from INTERPRET_gpsmps - duplicate default element type')
  2270 FORMAT( ' ** Exit from INTERPRET_gpsmps - type for element already set ' )
- 2280 FORMAT( ' ** Exit from INTERPRET_gpsmps - element ', A10, ' parameter ', &
-              A10, ' unrecognised ' )
+ 2280 FORMAT( ' ** Exit from INTERPRET_gpsmps - element ', A, ' parameter ',   &
+              A, ' unrecognised ' )
  2290 FORMAT( ' ** Exit from INTERPRET_gpsmps - element parameter already set' )
  2300 FORMAT( ' ** Exit from INTERPRET_gpsmps - element variable already set' )
  2410 FORMAT( ' ** Exit from INTERPRET_gpsmps - element type unrecognised ' )
@@ -6994,7 +6994,7 @@
 !  non-executable statements
 
  2170 FORMAT( ' ** Exit from INTERPRET_gpsmps - duplicate group-type name ' )
- 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A2,                 &
+ 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A,                  &
               '  not recognised in GROUP TYPE section ' )
  2240 FORMAT( ' ** Exit from INTERPRET_gpsmps - duplicate group param. name ' )
  2250 FORMAT( ' ** Exit from INTERPRET_gpsmps - no group-type argument given ' )
@@ -7347,11 +7347,11 @@
 !  non-executable statements
 
  2040 FORMAT( ' ** Exit from INTERPRET_gpsmps - group/row name not',           &
-              ' recognised: name is ', A10 )
- 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A2,                 &
+              ' recognised: name is ', A )
+ 2100 FORMAT( ' ** Exit from INTERPRET_gpsmps - field 1 ', A,                  &
               '  not recognised in GROUP USES section' )
  2190 FORMAT( ' ** Exit from INTERPRET_gpsmps - group type not recognised:',   &
-              ' name is ', A10 )
+              ' name is ', A )
  2310 FORMAT( ' ** Exit from INTERPRET_gpsmps - type for group already set' )
  2320 FORMAT( ' ** Exit from INTERPRET_gpsmps - group parameter already set' )
  2330 FORMAT( ' ** Exit from INTERPRET_gpsmps - group parameter unrecognised' )
@@ -7484,7 +7484,7 @@
 
 !  non-executable statements
 
- 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A10,   &
+ 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A,     &
               ' not recognised ' )
 
 !  end of subroutine SOBBND
@@ -7846,10 +7846,10 @@
 
 !  non-executable statements
 
- 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A10,   &
+ 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A,     &
               ' not recognised ' )
  2390 FORMAT( ' ** Exit from INTERPRET_gpsmps - specified function name ',     &
-              A10, ' not recognised ' )
+              A, ' not recognised ' )
  4030 FORMAT( ' Level-', I1, ' instruction ', I4, ' set ', A10,                &
               ' to the value ', i6 )
  4040 FORMAT( ' Level-', I1, ' instruction ', I4, ' set ', A10,                &
@@ -8520,10 +8520,10 @@
 
 !  non-executable statements
 
- 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A10,   &
+ 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A,     &
               ' not recognised ' )
  2390 FORMAT( ' ** Exit from INTERPRET_gpsmps - specified function name ',     &
-              A10, ' not recognised ' )
+              A, ' not recognised ' )
 
 !  end of subroutine EXECUTE_array_instruction
 
@@ -8925,10 +8925,10 @@
 
 !  non-executable statements
 
- 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A10,   &
+ 2030 FORMAT( ' ** Exit from INTERPRET_gpsmps - index parameter name ', A,     &
               ' not recognised ' )
  2350 FORMAT( ' ** Exit from INTERPRET_gpsmps - expanded array name > ',       &
-              '10 chars. Array name = ', A9, /, ( '    Index ', A10,           &
+              '10 chars. Array name = ', A, /, ( '    Index ', A,              &
               ' has the value ', I0, : ) )
 
 !  end of subroutine GET_line
@@ -19127,7 +19127,7 @@
 
       END FUNCTION letter
 
-!-*-*-*-*-*-*- S I F D E C O D E   N U M B A    F U N C T I O N -*-*-*-*-*-*-*-
+!-*-*-*-*-*-*- S I F D E C O D E   N U M B E R   F U N C T I O N -*-*-*-*-*-*-*-
 
       LOGICAL FUNCTION number( c )
       CHARACTER ( LEN = 1 ) :: c

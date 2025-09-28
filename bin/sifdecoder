@@ -3,7 +3,7 @@
 # sifdecoder: script to decode a sif file
 #
 #  N. Gould, D. Orban & Ph. Toint, November 7th, 2000
-#  This version April 6th, 2024
+#  This version September 28th, 2025
 
 display_short_help() {
     echo ' Use: sifdecoder [-A architecture] [-sp] [-qp] [-h] [-c] [-f] [-b]'
@@ -261,6 +261,9 @@ let last=$#
 PROBLEM=${!last}
 PROBNAME=`basename $PROBLEM .SIF`
 PROBDIR=`dirname $PROBLEM`
+if [[ "$PROBDIR" == "." ]]; then
+ PROBDIR=$PWD
+fi
 
 #if [[  "$PROBDIR" == ""  ]]; then
 #    probDirNotGiven="true"
@@ -354,7 +357,7 @@ if ((  nbparam > 0  )); then
 
     if [[  "$matchingLines" == ""  ]]; then
         if (( FORCE == 0 )); then
-            warning "Failed setting ${PARNAMELIST[$p]} to ${PARVALUELIST[$p]} -- skipping"
+            warning "Failed to set ${PARNAMELIST[$p]} to ${PARVALUELIST[$p]} -- skipping"
             let failed=1
         else
             # get the number of the first line defining the parameter
@@ -378,7 +381,7 @@ if ((  nbparam > 0  )); then
 
     # the sed script is ready; we now use it to cast the SIF file
     # note that the cast problem and the sed script have similar names
-    if (( failed == 0 )); then
+    if (( $failed == 0 )); then
         $SED -f $sedScript $problemLoc > $sifFile
     else
         $LN -s $problemLoc $sifFile

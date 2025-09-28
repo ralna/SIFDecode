@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.6 - 2025-09-11 AT 15:00 GMT.
+! THIS VERSION: SIFDECODE 3.1 - 2025-09-28 AT 15:00 GMT.
 
 !-*-*-*-*-*-*-*-*-  S I F D E C O D E R _ m a i n   P R O G R A M  -*-*-*-*-*-*-
 
@@ -53,10 +53,10 @@
 !  if there are no arguments, print help information and stop
 
       IF ( narg == 0 ) THEN
-        WRITE( 6, 2000 )
-        WRITE( 6, 2010 )
-        WRITE( 6, 2020 )
-        WRITE( 6, "( /, '  ** No arguments provided, stopping **' )" )
+        WRITE( out, 2000 )
+        WRITE( out, 2010 )
+        WRITE( out, 2020 )
+        WRITE( out, "( /, '  ** No arguments provided, stopping **' )" )
         STOP
       END IF
 
@@ -68,9 +68,9 @@
         argnum = argnum + 1
         SELECT CASE ( argval )
         CASE( '-h', '--help' )
-          WRITE( 6, 2000 )
-          WRITE( 6, 2010 )
-          WRITE( 6, 2020 )
+          WRITE( out, 2000 )
+          WRITE( out, 2010 )
+          WRITE( out, 2020 )
           STOP
         CASE( '-sp' )
            realpr = 32
@@ -122,12 +122,12 @@
               sifname( l + 1 : l + 4 ) = '.SIF'
             INQUIRE( FILE = TRIM( sifname ), EXIST = file_exists )
             IF ( .NOT. file_exists ) THEN
-              WRITE( 6, "( ' SIF file ', A, ' does not exist' )" )             &
+              WRITE( out, "( ' SIF file ', A, ' does not exist' )" )           &
                 TRIM( sifname )
               STOP
             END IF
           ELSE
-            WRITE( 6, "( ' Unrecognised command line argument: ', A )" )       &
+            WRITE( out, "( ' Unrecognised command line argument: ', A )" )     &
                TRIM( argval )
             STOP
           END IF
@@ -137,9 +137,9 @@
 !  record the problem name
 
       IF ( sifname( l - 3 : l ) /= '.SIF' ) THEN
-        WRITE( 6, "( /, ' Problem name: ', A )" ) sifname( 1 : l )
+        WRITE( out, "( /, ' Problem name: ', A )" ) sifname( 1 : l )
       ELSE
-        WRITE( 6, "( /, ' Problem name: ', A )" ) sifname( 1 : l - 4 )
+        WRITE( out, "( /, ' Problem name: ', A )" ) sifname( 1 : l - 4 )
       END IF
 
       CALL SIFDECODER_decode( sifname, status, out = out, size = size,         &
@@ -150,6 +150,14 @@
                               add_suffix = add_suffix,                         &
                               show_params = show_params,                       &
                               param_list = param_list, force = force )
+
+      IF ( status == 0 ) THEN
+        STOP 0, QUIET = .TRUE.
+      ELSE
+        WRITE( out,                                                            &
+         "( /, ' Error exit from decoding stage. terminating execution.' )" )
+        STOP status, QUIET = .TRUE.
+      END IF
 
 !  non-executable statements
 

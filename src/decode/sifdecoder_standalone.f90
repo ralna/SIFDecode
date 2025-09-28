@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.6 - 2025-04-21 AT 08:55 GMT.
+! THIS VERSION: SIFDECODE 3.1 - 2025-09-28 AT 13:55 GMT.
 
 !-*-*-*-*-*-  S I F D E C O D E R _ S T A N A L O N E _ M O D U L E  -*-*-*-*-*-
 
@@ -514,7 +514,7 @@
 
 !  local variables
 
-      INTEGER :: i, l, ll, length
+      INTEGER :: i, j, l, ll, length
       CHARACTER ( LEN = 72 ) :: line
       CHARACTER ( LEN = len_var ) :: var
       CHARACTER ( LEN = len_val ) :: val
@@ -571,8 +571,20 @@
         i = COUNT( params%match( : params%n_params ) == - 1 )
         IF ( i > 0 ) THEN
           status = - 3
-          IF ( out > 5 )                                                       &
-            WRITE( out, "( 1X, I0, ' parameters unmatched and not forced' )" ) i
+          IF ( out > 5 ) THEN
+            IF ( i == 1 ) THEN
+              WRITE( out, "( /, 1X, I0,                                        &
+             &   ' parameter unmatched and not forced, specifically ...' )" ) i
+            ELSE
+              WRITE( out, "( /, 1X, I0,                                        &
+             &   ' parameters unmatched and not forced, specifically ...' )" ) i
+            END IF
+            DO j = 1, params%n_params
+              IF ( params%match( j ) == - 1 ) WRITE( out,                      &
+               "( ' Failed to set ', A, ' to ', A, ' -- skipping' )" )         &
+                 TRIM( params%var( j ) ), TRIM( params%val( j ) )
+            END DO
+          END IF
         END IF
 
 !  if enforcement is not required, simply change the value of the parameter
@@ -655,7 +667,7 @@
       CHARACTER ( LEN = len_var ) :: var
       CHARACTER ( LEN = len_val ) :: val
       CHARACTER ( LEN = 2 ) :: typ
-      CHARACTER, PARAMETER :: tab = CHAR(9)
+      CHARACTER, PARAMETER :: tab = CHAR( 9 )
 
 !  run through the SIF file, looking for parameter lines
 
@@ -672,11 +684,12 @@
            var = ADJUSTL( line( 5 : 14 ) )
            val = ADJUSTL( line( 25 : 36 ) )
            typ = line( 2 : 3 )
-           WRITE( out, "( A, '=', A, A, '(', A, ')', A )", advance="no" ) TRIM(var), TRIM(val), tab, typ, tab
+           WRITE( out, "( A, '=', A, A, '(', A, ')', A )", ADVANCE = "no" )    &
+             TRIM( var ), TRIM( val ), tab, typ, tab
            IF ( line( 1 : 1 )  == '*' ) THEN
-             WRITE( out, "( A )", advance="no" ) tab
+             WRITE( out, "( A )", ADVANCE = "no" ) tab
            ELSE
-             WRITE( out, "( '-default value-' )", advance="no" )
+             WRITE( out, "( '-default value-' )", ADVANCE = "no" )
            END IF
            IF ( LEN( TRIM( line( 51 : 80 ) ) ) > 0 ) THEN
              WRITE( out, "( A, 'comment: ', A )" ) tab, TRIM( line( 51:80 ) )
