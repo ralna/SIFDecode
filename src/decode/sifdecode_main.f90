@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 2.3 - 2024-04-07 AT 10:00 GMT.
+! THIS VERSION: SIFDECODE 3.1 - 2024-09-28 AT 15:15 GMT.
 
 !-*-*-*-*-*-*-*-*-  S I F D E C O D E  _ m a i n   P R O G R A M  -*-*-*-*-*-*-
 
@@ -239,7 +239,7 @@
         END IF
       END IF
       CLOSE( outem, STATUS = 'DELETE' )
-      STOP
+      STOP status, QUIET = .TRUE.
 
 !  end of program SIFDEC
 
