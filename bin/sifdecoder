@@ -6,50 +6,51 @@
 #  This version September 28th, 2025
 
 display_short_help() {
-    echo ' Use: sifdecoder [-A architecture] [-sp] [-qp] [-h] [-c] [-f] [-b]'
-    echo '                 [-a j] [-p package] [-s size] [-o j] [-m] [-st j]'
-    echo '                 [-show] [-param name=value[,name=value...]]'
+    echo ' Use: sifdecoder [-A architecture] [-sp] [-qp] [-h,--help] [-c] [-f]'
+    echo '                 [-b] [-a j] [-p package] [-s size] [-o j] [-m]'
+    echo '                 [-st j] [-show] [-param name=value[,name=value...]]'
     echo '                 [-force] probname[.SIF]'
 }
 
 display_long_help() {
     display_short_help
     echo "where options:"
-    echo "     -A     : specify the architecture. (Default: use $MYARCH)"
-    echo "     -h     : print this help and stop execution"
-    echo "     -o     : 0 for silent mode, 1 for brief description"
-    echo "              of the stages executed. (Default: -o 0)"
-    echo "     -m     : check for memory leaks using valgrind"
-    echo "     -f     : use automatic differentiation in Forward mode"
-    echo "     -b     : use automatic differentiation in Backward mode"
-    echo "     -a     : 1 use the older HSL automatic differentiation "
-    echo "                package AD01"
-    echo "              2 use the newer HSL automatic differentiation "
-    echo "                package AD02"
-    echo "              (Default: -a 2)"
-    echo "     -p     : decode for a particular package"
-    echo "              1=LANCELOT, 2=BARIA, 3=CUTEst (default)"
-    echo "     -c     : check derivatives for errors using finite"
-    echo "              differences (default: do not check)"
-    echo "     -s     : rough size of problem for array initialization"
-    echo "              0=debug, 1=small, 2=medium, 3=large (default)"
-    echo "     -sp    : decode problem in single precision (default: double)"
-    echo "     -qp    : decode problem in quadruple precision (default: double)"
-    echo "     -st    : starting point vector to be used"
-    echo "              (Default: -st 1)"
-    echo "     -show  : displays possible parameter settings for"
-    echo "              probname[.SIF]. Other options are ignored"
-    echo "     -param : cast probname[.SIF] against explicit parameter"
-    echo "              settings. Several parameter settings may be"
-    echo "              given as a comma-separated list following"
-    echo "              -param or using several -param flags."
-    echo "              Use -show to view possible settings."
-    echo "     -force : forces setting of a parameter to the given value"
-    echo "              even if this value is not specified in the file."
-    echo "              This option should be used with care."
-    echo "              (Default: do not enforce)."
+    echo "     -A        : specify the architecture. (Default: use $MYARCH)"
+    echo "     -h,--help : print this help and stop execution"
+    echo "     -o        : 0 for silent mode, 1 for brief description"
+    echo "                 of the stages executed. (Default: -o 0)"
+    echo "     -m        : check for memory leaks using valgrind"
+    echo "     -f        : use automatic differentiation in Forward mode"
+    echo "     -b        : use automatic differentiation in Backward mode"
+    echo "     -a        : 1 use the older HSL automatic differentiation "
+    echo "                   package AD01"
+    echo "                 2 use the newer HSL automatic differentiation "
+    echo "                   package AD02"
+    echo "                 (Default: -a 2)"
+    echo "     -p        : decode for a particular package"
+    echo "                 1=LANCELOT, 2=BARIA, 3=CUTEst (default)"
+    echo "     -c        : check derivatives for errors using finite"
+    echo "                 differences (default: do not check)"
+    echo "     -s        : rough size of problem for array initialization"
+    echo "                 0=debug, 1=small, 2=medium, 3=large (default)"
+    echo "     -sp       : decode problem in single precision (default: double)"
+    echo "     -qp       : decode problem in quadruple precision"
+    echo "               : (default: double)"
+    echo "     -st       : starting point vector to be used"
+    echo "                 (Default: -st 1)"
+    echo "     -show     : displays possible parameter settings for"
+    echo "                 probname[.SIF]. Other options are ignored"
+    echo "     -param    : cast probname[.SIF] against explicit parameter"
+    echo "                 settings. Several parameter settings may be"
+    echo "                 given as a comma-separated list following"
+    echo "                 -param or using several -param flags."
+    echo "                 Use -show to view possible settings."
+    echo "     -force    : forces setting of a parameter to the given value"
+    echo "                 even if this value is not specified in the file."
+    echo "                 This option should be used with care."
+    echo "                 (Default: do not enforce)."
     echo ""
-    echo "  probname    probname.SIF is the name of the file containing"
+    echo "  probname       probname.SIF is the name of the file containing"
     echo "              the SIF file for the problem of interest."
 }
 
