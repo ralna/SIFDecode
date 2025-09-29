@@ -59,21 +59,25 @@ jobs:
           version: ${{ matrix.version }}
       - name: Build
         run: |
+          export TERM=xterm
           cd $SIFDECODE
           printf "${{ matrix.input }}" > install_config
           ./install_sifdecode < install_config
       - name: Test
         run: |
+          export TERM=xterm
           $SIFDECODE/bin/sifdecoder --help
           $SIFDECO: ${{ matrix.version }}
       - name: Build
         run: |
+          export TERM=xterm
           cd $SIFDECODE
           printf "${{ matrix.input }}" > install_config
           ./install_sifdecode < install_config
       - name: Test
         run: |
-          export MASTSIF=$GITHUB_WORKSPACE/sif/
+          export TERM=xterm
+          export MASTSIF=$GITHUB_WORKSPACE/SIFDecode/SIFDecode/sif/
           $SIFDECODE/bin/sifdecoder --help
           $SIFDECODE/bin/sifdecoder -A ${{ matrix.arch }} ROSENBR.SIF
           # check that all output files exist (EXTER.f may not exist)
