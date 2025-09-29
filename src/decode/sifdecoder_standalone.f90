@@ -581,7 +581,7 @@
             END IF
             DO j = 1, params%n_params
               IF ( params%match( j ) == - 1 ) WRITE( out,                      &
-               "( ' Failed to set ', A, ' to ', A, ' -- skipping' )" )         &
+               "( ' WARNING: Failed to set ', A, ' to ', A, ' -- skipping' )" )&
                  TRIM( params%var( j ) ), TRIM( params%val( j ) )
             END DO
           END IF

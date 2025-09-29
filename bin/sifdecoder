@@ -3,7 +3,7 @@
 # sifdecoder: script to decode a sif file
 #
 #  N. Gould, D. Orban & Ph. Toint, November 7th, 2000
-#  This version September 28th, 2025
+#  This version September 29th, 2025
 
 display_short_help() {
     echo ' Use: sifdecoder [-A architecture] [-sp] [-qp] [-h,--help] [-c] [-f]'
@@ -272,12 +272,12 @@ fi
 #fi
 
 problemLoc=${PROBDIR}/${PROBNAME}.SIF
-[[ (! -e $problemLoc) && ("$PROBDIR" == ".") ]] && probDirNotGiven='true' || probDirNotGiven='false'
+[[ (! -e $problemLoc) && ("$PROBDIR" == "$PWD") ]] && probDirNotGiven='true' || probDirNotGiven='false'
 
 # Specify correct path for problemLoc
 
 let lookInMastSif=0
-if [[ (! -e "$problemLoc") && ("$PROBDIR" == ".") && (${MASTSIF+set} == 'set') ]]; then
+if [[ (! -e "$problemLoc") && ("$PROBDIR" == "$PWD") && (${MASTSIF+set} == 'set') ]]; then
     let lookInMastSif=1
     problemLoc=${MASTSIF}/${PROBNAME}.SIF
 fi
