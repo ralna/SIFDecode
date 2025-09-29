@@ -73,6 +73,7 @@ jobs:
           ./install_sifdecode < install_config
       - name: Test
         run: |
+          export MASTSIF=$GITHUB_WORKSPACE/sif/
           $SIFDECODE/bin/sifdecoder --help
           $SIFDECODE/bin/sifdecoder -A ${{ matrix.arch }} ROSENBR.SIF
           # check that all output files exist (EXTER.f may not exist)
