@@ -77,7 +77,6 @@ jobs:
       - name: Test
         run: |
           export TERM=xterm
-          export MASTSIF=$GITHUB_WORKSPACE/SIFDecode/SIFDecode/sif/
           $SIFDECODE/bin/sifdecoder --help
           $SIFDECODE/bin/sifdecoder -A ${{ matrix.arch }} ROSENBR.SIF
           # check that all output files exist (EXTER.f may not exist)
