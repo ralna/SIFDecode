@@ -152,11 +152,13 @@
                               param_list = param_list, force = force )
 
       IF ( status == 0 ) THEN
-        STOP 0, QUIET = .TRUE.
+!       STOP 0, QUIET = .TRUE.
+        STOP 0
       ELSE
         WRITE( out,                                                            &
          "( /, ' Error exit from decoding stage. terminating execution.' )" )
-        STOP status, QUIET = .TRUE.
+!       STOP status, QUIET = .TRUE.
+        STOP status
       END IF
 
 !  non-executable statements

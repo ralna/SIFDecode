@@ -239,7 +239,8 @@
         END IF
       END IF
       CLOSE( outem, STATUS = 'DELETE' )
-      STOP status, QUIET = .TRUE.
+!     STOP status, QUIET = .TRUE.
+      STOP
 
 !  end of program SIFDEC
 
