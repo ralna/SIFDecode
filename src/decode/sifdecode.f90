@@ -25,7 +25,7 @@
 !  V e r s i o n
 !---------------
 
-      CHARACTER ( LEN = 6 ) :: version = '3.0.0 '
+      CHARACTER ( LEN = 6 ) :: version = '3.1.0 '
 
 !--------------------
 !   P r e c i s i o n
