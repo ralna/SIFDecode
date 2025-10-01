@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 3.1 - 2025-09-28 AT 15:00 GMT.
+! THIS VERSION: SIFDECODE 3.1 - 2025-10-01 AT 08:30 GMT.
 
 !-*-*-*-*-*-*-*-*-  S I F D E C O D E R _ m a i n   P R O G R A M  -*-*-*-*-*-*-
 
@@ -153,7 +153,7 @@
 
       IF ( status == 0 ) THEN
 !       STOP 0, QUIET = .TRUE.
-        STOP 0
+        STOP
       ELSE
         WRITE( out,                                                            &
          "( /, ' Error exit from decoding stage. terminating execution.' )" )
