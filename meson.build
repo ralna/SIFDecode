@@ -1,7 +1,7 @@
 project(
   'SIFDecode',
   'fortran',
-  version: '3.1.0',
+  version: '3.1.1',
   meson_version: '>= 0.61.0',
   default_options: [
     'buildtype=release',
