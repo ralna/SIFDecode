@@ -33,6 +33,7 @@
     INTEGER, PARAMETER :: outra = 53
     INTEGER, PARAMETER :: outgr = 54
     INTEGER, PARAMETER :: outex = 57
+    INTEGER, PARAMETER :: outjl_unit = 56
     INTEGER, PARAMETER :: outfd = 59
     INTEGER, PARAMETER :: outea = 66
     INTEGER, PARAMETER :: outgd = 63
@@ -61,7 +62,8 @@
 
     SUBROUTINE SIFDECODER_decode( name, status, out, size, realpr, start,      &
                                   auto, package, output_level, deriv_check,    &
-                                  add_suffix, show_params, param_list, force )
+                                  add_suffix, show_params, param_list, force,  &
+                                  examodels )
 
 !  decode a given SIF file to produce static data (OUTSDIF.d) and 
 !  evaluation routines (ELFUN.f, GROUP.f, RANGE.f, EXTER.f or similar names) 
@@ -132,6 +134,10 @@
 
       INTEGER, OPTIONAL :: force
 
+! examodels: 1 = generate an ExaModels.jl Julia file (default = 0)
+
+      INTEGER, OPTIONAL :: examodels
+
 ! -----------------
 !  local variables:
 ! -----------------
@@ -139,6 +145,7 @@
       INTEGER :: out_used, size_used, realpr_used, start_used, package_used
       INTEGER :: auto_used, output_level_used, deriv_check_used
       INTEGER :: add_suffix_used, show_params_used, force_used, file_size
+      INTEGER :: examodels_used
       INTEGER :: i, j, len_params, in_sif, out_sif, infn, ingr, inex
       LOGICAL :: var, exists
       TYPE( SIFDECODER_param_type ) :: params
@@ -146,6 +153,7 @@
 
 !  i/o file names
 
+      CHARACTER ( LEN = 24 ) :: prbjl  = REPEAT( ' ', 24 )
       CHARACTER ( LEN = 24 ) :: prbout = REPEAT( ' ', 24 )
       CHARACTER ( LEN = 24 ) :: prbfn = REPEAT( ' ', 24 )
       CHARACTER ( LEN = 24 ) :: prbff = REPEAT( ' ', 24 )
@@ -224,6 +232,12 @@
         force_used = force
       ELSE
         force_used = 0
+      END IF
+
+      IF ( PRESENT( examodels ) ) THEN
+        examodels_used = examodels
+      ELSE
+        examodels_used = 0
       END IF
 
 !  open the SIF file
@@ -305,21 +319,26 @@
 !  set names for output files, with additional _s in the single precsion case,
 !  and _q in the quadruple precision case
 
-      IF ( add_suffix_used == 1 ) THEN
-        j = LEN_TRIM( name )
-        sifname = name
-        IF ( sifname( j - 3 : j ) == '.SIF' ) THEN
-          sifname( j - 3 : j ) = REPEAT( ' ', 4 )
-          j = j - 4
+!  always extract the problem basename (without path and .SIF) for the Julia file
+
+      j = LEN_TRIM( name )
+      sifname = name
+      IF ( j >= 4 .AND. sifname( j - 3 : j ) == '.SIF' ) THEN
+        sifname( j - 3 : j ) = REPEAT( ' ', 4 )
+        j = j - 4
+      END IF
+      DO i = j, 1, - 1
+        IF ( sifname( i : i ) == '/' .OR. sifname( i : i ) == '\' ) THEN
+          sifname( 1 : i ) = REPEAT( ' ', i )
+          sifname = ADJUSTL( sifname )
+          EXIT
         END IF
-        DO i = j, 1, - 1
-          IF ( sifname( i : i ) == '/' .OR. sifname( i : i ) == '\' ) THEN
-            sifname( 1 : i ) = REPEAT( ' ', i )
-            sifname = ADJUSTL( sifname )
-            EXIT
-          END IF
-        END DO
+      END DO
+
+      IF ( add_suffix_used == 1 ) THEN
+        j = LEN_TRIM( sifname )
         IF ( realpr == 32 ) THEN
+          prbjl  = TRIM( sifname ) // '.jl'
           prbout = 'OUTSDIF_' // TRIM( sifname ) // '_s.d'
           prbfn  = 'ELFUN_' // TRIM( sifname ) // '_s.f'
           prbff  = 'ELFUNF_' // TRIM( sifname ) // '_s.f'
@@ -332,6 +351,7 @@
           prbex  = 'EXTER_' // TRIM( sifname ) // '_s.f'
           prbea  = 'EXTERA_' // TRIM( sifname ) // '_s.f'
         ELSE IF ( realpr == 128 ) THEN
+          prbjl  = TRIM( sifname ) // '.jl'
           prbout = 'OUTSDIF_' // TRIM( sifname ) // '_q.d'
           prbfn  = 'ELFUN_' // TRIM( sifname ) // '_q.f'
           prbff  = 'ELFUNF_' // TRIM( sifname ) // '_q.f'
@@ -344,6 +364,7 @@
           prbex  = 'EXTER_' // TRIM( sifname ) // '_q.f'
           prbea  = 'EXTERA_' // TRIM( sifname ) // '_q.f'
         ELSE
+          prbjl  = TRIM( sifname ) // '.jl'
           prbout = 'OUTSDIF_' // TRIM( sifname ) // '.d'
           prbfn  = 'ELFUN_' // TRIM( sifname ) // '.f'
           prbff  = 'ELFUNF_' // TRIM( sifname ) // '.f'
@@ -358,6 +379,7 @@
         END IF
       ELSE
         IF ( realpr == 32 ) THEN
+          prbjl  = TRIM( sifname ) // '.jl'
           prbout = 'OUTSDIF.d              '
           prbfn  = 'ELFUN_s.f              '
           prbff  = 'ELFUNF_s.f             '
@@ -370,6 +392,7 @@
           prbex  = 'EXTER_s.f              '
           prbea  = 'EXTERA_s.f             '
         ELSE IF ( realpr == 128 ) THEN
+          prbjl  = TRIM( sifname ) // '.jl'
           prbout = 'OUTSDIF.d              '
           prbfn  = 'ELFUN_q.f              '
           prbff  = 'ELFUNF_q.f             '
@@ -382,6 +405,7 @@
           prbex  = 'EXTER_q.f              '
           prbea  = 'EXTERA_q.f             '
         ELSE
+          prbjl  = TRIM( sifname ) // '.jl'
           prbout = 'OUTSDIF.d              '
           prbfn  = 'ELFUN.f                '
           prbff  = 'ELFUNF.f               '
@@ -404,6 +428,10 @@
       REWIND outra
       OPEN( outex, FILE = prbex,  FORM = 'FORMATTED', STATUS = 'UNKNOWN' )
       REWIND outex
+      IF ( examodels_used == 1 ) THEN
+        OPEN( outjl_unit, FILE = prbjl, FORM = 'FORMATTED', STATUS = 'UNKNOWN' )
+        REWIND outjl_unit
+      END IF
       IF ( auto == 0 ) THEN
         OPEN( outfn, FILE = prbfn,  FORM = 'FORMATTED', STATUS = 'UNKNOWN' )
         REWIND OUTFN
@@ -434,7 +462,8 @@
                              ingr, outgr, outgf, outgd, inex, outex, outem,    &
                              outea, output_level_used, out_used, noname,       &
                              package_used, auto_used, 2, realpr_used,          &
-                             size_used, start_used, status )
+                             size_used, start_used, status,                    &
+                             outjl = merge( outjl_unit, 0, examodels_used == 1 ) )
 
 !  close the opened files
 
@@ -456,6 +485,7 @@
 
         CLOSE( outda )
         CLOSE( outra )
+        IF ( examodels_used == 1 ) CLOSE( outjl_unit )
         INQUIRE( UNIT = outex, SIZE = file_size )
         IF ( file_size > 0 ) THEN
           CLOSE( outex )
@@ -479,6 +509,7 @@
         WRITE( out, "( ' Decoding failure, status = ', I0 )" ) status
         CLOSE( outda, STATUS = 'DELETE' )
         CLOSE( outra, STATUS = 'DELETE' )
+        IF ( examodels_used == 1 ) CLOSE( outjl_unit, STATUS = 'DELETE' )
         IF ( auto == 0 ) THEN
           CLOSE( outfn, STATUS = 'DELETE' )
           CLOSE( outgr, STATUS = 'DELETE' )

@@ -43,6 +43,7 @@
       INTEGER :: add_suffix = 0
       INTEGER :: show_params = 0
       INTEGER :: force = 0
+      INTEGER :: examodels = 0
       CHARACTER ( LEN = len_param ) :: param_list = REPEAT( ' ', len_param )
       CHARACTER ( LEN = 1000 ) :: sifname = REPEAT( ' ', 1000 )
 
@@ -110,6 +111,8 @@
           READ( argval, "( A )" ) param_list
         CASE( '-force' )
           force = 1
+        CASE( '-examodels' )
+          examodels = 1
 
 !  if an argument is unrecognised, stop unless it is the last argument 
 !  and the name of a file
@@ -149,7 +152,8 @@
                               deriv_check = deriv_check,                       &
                               add_suffix = add_suffix,                         &
                               show_params = show_params,                       &
-                              param_list = param_list, force = force )
+                              param_list = param_list, force = force,          &
+                              examodels = examodels )
 
       IF ( status == 0 ) THEN
 !       STOP 0, QUIET = .TRUE.
@@ -168,6 +172,7 @@
       '', /,                                                                   &
       '  sifdecoder [-sp] [-dp] [-qp] [-h] [-o 0|1] [-f] [-b]', /,             &
       '    [-p 1|2|3] [-s 0|1|2|3] [-st 1|2|3] [-show] [-suffix]', /,          &
+      '    [-examodels]', /,                                                    &
       '    [-force] [-param name=value[,name=value...]] problem[.SIF]', /,     &
       '', /,                                                                   &
       ' where', /,                                                             &
@@ -243,6 +248,11 @@
        '       Forces the setting of the parameters named using -param', /,    &
        '       to  the given  values, even if those values are not', /,        &
        '       predefined in the SIF file.', /,                                &
+       '', /,                                                                  &
+       '  -examodels', /,                                                      &
+       '       Generate an ExaModels.jl Julia file problem.jl defining the', /, &
+       '       optimization problem as an ExaModel. The file is named after', /, &
+       '       the SIF problem and is precision-independent.', /,              &
        '', /,                                                                  &
        '  problem[.SIF]', /,                                                   &
        '       problem.SIF is the name of the file containing the SIF ', /,    &

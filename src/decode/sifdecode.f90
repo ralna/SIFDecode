@@ -258,10 +258,11 @@
                                    outra, iingr, outgr, outgf, outgd, iinex,   &
                                    outex, outem, outea, print_level, out,      &
                                    noname, ialgor, iauto, iad0, realpr, size,  &
-                                   start, status )
+                                   start, status, outjl )
       INTEGER :: iingps, iinfn, iingr, outea, outex, print_level, out
       INTEGER :: outda, outra, outfn, outgr, outff, outfd, outgf, outgd, outem
       INTEGER :: ialgor, iad0, iauto, realpr, size, start, status
+      INTEGER, OPTIONAL :: outjl
       LOGICAL :: noname
 
 !  ------------------------------------------------------------------------
@@ -612,6 +613,32 @@
                           EVNAMES, GANAMES, EPNAMES, GPNAMES, GTYPES,          &
                           out, print_level )
       IF ( noname ) pname = '          '
+
+!  make examodels julia file if requested
+!  all needed arrays (BL, BU, X, ESCALE, ELING_ptr, ELING_el, EV_ptr, ELVAR,
+!  TYPEE, GTYPE, GSTATE, ABYROW_ptr, ABYROW_col, ABYROW_val, B) are available here
+
+      IF ( PRESENT( outjl ) ) THEN
+        IF ( outjl > 0 ) THEN
+          CALL MAKE_examodels( iinfn, outjl, out, pname,                       &
+                               n, ng, nelnum, neltype, ngtype,                 &
+                               nevnames, nivnames,                             &
+                               EVNAMES, IVNAMES, ETYPES, GTYPES,               &
+                               ELV, INV,                                       &
+                               ELING_ptr, ELING_el, EV_ptr, ELVAR,            &
+                               TYPEE, GTYPE, GSTATE,                           &
+                               ABYROW_ptr, ABYROW_col, ABYROW_val,            &
+                               ABYROW_ptr( ng + 1 ) - 1,                      &
+                               B, BL, BU, X, ESCALE,                          &
+                               VNAMES, GNAMES,                                 &
+                               realpr, nuline, gotlin, debug, status )
+          IF ( status /= 0 ) THEN
+            WRITE( out, "( /, ' Error from MAKE_examodels, status = ', I0 )" ) &
+              status
+            RETURN
+          END IF
+        END IF
+      END IF
 
 !  deallocate workspace
 
@@ -21518,5 +21545,530 @@
 !  end of subroutine EXTEND_array3_integer
 
      END SUBROUTINE EXTEND_array3_integer
+
+!-*-*-*-*-*-*-  M A K E _ e x a m o d e l s   S U B R O U T I N E  -*-*-*-*-*-*-
+
+      SUBROUTINE MAKE_examodels( iinfn, outjl, out, pname,                     &
+                                 n, ng, nelnum, neltype, ngtype,               &
+                                 nevnames, nivnames,                           &
+                                 EVNAMES, IVNAMES, ETYPES, GTYPES,             &
+                                 ELV, INV,                                     &
+                                 ELING_ptr, ELING_el, EV_ptr, ELVAR,          &
+                                 TYPEE, GTYPE, GSTATE,                         &
+                                 ABYROW_ptr, ABYROW_col, ABYROW_val, nnzabyrow,&
+                                 B, BL, BU, X, ESCALE,                        &
+                                 VNAMES, GNAMES,                               &
+                                 realpr, nuline, gotlin, debug, status )
+
+!  Generate an ExaModels.jl Julia file from a decoded SIF problem.
+!  Re-reads the ELEMENTS and GROUPS sections (iinfn, iingr) for function
+!  expressions and uses internal data structures for structure/bounds.
+!
+!  Key data structures after MAKE_outsdif:
+!    ELING_ptr(ig)..ELING_ptr(ig+1)-1  : indices k into ELING_el for group ig
+!    ELING_el(k)                        : element number ie (1..nelnum)
+!    EV_ptr(ie)..EV_ptr(ie+1)-1        : indices into ELVAR for element ie
+!    ELVAR(k)                           : variable index (1..n) for element ie
+!    TYPEE(ie)                          : element type index (1..neltype)
+!    ESCALE(k)                          : scale for k-th entry in ELING_el
+!    ABYROW_ptr/col/val                 : sparse linear part by row (group)
+
+      INTEGER, INTENT( IN ) :: iinfn, outjl, out, realpr
+      INTEGER, INTENT( IN ) :: n, ng, nelnum, neltype, ngtype, nnzabyrow
+      INTEGER, INTENT( IN ) :: nevnames, nivnames
+      LOGICAL, INTENT( IN ) :: debug, gotlin
+      INTEGER, INTENT( OUT ) :: status
+      CHARACTER ( LEN = 10 ), INTENT( IN ) :: pname
+      CHARACTER ( LEN = max_record_length ) :: nuline
+      CHARACTER ( LEN = 10 ), INTENT( IN ) :: EVNAMES( nevnames )
+      CHARACTER ( LEN = 10 ), INTENT( IN ) :: IVNAMES( nivnames )
+      CHARACTER ( LEN = 10 ), INTENT( IN ) :: ETYPES( neltype )
+      CHARACTER ( LEN = 10 ), INTENT( IN ) :: GTYPES( ngtype )
+      CHARACTER ( LEN = 10 ), INTENT( IN ) :: VNAMES( * )
+      CHARACTER ( LEN = 10 ), INTENT( IN ) :: GNAMES( ng )
+      INTEGER, INTENT( IN ) :: ELV( neltype + 1 ), INV( neltype + 1 )
+      INTEGER, INTENT( IN ) :: ELING_ptr( ng + 1 )
+      INTEGER, INTENT( IN ) :: ELING_el( * )
+      INTEGER, INTENT( IN ) :: EV_ptr( nelnum + 1 ), ELVAR( * )
+      INTEGER, INTENT( IN ) :: TYPEE( nelnum ), GTYPE( ng ), GSTATE( ng )
+      INTEGER, INTENT( IN ) :: ABYROW_ptr( ng + 1 ), ABYROW_col( * )
+      REAL ( KIND = wp ), INTENT( IN ) :: ABYROW_val( * )
+      REAL ( KIND = wp ), INTENT( IN ) :: B( ng )
+      REAL ( KIND = wp ), INTENT( IN ) :: BL( * ), BU( * ), X( n )
+      REAL ( KIND = wp ), INTENT( IN ) :: ESCALE( * )
+
+!  local variables
+
+      INTEGER :: i, ig, ie, iel, itype, igtype, iv, ivar, ninv
+      INTEGER :: isg, nobj_count, ncon_count, k
+      INTEGER :: insif
+      LOGICAL :: in_elements, in_individuals, in_groups
+      LOGICAL :: current_type_written, found_f
+      CHARACTER ( LEN = 10 ) :: field2, cur_etype, cur_gtype
+      CHARACTER ( LEN = max_record_length ) :: line
+      CHARACTER ( LEN = 80 ) :: jexpr
+      CHARACTER ( LEN = 10 ) :: fname
+      CHARACTER ( LEN = 512 ) :: sifname
+
+!  GSTATE after MAKE_outsdif: 1=obj, 2=eq, 3=leq, 4=geq (abs value taken)
+
+!  ── File header ───────────────────────────────────────────────────────────
+
+      WRITE( outjl, "( '# Automatically generated by SIFDecode from ', A )" )  &
+        TRIM( pname ) // '.SIF'
+      WRITE( outjl, "( '# Do not edit by hand.' )" )
+      WRITE( outjl, "( '' )" )
+      WRITE( outjl, "( 'using ExaModels' )" )
+      WRITE( outjl, "( '' )" )
+      fname = TRIM( pname )
+      DO i = 1, LEN_TRIM( fname )
+        IF ( fname( i : i ) >= 'A' .AND. fname( i : i ) <= 'Z' )              &
+          fname( i : i ) = CHAR( ICHAR( fname( i : i ) ) + 32 )
+      END DO
+      WRITE( outjl, "( 'function ', A, '_examodel(backend = nothing)' )" )     &
+        TRIM( fname )
+      WRITE( outjl, "( '    c = ExaCore(backend)' )" )
+      WRITE( outjl, "( '' )" )
+
+!  ── Variables, bounds and starting point ──────────────────────────────────
+
+      WRITE( outjl, "( '    # Variables (', I0, ')' )" ) n
+      WRITE( outjl, "( '    x = variable(c, ', I0, ';' )" ) n
+
+!  lower bounds
+      WRITE( outjl, "( '        lvar = [' )", ADVANCE = 'NO' )
+      DO i = 1, n
+        IF ( BL( i ) <= - 1.0D19 ) THEN
+          WRITE( outjl, "( '-Inf' )", ADVANCE = 'NO' )
+        ELSE
+          WRITE( outjl, "( ES22.15 )", ADVANCE = 'NO' ) BL( i )
+        END IF
+        IF ( i < n ) WRITE( outjl, "( ', ' )", ADVANCE = 'NO' )
+      END DO
+      WRITE( outjl, "( '],' )" )
+
+!  upper bounds
+      WRITE( outjl, "( '        uvar = [' )", ADVANCE = 'NO' )
+      DO i = 1, n
+        IF ( BU( i ) >= 1.0D19 ) THEN
+          WRITE( outjl, "( 'Inf' )", ADVANCE = 'NO' )
+        ELSE
+          WRITE( outjl, "( ES22.15 )", ADVANCE = 'NO' ) BU( i )
+        END IF
+        IF ( i < n ) WRITE( outjl, "( ', ' )", ADVANCE = 'NO' )
+      END DO
+      WRITE( outjl, "( '],' )" )
+
+!  starting point
+      WRITE( outjl, "( '        start = [' )", ADVANCE = 'NO' )
+      DO i = 1, n
+        WRITE( outjl, "( ES22.15 )", ADVANCE = 'NO' ) X( i )
+        IF ( i < n ) WRITE( outjl, "( ', ' )", ADVANCE = 'NO' )
+      END DO
+      WRITE( outjl, "( '])' )" )
+      WRITE( outjl, "( '' )" )
+
+!  ── Variable name comments ────────────────────────────────────────────────
+
+      WRITE( outjl, "( '    # Variable index mapping:' )" )
+      DO i = 1, n
+        WRITE( outjl, "( '    #   x[', I0, '] = ', A )" ) i,                  &
+          TRIM( VNAMES( i ) )
+      END DO
+      WRITE( outjl, "( '' )" )
+
+!  ── Element type functions (re-read ELEMENTS section) ─────────────────────
+!  Open the SIF file on a fresh unit so we do not disturb iinfn/iingr
+
+      WRITE( outjl, "( '    # Element type functions' )" )
+
+      INQUIRE( UNIT = iinfn, NAME = sifname )
+      insif = 58
+      OPEN( insif, FILE = TRIM( sifname ), FORM = 'FORMATTED', STATUS = 'OLD' )
+      REWIND( insif )
+      in_elements = .FALSE.
+      in_individuals = .FALSE.
+      cur_etype = '          '
+      current_type_written = .FALSE.
+      found_f = .FALSE.
+
+      DO
+        READ( UNIT = insif, FMT = "( A )", END = 100, ERR = 100 ) line
+
+!  SIF fixed format: col 1=blank/*, col 2-3=indicator, col 5-14=name,
+!                    col 15-22=name2, col 25-65=expression
+
+!  match 'ELEMENTS      <pname>' to skip the problem GROUPS section
+        IF ( line( 1 : 8 ) == 'ELEMENTS' .AND.                                 &
+             INDEX( line, TRIM( pname ) ) > 0 ) THEN
+          in_elements = .TRUE.
+          CYCLE
+        END IF
+        IF ( .NOT. in_elements ) CYCLE
+        IF ( line( 1 : 6 ) == 'ENDATA' ) EXIT
+        IF ( line( 1 : 1 ) == '*' ) CYCLE   ! comment
+
+        IF ( line( 1 : 11 ) == 'INDIVIDUALS' ) THEN
+          in_individuals = .TRUE.
+          CYCLE
+        END IF
+        IF ( .NOT. in_individuals ) CYCLE
+
+!  new element type: indicator 'T ' in columns 2-3
+        IF ( line( 2 : 3 ) == 'T ' ) THEN
+          IF ( current_type_written .AND. .NOT. found_f ) THEN
+            WRITE( outjl, "( '        return zero(eltype(v))' )" )
+            WRITE( outjl, "( '    end' )" )
+          END IF
+          IF ( current_type_written ) WRITE( outjl, "( '' )" )
+          cur_etype = ADJUSTL( line( 5 : 14 ) )
+          current_type_written = .TRUE.
+          found_f = .FALSE.
+
+          itype = 0
+          DO i = 1, neltype
+            IF ( ETYPES( i ) == cur_etype ) THEN ; itype = i ; EXIT ; END IF
+          END DO
+
+          IF ( itype > 0 ) THEN
+            ninv = INV( itype + 1 ) - INV( itype )
+            WRITE( outjl, "( '    function elfun_', A, '(' )",                 &
+              ADVANCE = 'NO' ) TRIM( cur_etype )
+            IF ( ninv > 0 ) THEN
+              DO iv = INV( itype ), INV( itype + 1 ) - 1
+                WRITE( outjl, "( A )", ADVANCE = 'NO' ) TRIM( IVNAMES( iv ) )
+                IF ( iv < INV( itype + 1 ) - 1 )                               &
+                  WRITE( outjl, "( ', ' )", ADVANCE = 'NO' )
+              END DO
+            ELSE
+              DO iv = ELV( itype ), ELV( itype + 1 ) - 1
+                WRITE( outjl, "( A )", ADVANCE = 'NO' ) TRIM( EVNAMES( iv ) )
+                IF ( iv < ELV( itype + 1 ) - 1 )                               &
+                  WRITE( outjl, "( ', ' )", ADVANCE = 'NO' )
+              END DO
+            END IF
+            WRITE( outjl, "( ')' )" )
+          ELSE
+            WRITE( outjl, "( '    function elfun_', A, '(v)' )" )              &
+              TRIM( cur_etype )
+          END IF
+          CYCLE
+        END IF
+
+!  auxiliary assignment (A line): col 2-3 = 'A '
+        IF ( line( 2 : 3 ) == 'A ' ) THEN
+          IF ( .NOT. current_type_written ) CYCLE
+          field2 = ADJUSTL( line( 5 : 14 ) )
+          IF ( LEN_TRIM( line ) >= 25 ) THEN
+            CALL sif_expr_to_julia( line( 25 : 65 ), jexpr )
+            WRITE( outjl, "( '        ', A, ' = ', A )" )                      &
+              TRIM( field2 ), TRIM( jexpr )
+          END IF
+          CYCLE
+        END IF
+
+!  function value (F line): col 2-3 = 'F '
+        IF ( line( 2 : 3 ) == 'F ' ) THEN
+          IF ( .NOT. current_type_written ) CYCLE
+          IF ( LEN_TRIM( line ) >= 25 ) THEN
+            CALL sif_expr_to_julia( line( 25 : 65 ), jexpr )
+          ELSE
+            jexpr = 'zero(eltype(v))'
+          END IF
+          WRITE( outjl, "( '        return ', A )" ) TRIM( jexpr )
+          WRITE( outjl, "( '    end' )" )
+          found_f = .TRUE.
+          CYCLE
+        END IF
+
+      END DO
+
+ 100  CONTINUE
+      IF ( current_type_written .AND. .NOT. found_f ) THEN
+        WRITE( outjl, "( '        return zero(eltype(v))' )" )
+        WRITE( outjl, "( '    end' )" )
+      END IF
+      WRITE( outjl, "( '' )" )
+
+!  ── Group type functions (re-read GROUPS section) ─────────────────────────
+
+      WRITE( outjl, "( '    # Group type functions' )" )
+
+      in_groups = .FALSE.
+      in_individuals = .FALSE.
+      cur_gtype = '          '
+      current_type_written = .FALSE.
+      found_f = .FALSE.
+
+      DO
+        READ( UNIT = insif, FMT = "( A )", END = 200, ERR = 200 ) line
+
+!  match 'GROUPS        <pname>' (the GROUP TYPE section, not the problem section)
+        IF ( line( 1 : 6 ) == 'GROUPS' .AND.                                   &
+             INDEX( line, TRIM( pname ) ) > 0 ) THEN
+          in_groups = .TRUE.
+          CYCLE
+        END IF
+        IF ( .NOT. in_groups ) CYCLE
+        IF ( line( 1 : 6 ) == 'ENDATA' ) EXIT
+        IF ( line( 1 : 1 ) == '*' ) CYCLE
+
+        IF ( line( 1 : 11 ) == 'INDIVIDUALS' ) THEN
+          in_individuals = .TRUE.
+          CYCLE
+        END IF
+        IF ( .NOT. in_individuals ) CYCLE
+
+        IF ( line( 2 : 3 ) == 'T ' ) THEN
+          IF ( current_type_written .AND. .NOT. found_f ) THEN
+            WRITE( outjl, "( '        return GVAR' )" )
+            WRITE( outjl, "( '    end' )" )
+          END IF
+          IF ( current_type_written ) WRITE( outjl, "( '' )" )
+          cur_gtype = ADJUSTL( line( 5 : 14 ) )
+          current_type_written = .TRUE.
+          found_f = .FALSE.
+          WRITE( outjl, "( '    function gfun_', A, '(GVAR)' )" )              &
+            TRIM( cur_gtype )
+          CYCLE
+        END IF
+
+        IF ( line( 2 : 3 ) == 'A ' ) THEN
+          IF ( .NOT. current_type_written ) CYCLE
+          field2 = ADJUSTL( line( 5 : 14 ) )
+          IF ( LEN_TRIM( line ) >= 25 ) THEN
+            CALL sif_expr_to_julia( line( 25 : 65 ), jexpr )
+            WRITE( outjl, "( '        ', A, ' = ', A )" )                      &
+              TRIM( field2 ), TRIM( jexpr )
+          END IF
+          CYCLE
+        END IF
+
+        IF ( line( 2 : 3 ) == 'F ' ) THEN
+          IF ( .NOT. current_type_written ) CYCLE
+          IF ( LEN_TRIM( line ) >= 25 ) THEN
+            CALL sif_expr_to_julia( line( 25 : 65 ), jexpr )
+          ELSE
+            jexpr = 'GVAR'
+          END IF
+          WRITE( outjl, "( '        return ', A )" ) TRIM( jexpr )
+          WRITE( outjl, "( '    end' )" )
+          found_f = .TRUE.
+          CYCLE
+        END IF
+
+      END DO
+
+ 200  CONTINUE
+      IF ( current_type_written .AND. .NOT. found_f ) THEN
+        WRITE( outjl, "( '        return GVAR' )" )
+        WRITE( outjl, "( '    end' )" )
+      END IF
+      WRITE( outjl, "( '' )" )
+
+!  ── Objective and constraints ─────────────────────────────────────────────
+!
+!  After MAKE_outsdif, GSTATE encodes (mod 4 / absolute):
+!    1 = objective (N group)
+!    2 = equality  (E group)
+!    3 = <= (L group)
+!    4 = >= (G group)
+!
+!  Structure for each group ig:
+!    linear part:  ABYROW_ptr(ig)..ABYROW_ptr(ig+1)-1 → ABYROW_col/val
+!    constant:     B(ig)
+!    nonlinear:    ELING_ptr(ig)..ELING_ptr(ig+1)-1 → ELING_el(k) = element ie
+!                  EV_ptr(ie)..EV_ptr(ie+1)-1 → ELVAR(j) = variable index
+!                  ESCALE(k) = coefficient for element ELING_el(k) in group ig
+!    group fn:     GTYPE(ig) = 0 → trivial (identity), else → GTYPES(GTYPE(ig))
+!    group RHS:    BU(n+ig) for <= , BL(n+ig) for >=
+
+      nobj_count = 0 ; ncon_count = 0
+      DO ig = 1, ng
+        IF ( GSTATE( ig ) == 1 ) nobj_count = nobj_count + 1
+        IF ( GSTATE( ig ) >= 2 ) ncon_count = ncon_count + 1
+      END DO
+
+      IF ( nobj_count > 0 ) WRITE( outjl, "( '    # Objective' )" )
+
+      DO ig = 1, ng
+        isg = GSTATE( ig )
+        igtype = GTYPE( ig )
+
+        IF ( isg /= 1 .AND. isg < 2 ) CYCLE  ! skip non-obj non-con
+
+        WRITE( outjl, "( '    # Group ', A )" ) TRIM( GNAMES( ig ) )
+
+!  open the call: objective(c, gfun_X(  or  constraint(c, gfun_X(
+        IF ( isg == 1 ) THEN
+          IF ( igtype > 0 ) THEN
+            WRITE( outjl, "( '    objective(c, gfun_', A, '(' )",              &
+              ADVANCE = 'NO' ) TRIM( GTYPES( igtype ) )
+          ELSE
+            WRITE( outjl, "( '    objective(c, ' )", ADVANCE = 'NO' )
+          END IF
+        ELSE
+          IF ( igtype > 0 ) THEN
+            WRITE( outjl, "( '    constraint(c, gfun_', A, '(' )",             &
+              ADVANCE = 'NO' ) TRIM( GTYPES( igtype ) )
+          ELSE
+            WRITE( outjl, "( '    constraint(c, ' )", ADVANCE = 'NO' )
+          END IF
+        END IF
+
+!  build inner expression: constant + linear terms + nonlinear elements
+        WRITE( outjl, "( ES22.15 )", ADVANCE = 'NO' ) B( ig )
+
+        DO k = ABYROW_ptr( ig ), ABYROW_ptr( ig + 1 ) - 1
+          WRITE( outjl, "( ' + (', ES22.15, ') * x[', I0, ']' )",             &
+            ADVANCE = 'NO' ) ABYROW_val( k ), ABYROW_col( k )
+        END DO
+
+        DO k = ELING_ptr( ig ), ELING_ptr( ig + 1 ) - 1
+          ie = ELING_el( k )
+          itype = TYPEE( ie )
+          WRITE( outjl, "( ' + (', ES22.15, ') * elfun_', A, '(' )",          &
+            ADVANCE = 'NO' ) ESCALE( k ), TRIM( ETYPES( itype ) )
+          DO iv = EV_ptr( ie ), EV_ptr( ie + 1 ) - 1
+            ivar = ELVAR( iv )
+            WRITE( outjl, "( 'x[', I0, ']' )", ADVANCE = 'NO' ) ivar
+            IF ( iv < EV_ptr( ie + 1 ) - 1 )                                  &
+              WRITE( outjl, "( ', ' )", ADVANCE = 'NO' )
+          END DO
+          WRITE( outjl, "( ')' )", ADVANCE = 'NO' )
+        END DO
+
+!  close group function call (extra ')' for gfun) and objective/constraint call
+        IF ( igtype > 0 ) THEN
+!  gfun case: need )) for gfun(...) and objective/constraint(...)
+          IF ( isg == 1 ) THEN
+            WRITE( outjl, "( '))' )" )
+          ELSE IF ( isg == 2 ) THEN
+            WRITE( outjl, "( '); lcon=', ES22.15, ', ucon=', ES22.15, ')' )" ) &
+              BL( n + ig ), BU( n + ig )
+          ELSE IF ( isg == 3 ) THEN
+            WRITE( outjl, "( '); ucon=', ES22.15, ')' )" ) BU( n + ig )
+          ELSE IF ( isg == 4 ) THEN
+            WRITE( outjl, "( '); lcon=', ES22.15, ')' )" ) BL( n + ig )
+          END IF
+        ELSE
+!  no gfun: just close objective/constraint(...)
+          IF ( isg == 1 ) THEN
+            WRITE( outjl, "( ')' )" )
+          ELSE IF ( isg == 2 ) THEN
+            WRITE( outjl, "( '; lcon=', ES22.15, ', ucon=', ES22.15, ')' )" ) &
+              BL( n + ig ), BU( n + ig )
+          ELSE IF ( isg == 3 ) THEN
+            WRITE( outjl, "( '; ucon=', ES22.15, ')' )" ) BU( n + ig )
+          ELSE IF ( isg == 4 ) THEN
+            WRITE( outjl, "( '; lcon=', ES22.15, ')' )" ) BL( n + ig )
+          END IF
+        END IF
+      END DO
+
+!  ── Footer ────────────────────────────────────────────────────────────────
+
+      WRITE( outjl, "( '    return ExaModel(c)' )" )
+      WRITE( outjl, "( 'end' )" )
+
+      status = 0
+      CLOSE( insif )
+      RETURN
+
+!  end of subroutine MAKE_examodels
+
+      END SUBROUTINE MAKE_examodels
+
+!-*-*-*-*-*-  S I F _ E X P R _ T O _ J U L I A   F U N C T I O N  -*-*-*-*-
+
+      SUBROUTINE sif_expr_to_julia( fortran_expr, julia_expr )
+
+!  Translate a Fortran expression from a SIF file into Julia syntax.
+!  Handles: D-exponents, intrinsic function names, ** operator.
+
+      CHARACTER ( LEN = * ), INTENT( IN ) :: fortran_expr
+      CHARACTER ( LEN = 80 ), INTENT( OUT ) :: julia_expr
+
+      INTEGER :: i, j, n, m
+      CHARACTER ( LEN = 200 ) :: buf
+      CHARACTER ( LEN = 200 ) :: tmp
+!  include '(' in patterns so 'SINX' is not matched as 'SIN()'
+      CHARACTER ( LEN = 14 ), DIMENSION( 16 ), PARAMETER :: FORT_FUN =        &
+        (/ 'DSIN(         ', 'DCOS(         ', 'DEXP(         ',               &
+           'DLOG(         ', 'DSQRT(        ', 'DABS(         ',               &
+           'DATAN2(       ', 'DATAN(        ', 'DMAX(         ',               &
+           'DMIN(         ', 'SIN(          ', 'COS(          ',               &
+           'EXP(          ', 'LOG(          ', 'SQRT(         ',               &
+           'ABS(          ' /)
+      CHARACTER ( LEN = 14 ), DIMENSION( 16 ), PARAMETER :: JULIA_FUN =       &
+        (/ 'sin(          ', 'cos(          ', 'exp(          ',               &
+           'log(          ', 'sqrt(         ', 'abs(          ',               &
+           'atan(         ', 'atan(         ', 'max(          ',               &
+           'min(          ', 'sin(          ', 'cos(          ',               &
+           'exp(          ', 'log(          ', 'sqrt(         ',               &
+           'abs(          ' /)
+
+      buf = ADJUSTL( fortran_expr )
+      n = LEN_TRIM( buf )
+
+!  replace D-exponent notation: nDm → n*10^m, e.g. 1.0D0 → 1.0, 2.5D-3 → 2.5e-3
+      tmp = ' '
+      i = 1 ; j = 1
+      DO WHILE ( i <= n )
+        IF ( i < n .AND. ( buf( i : i ) == 'D' .OR. buf( i : i ) == 'd' )    &
+             .AND. ( ( buf( i - 1 : i - 1 ) >= '0' .AND.                      &
+                       buf( i - 1 : i - 1 ) <= '9' ) .OR.                     &
+                     buf( i - 1 : i - 1 ) == '.' ) ) THEN
+          tmp( j : j ) = 'e'
+          i = i + 1 ; j = j + 1
+        ELSE
+          tmp( j : j ) = buf( i : i )
+          i = i + 1 ; j = j + 1
+        END IF
+      END DO
+      buf = tmp
+      n = LEN_TRIM( buf )
+
+!  replace Fortran intrinsic names with Julia equivalents (case-insensitive)
+      DO m = 1, 16
+        CALL replace_substring( buf, TRIM( FORT_FUN( m ) ),                    &
+                                TRIM( JULIA_FUN( m ) ), n )
+      END DO
+
+!  .TRUE. / .FALSE. → true / false
+      CALL replace_substring( buf, '.TRUE.', 'true', n )
+      CALL replace_substring( buf, '.FALSE.', 'false', n )
+
+      julia_expr = TRIM( buf )
+
+      END SUBROUTINE sif_expr_to_julia
+
+!-*-*-*-  R E P L A C E _ S U B S T R I N G   S U B R O U T I N E  -*-*-*-*-
+
+      SUBROUTINE replace_substring( str, old, new, n )
+
+!  Replace all occurrences of old in str with new (case-sensitive).
+
+      CHARACTER ( LEN = * ), INTENT( INOUT ) :: str
+      CHARACTER ( LEN = * ), INTENT( IN ) :: old, new
+      INTEGER, INTENT( INOUT ) :: n
+
+      INTEGER :: i, lo, ln
+      CHARACTER ( LEN = 200 ) :: tmp
+
+      lo = LEN( old ) ; ln = LEN_TRIM( new )
+      i = 1
+      DO WHILE ( i <= n - lo + 1 )
+        IF ( str( i : i + lo - 1 ) == old( 1 : lo ) ) THEN
+          tmp = str( 1 : i - 1 ) // new( 1 : ln ) // str( i + lo : n )
+          str = tmp
+          n = n - lo + ln
+          i = i + ln
+        ELSE
+          i = i + 1
+        END IF
+      END DO
+
+      END SUBROUTINE replace_substring
 
     END MODULE SIFDECODE
