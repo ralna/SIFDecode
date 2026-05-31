@@ -10217,13 +10217,13 @@
  2100 FORMAT( ( '    * Group parameter ', A10, ' has the value ',              &
                 1P, D12.4, '.' ) )
  2110 FORMAT(  '  * Group uses nonlinear element ', A10,                       &
-               ' number ', i5, ' of type ', A10, /,                            &
+               ' number ', I0, ' of type ', A10, /,                            &
                '    * No. elemental variables =', I8,                          &
                '. No. internal variables =', I8, '.',                          &
                /, '    * No. parameter values =', I8, '.', /,                  &
                '    * The element is scaled by the factor ', 1P, D12.4 )
  2120 FORMAT( '  * Group uses nonlinear element ', A10,                        &
-              ' number ', i5, ' described above. ', /,                         &
+              ' number ', I0, ' described above. ', /,                         &
               '    * The element is scaled by the factor ', 1P, D12.4 )
  2130 FORMAT( ( '    * Elemental variable ', A10, '  is assigned',             &
                 ' problem variable ', A10 ) )
