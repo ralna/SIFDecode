@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         version: ['12']
-        problems: ['sifcollection', 'maros-meszaros', 'netlib-lp']
+        problems: ['sif', 'maros-meszaros', 'netlib-lp']
         precision: ['single', 'double', 'quadruple']
     runs-on: ${{ matrix.os }}
     steps:
@@ -43,16 +43,16 @@ jobs:
         shell: bash
         run: |
           cd $GITHUB_WORKSPACE/../
-          if [[ "${{ matrix.problems }}" == "sifcollection" ]]; then
-            git clone https://bitbucket.org/optrove/sif
+          if [[ "${{ matrix.problems }}" == "sif" ]]; then
+            git clone https://github.com/ralna/SIF.git
           fi
           if [[ "${{ matrix.problems }}" == "maros-meszaros" ]]; then
-            git clone https://bitbucket.org/optrove/maros-meszaros
-            mv maros-meszaros sif
+            git clone https://github.com/ralna/maros-meszaros
+            mv maros-meszaros SIF
           fi
           if [[ "${{ matrix.problems }}" == "netlib-lp" ]]; then
-            git clone https://bitbucket.org/optrove/netlib-lp
-            mv netlib-lp sif
+            git clone https://github.com/ralna/netlib-lp
+            mv netlib-lp SIF
           fi
 
       - name: SIFDecode
@@ -60,12 +60,17 @@ jobs:
         run: |
           meson setup builddir --buildtype=debug -Ddefault_library=static
           meson compile -C builddir
-          cp builddir/sifdecoder $GITHUB_WORKSPACE/../sif
+          cp builddir/sifdecoder $GITHUB_WORKSPACE/../SIF
 
       - name: Decode the SIF files
         shell: bash
         run: |
-          cd $GITHUB_WORKSPACE/../sif
+          cd $GITHUB_WORKSPACE/../SIF
+          for file in *.SIF.bz2; do
+            if [ -f "$file" ]; then
+              bunzip2 -k "$file"
+            fi
+          done
           for file in *.SIF; do
             if [ -f "$file" ]; then
               echo "Processing $file"
