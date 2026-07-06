@@ -4117,8 +4117,7 @@ The second kind  of data card,
 identified by the characters {\tt  E},
 {\tt  XE} or   {\tt ZE}
 in  field~1, is  an indication that particular
-nonlinear elements a
-re to be included in a given group. Optionally the
+nonlinear elements are to be included in a given group. Optionally the
 given elements may be multiplied by specified weights.
 On these data cards,
 the string {\tt elmnt-name} in data fields 3 (and optionally 5
@@ -4316,9 +4315,9 @@ SINE} with group-type variable
 \hline
 \multicolumn{3}{|@{}l@{}|@{}}{NAME}&DOC&&&\\
 \multicolumn{3}{|@{}l@{}|@{}}{GROUPS}&&&&\\
-&E &GROUP1 &       &         & & \\
-&E &GROUP2 &       &         & & \\
-&E &GROUP3 &       &         & & \\
+&N &GROUP1 &       &         & & \\
+&N &GROUP2 &       &         & & \\
+&N &GROUP3 &       &         & & \\
 \multicolumn{3}{|@{}l@{}|@{}}{VARIABLES}&&&&\\
 &  &X1     &GROUP1 & 1.0     & & \\
 &  &X2     &GROUP3 & 1.0     & & \\
@@ -4403,7 +4402,7 @@ Section~\protect\ref{S1.4}}
 &IA&NM1   &N         & -1   &    & \\
 \multicolumn{3}{|@{}l@{}|@{}}{VARIABLES}&&&&\\
 &DO&I     &ONE       &      &N   & \\
-&  &X     &X(I)      &      &    & \\
+&X &X(I)  &          &      &    & \\
 &ND&      &          &      &    & \\
 \multicolumn{3}{|@{}l@{}|@{}}{GROUPS}&&&&\\
 &DO&I     &ONE       &      &NM1 & \\
@@ -4431,6 +4430,7 @@ Section~\protect\ref{S1.4}}
 &XE&G(I)  &E(I)      &      &E(N)& \\
 &XP&G(I)  &P         & 1.0  &    & \\
 &ND&      &          &      &    & \\
+&T &G1000 &SINE      &      &    & \\
 &E &G1000 &E1000     &      &    & \\
 &P &G1000 &P         & 0.5  &    & \\
 \multicolumn{3}{|@{}l@{}|@{}}{ENDATA}&&&&\\
@@ -4584,7 +4584,7 @@ checks  in  the subsequent high-level language statements
 and must always occur in the  {\tt  TEMPORARIES}
 section of the input  file.  Lines~3  to  6 indicate that  we shall be
 using temporary quantities {\tt SINV1}, {\tt ZERO}, {\tt ONE} and {\tt
-TWOP1}, and the character {\tt  R} in the  first field for  these lines
+TWO}, and the character {\tt  R} in the  first field for  these lines
 states that  these quantities will  be  associated with floating point
 (real)  values. The character  {\tt M}   in field~1 of  Lines~7  and 8
 indicates that we may  use the intrinsic (machine)
@@ -4636,7 +4636,7 @@ required in field~1.
  3&&R &SINV1 &   &     &   &      & \\
  4&&R &ZERO  &   &     &   &      & \\
  5&&R &ONE   &   &     &   &      & \\
- 6&&R &TWOP1 &   &     &   &      & \\
+ 6&&R &TWO   &   &     &   &      & \\
  7&&M &SIN   &   &     &   &      & \\
  8&&M &COS   &   &     &   &      & \\
  9&\multicolumn{3}{@{}l@{}|}{GLOBALS}& & & & & \\
@@ -4653,12 +4653,12 @@ required in field~1.
 20&&H &U1    &U2 &\multicolumn{4}{@{}l@{}|}{ONE}  \\
 21&&H &U2    &U2 &\multicolumn{4}{@{}l@{}|}{ZERO} \\
 22&&T &2PROD &   &     &   &      & \\
-23&&F &      &   &\multicolumn{4}{@{}l@{}|}{V1*V2}\\
-24&&G &V1    &   &\multicolumn{4}{@{}l@{}|}{V2}   \\
-25&&G &V2    &   &\multicolumn{4}{@{}l@{}|}{V1}   \\
-26&&H &V1    &V1 &\multicolumn{4}{@{}l@{}|}{ZERO} \\
-27&&H &V1    &V2 &\multicolumn{4}{@{}l@{}|}{ONE}  \\
-28&&H &V2    &V2 &\multicolumn{4}{@{}l@{}|}{ZERO} \\
+23&&F &      &   &\multicolumn{4}{@{}l@{}|}{P1*V1*V2} \\
+24&&G &V1    &   &\multicolumn{4}{@{}l@{}|}{P1*V2}    \\
+25&&G &V2    &   &\multicolumn{4}{@{}l@{}|}{P1*V1}    \\
+26&&H &V1    &V1 &\multicolumn{4}{@{}l@{}|}{ZERO}     \\
+27&&H &V1    &V2 &\multicolumn{4}{@{}l@{}|}{P1}       \\
+28&&H &V2    &V2 &\multicolumn{4}{@{}l@{}|}{ZERO}     \\
 29&&T &SINE  &   &     &   &      & \\
 30&&A &SINV1 &   &\multicolumn{4}{@{}l@{}|}{SIN(V1)} \\
 31&&F &      &   &\multicolumn{4}{@{}l@{}|}{SINV1}   \\
@@ -5414,10 +5414,10 @@ provide them.
 &R &CS      &   &       &   &      & \\
 &R &SN      &   &       &   &      & \\
 &R &ZERO    &   &       &   &      & \\
-&R &SIN     &   &       &   &      & \\
-&R &COS     &   &       &   &      & \\
+&M &SIN     &   &       &   &      & \\
+&M &COS     &   &       &   &      & \\
 \multicolumn{3}{|@{}l@{}|}{GLOBALS}    &   & & & & \\
-&G &ZERO    &   &\multicolumn{4}{@{}l@{}|}{0.0D0}\\
+&A &ZERO    &   &\multicolumn{4}{@{}l@{}|}{0.0D0}\\
 \multicolumn{3}{|@{}l@{}|}{INDIVIDUALS}&   & & & & \\
 &T &ETYPE1  &   &       &   &      & \\
 &F &        &   &\multicolumn{4}{@{}l@{}|}{V1*V2}\\
@@ -6184,7 +6184,7 @@ variant of the SDIF file given in Figure~\ref{F2.3.1} might be:
 {\renewcommand{\arraystretch}{0.8} {\small {\tt \begin{verbatim}
 NAME          DOC
 FREE FORMAT
-GROUPS;E GROUP1;E GROUP2;E GROUP3
+GROUPS;N GROUP1;N GROUP2;N GROUP3
 VARIABLES;_X1 GROUP1 1.0;_X2 GROUP3 1.0;_X3
 BOUNDS;FR BN1 X1;LO BN1 X2 -1.0;LO BN1 X3 1.0
        UP BN1 X2 1.0;UP BN1 X3 2.0
