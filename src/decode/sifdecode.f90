@@ -2355,7 +2355,7 @@
             IF ( k < 0 ) THEN
               k = - k - 1
               GTYPE( j ) = k
-              GP_ptr( j ) = nlisgp + 1
+              GP_ptr( j ) = nlisgp + 1 ! this is probably in the wrong place too
               IF ( k /= 0 ) THEN
                 k1 = GTYPESP_ptr( k + 1 ) - GTYPESP_ptr( k )
                 IF ( k1 > 0 ) THEN
@@ -2370,13 +2370,15 @@
                   END DO
                 END IF
               END IF
+!             GP_ptr( j ) = nlisgp + 1 ! maybe should be here from above
             ELSE IF ( k == 0 ) THEN
               GP_ptr( j ) = nlisgp + 1
             ELSE
-              GP_ptr( j ) = nlisgp + 1
+!             GP_ptr( j ) = nlisgp + 1 ! bug ... moved 3 lines down
               ip = GTYPESP_ptr( k ) - 1
               k1 = GTYPESP_ptr( k + 1 ) - GTYPESP_ptr( k )
               k2 = GP_ptr( j ) - 1
+              GP_ptr( j ) = nlisgp + 1 ! bug fix ... moved from above 
               DO i = 1, k1
                 nlisgp = nlisgp + 1
                 GP_val( nlisgp ) = GP_val_orig( k2 + i )
