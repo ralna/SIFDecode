@@ -9117,6 +9117,58 @@
 
       END FUNCTION ONLY1
 
+!-*-*-*-*-*- S I F D E C O D E  T R I M _ Z E R O S   F U N C T I O N  -*-*-*-*-
+
+      FUNCTION TRIM_zeros( input_string ) RESULT( output_string )
+
+!  -----------------------------------------------------------------
+!  remove unnecessary zeros at the end of a string containing a real
+!  -----------------------------------------------------------------
+
+      CHARACTER ( LEN = * ), INTENT( IN ) :: input_string
+      CHARACTER ( : ), ALLOCATABLE :: output_string
+      CHARACTER ( LEN = LEN( input_string ) ) :: temp_string
+      INTEGER :: i, last_char
+
+!  remove any surrounding white space
+
+      temp_string = TRIM( ADJUSTL( input_string ) )
+      last_char = LEN_TRIM( temp_string )
+      
+!  scan backward to find the final non-zero character
+
+      DO i = last_char, 1, - 1
+        IF ( temp_string( i : i ) /= '0' ) EXIT
+      END DO
+      
+! apply conditional trimming rules if a decimal point exists
+
+      IF ( INDEX( temp_string, '.') > 0 ) THEN
+
+! if it is a whole number (e.g., "99."), keep the '.' and exactly one '0'
+
+        IF ( temp_string( i : i ) == '.' ) THEN
+          output_string = temp_string( 1 : i + 1 )
+
+!  otherwise as it is a fractional decimal (e.g., "123.4500"), strip all 
+!  trailing zeros
+
+        ELSE
+          output_string = temp_string( 1 : i )
+        END IF
+
+! if no decimal point exists (it is a pure integer), leave it alone
+
+      ELSE
+        output_string = temp_string( 1 : last_char )
+      END IF
+
+      RETURN
+
+!  end of FUNCTION TRIM_zeros
+
+      END FUNCTION TRIM_zeros
+
 !-*-*- S I F D E C O D E   M A K E _ o u t s d i f    S U B R O U T I N E -*-*-
 
       SUBROUTINE MAKE_outsdif( n, nlvars, ng, nelnum, neling, nobj,            &
@@ -17703,6 +17755,18 @@
       REAL ( KIND = wp ) :: uij
       LOGICAL :: anynnz
       CHARACTER ( LEN = 6 ) :: evname, ivname
+      CHARACTER ( LEN = 8 ) :: suffix
+      CHARACTER ( LEN = 60 ) :: string
+
+!  set the appropriate real suffix
+
+      IF ( realpr == 32 ) THEN
+        suffix = 'E0      '
+      ELSE IF ( realpr == 128 ) THEN
+        suffix = '_real128'
+      ELSE
+        suffix = 'D0      '
+      END IF
 
 !  print out the scatter part
 
@@ -17733,10 +17797,11 @@
 !  nonzero has a value other than 1
 
             ELSE
+              WRITE( string, "( F60.16 )" ) uij
               IF ( anynnz ) THEN
-                WRITE( outra, 4050 ) i, uij
+                WRITE( outra, 4050 ) i, TRIM_zeros( string ), TRIM( suffix )
               ELSE
-                WRITE( outra, 4060 ) j, i, uij
+                WRITE( outra, 4060 ) j, i, TRIM_zeros( string ), TRIM( suffix )
               END IF
             END IF
 
@@ -17756,10 +17821,11 @@
 !  nonzero has a value other than - 1
 
             ELSE
+              WRITE( string, "( F60.16 )" ) - uij
               IF ( anynnz ) THEN
-                WRITE( outra, 4090 ) i, - uij
+                WRITE( outra, 4090 ) i, TRIM_zeros( string ), TRIM( suffix )
               ELSE
-                WRITE( outra, 4100 ) j, i, - uij
+                WRITE( outra, 4100 ) j, i, TRIM_zeros( string ), TRIM( suffix )
               END IF
             END IF
           END IF
@@ -17767,10 +17833,12 @@
           IF ( MOD( k, 19 ) == 0 ) WRITE( outra, 4112 ) j, j
         END DO
         IF ( .NOT. anynnz ) THEN
-          IF ( realpr == 32 .OR. realpr == 128 ) THEN
-            WRITE( outra, 4111 ) j
-          ELSE
+          IF ( realpr == 32 ) THEN
             WRITE( outra, 4110 ) j
+          ELSE IF ( realpr == 128 ) THEN
+            WRITE( outra, 4112 ) j
+          ELSE
+            WRITE( outra, 4111 ) j
           END IF
         END IF
       END DO
@@ -17812,12 +17880,17 @@
 
 !  nonzero has a value other than 1
 
+              WRITE( string, "( F60.16 )" ) uij
               IF ( anynnz ) THEN
-                WRITE( outfn, 3050 ) evname, uij
-                WRITE( outra, 4050 ) j, uij
+                WRITE( outfn, 3050 ) evname, TRIM_zeros( string ),             &
+                                     TRIM( suffix )
+                WRITE( outra, 4050 ) j, TRIM_zeros( string ),                  &
+                                     TRIM( suffix )
               ELSE
-                WRITE( outfn, 3060 ) ivname, evname, uij
-                WRITE( outra, 4060 ) i, j, uij
+                WRITE( outfn, 3060 ) ivname, evname, TRIM_zeros( string ),     &
+                                     TRIM( suffix )
+                WRITE( outra, 4060 ) i, j, TRIM_zeros( string ),               &
+                                     TRIM( suffix )
               END IF
             END IF
 
@@ -17839,28 +17912,36 @@
 !  nonzero has a value other than - 1
 
             ELSE
+              WRITE( string, "( F60.16 )" ) - uij
               IF ( anynnz ) THEN
-                WRITE( outfn, 3090 ) evname, - uij
-                WRITE( outra, 4090 ) j, - uij
+                WRITE( outfn, 3090 ) evname, TRIM_zeros( string ),             &
+                                     TRIM( suffix )
+                WRITE( outra, 4090 ) j, TRIM_zeros( string ),                  &
+                                     TRIM( suffix )
               ELSE
-                WRITE( outfn, 3100 ) ivname, evname, - uij
-                WRITE( outra, 4100 ) i, j, - uij
+                WRITE( outfn, 3100 ) ivname, evname, TRIM_zeros( string ),     &
+                                     TRIM( suffix )
+                WRITE( outra, 4100 ) i, j, TRIM_zeros( string ),               &
+                                     TRIM( suffix )
               END IF
             END IF
           END IF
           anynnz = .TRUE.
           IF ( MOD( k, 19 ) == 0 ) THEN
             WRITE( outfn, 3040 ) ivname, ivname
-            WRITE( outra, 4112 ) i, i
+            WRITE( outra, 4120 ) i, i
           END IF
         END DO
         IF ( .NOT. anynnz ) THEN
-          IF ( realpr == 32 .OR. realpr == 128 ) THEN
-            WRITE( outfn, 3111 ) ivname
-            WRITE( outra, 4111 ) i
-          ELSE
+          IF ( realpr == 32 ) THEN
             WRITE( outfn, 3110 ) ivname
             WRITE( outra, 4110 ) i
+          ELSE IF ( realpr == 128 ) THEN
+            WRITE( outfn, 3112 ) ivname
+            WRITE( outra, 4112 ) i
+          ELSE
+            WRITE( outfn, 3111 ) ivname
+            WRITE( outra, 4111 ) i
           END IF
         END IF
       END DO
@@ -17874,27 +17955,33 @@
 
  3030 FORMAT( '     *          + ', A6 )
  3040 FORMAT( '       ', A6, ' =   ', A6 )
- 3050 FORMAT( '     *          + ', A6, ' * ', F12.5 )
- 3060 FORMAT( '       ', A6, ' =   ', A6, ' * ', F12.5 )
+ 3050 FORMAT( '     *          + ', A6, /, '     *              * ', A, A )
+ 3060 FORMAT( '       ', A6, ' =   ', A6, /, '     *              * ', A, A )
  3070 FORMAT( '     *          - ', A6 )
  3080 FORMAT( '       ', A6, ' = - ', A6 )
- 3090 FORMAT( '     *          - ', A6, ' * ', F12.5 )
- 3100 FORMAT( '       ', A6, ' = - ', A6, ' * ', F12.5 )
- 3110 FORMAT( '       ', A6, ' = 0.0D+0 ' )
- 3111 FORMAT( '       ', A6, ' = 0.0E+0 ' )
+ 3090 FORMAT( '     *          - ', A6, /, '     *              * ', A, A )
+ 3100 FORMAT( '       ', A6, ' = - ', A6, /, '     *              * ', A, A )
+ 3110 FORMAT( '       ', A6, ' = 0.0E+0' )
+ 3111 FORMAT( '       ', A6, ' = 0.0D+0' )
+ 3112 FORMAT( '       ', A6, ' = 0.0_real128' )
  4010 FORMAT( '      ELSE' )
  4020 FORMAT( '      END IF', /, '      RETURN' )
  4030 FORMAT( '     *                 + W1(', i6, ' ) ' )
  4040 FORMAT( '         W2(', i6, ' ) =   W1(', i6, ' ) ' )
- 4050 FORMAT( '     *                 + W1(', i6, ' ) * ', F12.5 )
- 4060 FORMAT( '         W2(', i6, ' ) =   W1(', i6, ' ) * ', F12.5 )
+ 4050 FORMAT( '     *                 + W1(', i6, ' )', /,                     &
+              '     *              * ', A, A )
+ 4060 FORMAT( '         W2(', i6, ' ) =   W1(', i6, ' )', /,                   &
+              '     *              * ', A, A )
  4070 FORMAT( '     *                 - W1(', i6, ' ) ' )
  4080 FORMAT( '         W2(', i6, ' ) = - W1(', i6, ' ) ' )
- 4090 FORMAT( '     *                 - W1(', i6, ' ) * ', F12.5 )
- 4100 FORMAT( '         W2(', i6, ' ) = - W1(', i6, ' ) * ', F12.5 )
- 4110 FORMAT( '         W2(', i6, ' ) = 0.0D+0 ' )
- 4111 FORMAT( '         W2(', i6, ' ) = 0.0E+0 ' )
- 4112 FORMAT( '         W2(', i6, ' ) =   W2(', i6, ' ) ' )
+ 4090 FORMAT( '     *                 - W1(', i6, ' )', /,                     &
+              '     *              * ', A, A )
+ 4100 FORMAT( '         W2(', i6, ' ) = - W1(', i6, ' )', /,                   &
+              '     *              * ', A, A )
+ 4110 FORMAT( '         W2(', i6, ' ) = 0.0E+0' )
+ 4111 FORMAT( '         W2(', i6, ' ) = 0.0D+0' )
+ 4112 FORMAT( '         W2(', i6, ' ) = 0.0D_real128' )
+ 4120 FORMAT( '         W2(', i6, ' ) =   W2(', i6, ' ) ' )
 
 !  end of subroutine OUTRANGE
 
@@ -17920,8 +18007,20 @@
       REAL ( KIND = wp ) :: uij
       LOGICAL :: anynnz, loutff
       CHARACTER ( LEN = 6 ) :: evname, ivname
+      CHARACTER ( LEN = 8 ) :: suffix
+      CHARACTER ( LEN = 60 ) :: string
 
       loutff = outff > 0
+
+!  set the appropriate real suffix
+
+      IF ( realpr == 32 ) THEN
+        suffix = 'E0      '
+      ELSE IF ( realpr == 128 ) THEN
+        suffix = '_real128'
+      ELSE
+        suffix = 'D0      '
+      END IF
 
 !  print out the scatter part
 
@@ -17952,10 +18051,11 @@
 !  nonzero has a value other than 1
 
             ELSE
+              WRITE( string, "( F60.16 )" ) uij
               IF ( anynnz ) THEN
-                WRITE( outra, 4050 ) i, uij
+                WRITE( outra, 4050 ) i, TRIM_zeros( string ), TRIM( suffix )
               ELSE
-                WRITE( outra, 4060 ) j, i, uij
+                WRITE( outra, 4060 ) j, i, TRIM_zeros( string ), TRIM( suffix )
               END IF
             END IF
 
@@ -17971,14 +18071,15 @@
               ELSE
                 WRITE( outra, 4080 ) j, i
               END IF
-            ELSE
 
 !  nonzero has a value other than - 1
 
+            ELSE
+              WRITE( string, "( F60.16 )" ) - uij
               IF ( anynnz ) THEN
-                WRITE( outra, 4090 ) i, - uij
+                WRITE( outra, 4090 ) i, TRIM_zeros( string ), TRIM( suffix )
               ELSE
-                WRITE( outra, 4100 ) j, i, - uij
+                WRITE( outra, 4100 ) j, i, TRIM_zeros( string ), TRIM( suffix )
               END IF
             END IF
           END IF
@@ -17986,10 +18087,12 @@
           IF ( MOD( k, 19 ) == 0 ) WRITE( outra, 4112 ) j, j
         END DO
         IF ( .NOT. anynnz ) THEN
-          IF ( realpr == 32 .OR. realpr == 128 ) THEN
-            WRITE( outra, 4111 ) j
-          ELSE
+          IF ( realpr == 32  ) THEN
             WRITE( outra, 4110 ) j
+          ELSE IF ( realpr == 128 ) THEN
+            WRITE( outra, 4112 ) j
+          ELSE
+            WRITE( outra, 4111 ) j
           END IF
         END IF
       END DO
@@ -18033,14 +18136,21 @@
 !  nonzero has a value other than 1
 
             ELSE
+              WRITE( string, "( F60.16 )" ) uij
               IF ( anynnz ) THEN
-                IF ( loutff ) WRITE( outff, 3050 ) evname, uij
-                WRITE( outfd, 3050 ) evname, uij
-                WRITE( outra, 4050 ) j, uij
+                IF ( loutff ) WRITE( outff, 3050 ) evname,                     &
+                                     TRIM_zeros( string ), TRIM( suffix )
+                WRITE( outfd, 3050 ) evname, TRIM_zeros( string ),             &
+                                     TRIM( suffix )
+                WRITE( outra, 4050 ) j, TRIM_zeros( string ),                  &
+                                     TRIM( suffix )
               ELSE
-                IF ( loutff ) WRITE( outff, 3060 ) ivname, evname, uij
-                WRITE( outfd, 3061 ) ad0, i, evname, uij
-                WRITE( outra, 4060 ) i, j, uij
+                IF ( loutff ) WRITE( outff, 3060 ) ivname, evname,             &
+                                     TRIM_zeros( string ), TRIM( suffix )
+                WRITE( outfd, 3061 ) ad0, i, evname, TRIM_zeros( string ),     &
+                                     TRIM( suffix )
+                WRITE( outra, 4060 ) i, j, TRIM_zeros( string ),               &
+                                     TRIM( suffix )
               END IF
             END IF
 
@@ -18064,14 +18174,20 @@
 
 !  nonzero has a value other than - 1
 
+              WRITE( string, "( F60.16 )" ) - uij
               IF ( anynnz ) THEN
-                IF ( loutff ) WRITE( outff, 3090 ) evname, - uij
-                WRITE( outfd, 3090 ) evname, - uij
-                WRITE( outra, 4090 ) j, - uij
+                IF ( loutff ) WRITE( outff, 3090 ) evname,                     &
+                                     TRIM_zeros( string ), TRIM( suffix )
+                WRITE( outfd, 3090 ) evname, TRIM_zeros( string ),             &
+                                     TRIM( suffix )
+                WRITE( outra, 4090 ) j, TRIM_zeros( string ), TRIM( suffix )
               ELSE
-                IF ( loutff ) WRITE( outff, 3100 ) ivname, evname, - uij
-                WRITE( outfd, 3101 ) ad0, i, evname, - uij
-                WRITE( outra, 4100 ) i, j, - uij
+                IF ( loutff ) WRITE( outff, 3100 ) ivname, evname,             &
+                                     TRIM_zeros( string ), TRIM( suffix )
+                WRITE( outfd, 3101 ) ad0, i, evname, TRIM_zeros( string ),     &
+                                     TRIM( suffix )
+                WRITE( outra, 4100 ) i, j, TRIM_zeros( string ),               &
+                                     TRIM( suffix )
               END IF
             END IF
           END IF
@@ -18079,18 +18195,22 @@
           IF ( MOD( k, 19 ) == 0 ) THEN
             IF ( loutff ) WRITE( outff, 3040 ) ivname, ivname
             WRITE( outfd, 3041 ) ad0, i, ivname
-            WRITE( outra, 4112 ) i, i
+            WRITE( outra, 4120 ) i, i
           END IF
         END DO
         IF ( .NOT. anynnz ) THEN
-          IF ( realpr == 32 .OR. realpr == 128 ) THEN
-            IF ( loutff ) WRITE( outff, 3120 ) ivname
+          IF ( realpr == 32 ) THEN
+            IF ( loutff ) WRITE( outff, 3110 ) ivname
+            WRITE( outfd, 3120 ) ad0, i
+            WRITE( outra, 4110 ) i
+          ELSE IF ( realpr == 128 ) THEN
+            IF ( loutff ) WRITE( outff, 3112 ) ivname
+            WRITE( outfd, 3122 ) ad0, i
+            WRITE( outra, 4112 ) i
+          ELSE
+            IF ( loutff ) WRITE( outff, 3111 ) ivname
             WRITE( outfd, 3121 ) ad0, i
             WRITE( outra, 4111 ) i
-          ELSE
-            IF ( loutff ) WRITE( outff, 3110 ) ivname
-            WRITE( outfd, 3111 ) ad0, i
-            WRITE( outra, 4110 ) i
           END IF
         END IF
         IF ( ad0 == 'AD01' ) THEN
@@ -18119,19 +18239,23 @@
  3030 FORMAT( '     *          + ', A6 )
  3040 FORMAT( '       ', A6, ' =   ', A6 )
  3041 FORMAT( '       X_', A4, '_int(', i6, ') =   ', A6 )
- 3050 FORMAT( '     *          + ', A6, ' * ', F12.5 )
- 3060 FORMAT( '       ', A6, ' =   ', A6, ' * ', F12.5 )
- 3061 FORMAT( '       X_', A4, '_int(', i6, ') =   ', A6, ' * ', F12.5 )
+ 3050 FORMAT( '     *          + ', A6, /, '     *              * ', A, A )
+ 3060 FORMAT( '       ', A6, ' =   ', A6, /, '     *              * ', A, A )
+ 3061 FORMAT( '       X_', A4, '_int(', i6, ') =   ', A6, /,                   &
+              '     *              * ', A, A )
  3070 FORMAT( '     *          - ', A6 )
  3080 FORMAT( '       ', A6, ' = - ', A6 )
  3081 FORMAT( '       X_', A4, '_int(', i6, ') = - ', A6 )
- 3090 FORMAT( '     *          - ', A6, ' * ', F12.5 )
- 3100 FORMAT( '       ', A6, ' = - ', A6, ' * ', F12.5 )
- 3101 FORMAT( '       X_', A4, '_int(', i6, ') = - ', A6, ' * ', F12.5 )
- 3110 FORMAT( '       ', A6, ' = 0.0D+0 ' )
- 3111 FORMAT( '       X_', A4, '_int(', i6, ') = 0.0D+0 ' )
- 3120 FORMAT( '       ', A6, ' = 0.0E+0 ' )
- 3121 FORMAT( '       X_', A4, '_int(', i6, ') = 0.0E+0 ' )
+ 3090 FORMAT( '     *          - ', A6, /, '     *              * ', A, A )
+ 3100 FORMAT( '       ', A6, ' = - ', A6, /, '     *              * ', A, A )
+ 3101 FORMAT( '       X_', A4, '_int(', i6, ') = - ', A6, /,                   &
+              '     *              * ', A, A )
+ 3110 FORMAT( '       ', A6, ' = 0.0E+0' )
+ 3111 FORMAT( '       ', A6, ' = 0.0D+0' )
+ 3112 FORMAT( '       ', A6, ' = 0.0_real128' )
+ 3120 FORMAT( '       X_', A4, '_int(', i6, ') = 0.0E+0' )
+ 3121 FORMAT( '       X_', A4, '_int(', i6, ') = 0.0D+0' )
+ 3122 FORMAT( '       X_', A4, '_int(', i6, ') = 0.0_real128' )
  3130 FORMAT( '       CALL AD01_INITIALIZE(IFFLAG - 1, X_value(:', i6,         &
                      '),', /, '     *', 22X, 'X_int(:', i6, '), 0) ')
  3131 FORMAT( '       CALL AD02_INITIALIZE_COMP(IFFLAG - 1, X_value(:',        &
@@ -18146,15 +18270,20 @@
  4020 FORMAT( '      END IF', /, '      RETURN' )
  4030 FORMAT( '     *                 + W1(', i6, ' ) ' )
  4040 FORMAT( '         W2(', i6, ' ) =   W1(', i6, ' ) ' )
- 4050 FORMAT( '     *                 + W1(', i6, ' ) * ', F12.5 )
- 4060 FORMAT( '         W2(', i6, ' ) =   W1(', i6, ' ) * ', F12.5 )
+ 4050 FORMAT( '     *                 + W1(', i6, ' )', /,                     &
+              '     *              * ', A, A )
+ 4060 FORMAT( '         W2(', i6, ' ) =   W1(', i6, ' )', /,                   &
+              '     *              * ', A, A )
  4070 FORMAT( '     *                 - W1(', i6, ' ) ' )
  4080 FORMAT( '         W2(', i6, ' ) = - W1(', i6, ' ) ' )
- 4090 FORMAT( '     *                 - W1(', i6, ' ) * ', F12.5 )
- 4100 FORMAT( '         W2(', i6, ' ) = - W1(', i6, ' ) * ', F12.5 )
- 4110 FORMAT( '         W2(', i6, ' ) = 0.0D+0 ' )
- 4111 FORMAT( '         W2(', i6, ' ) = 0.0E+0 ' )
- 4112 FORMAT( '         W2(', i6, ' ) =   W2(', i6, ' ) ' )
+ 4090 FORMAT( '     *                 - W1(', i6, ' )', /,                     &
+              '     *              * ', A, A )
+ 4100 FORMAT( '         W2(', i6, ' ) = - W1(', i6, ' )', /,                   &
+              '     *              * ', A, A )
+ 4110 FORMAT( '         W2(', i6, ' ) = 0.0E+0 ' )
+ 4111 FORMAT( '         W2(', i6, ' ) = 0.0D+0 ' )
+ 4112 FORMAT( '         W2(', i6, ' ) = 0.0_real128 ' )
+ 4120 FORMAT( '         W2(', i6, ' ) =   W2(', i6, ' ) ' )
 
 !  end of subroutine OUTRANGE_ad
 
