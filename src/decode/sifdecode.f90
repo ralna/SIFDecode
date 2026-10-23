@@ -1,4 +1,4 @@
-! THIS VERSION: SIFDECODE 3.1 - 2025-09-28 AT 13:55 GMT.
+! THIS VERSION: SIFDECODE 3.1 - 2025-10-23 AT 10:05 GMT.
 
 !-*-*-*-*-*-*-*-*-*-*-*- S I F D E C O D E   M O D U l E -*-*-*-*-*-*-*-*-*-*-
 
@@ -25,7 +25,7 @@
 !  V e r s i o n
 !---------------
 
-      CHARACTER ( LEN = 6 ) :: version = '3.1.1 '
+      CHARACTER ( LEN = 6 ) :: version = '3.1.2 '
 
 !--------------------
 !   P r e c i s i o n
@@ -17798,10 +17798,12 @@
 
             ELSE
               WRITE( string, "( F60.16 )" ) uij
+write(6,*) uij, ' ', string
               IF ( anynnz ) THEN
                 WRITE( outra, 4050 ) i, TRIM_zeros( string ), TRIM( suffix )
               ELSE
                 WRITE( outra, 4060 ) j, i, TRIM_zeros( string ), TRIM( suffix )
+write(6,*) TRIM_zeros( string )
               END IF
             END IF
 
@@ -17980,7 +17982,7 @@
               '     *              * ', A, A )
  4110 FORMAT( '         W2(', i6, ' ) = 0.0E+0' )
  4111 FORMAT( '         W2(', i6, ' ) = 0.0D+0' )
- 4112 FORMAT( '         W2(', i6, ' ) = 0.0D_real128' )
+ 4112 FORMAT( '         W2(', i6, ' ) = 0.0_real128' )
  4120 FORMAT( '         W2(', i6, ' ) =   W2(', i6, ' ) ' )
 
 !  end of subroutine OUTRANGE
